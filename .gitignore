@@ -1,0 +1,38 @@
+# Dependências e Builds
+node_modules/
+dist/
+build/
+.npm/
+
+# Arquivos de Ambiente e Configuração
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Instaladores e Binários (como o instalador do pandoc)
+*.msi
+*.exe
+*.zip
+*.tar.gz
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Configurações do Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp

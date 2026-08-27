@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard Sprite Animator - Teste de Loops</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Variáveis de Animação do Sprite */
+      --sprite-url: url('./sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Dead.png');
+      --frames: 5;
+      --frame-width: 128px;
+      --frame-height: 128px;
+      --duration: 0.8s;
+      --scale: 3;
+      --play-state: running;
+
+      /* Cores do Tema */
+      --bg-main: #0a0b0e;
+      --bg-card: #12131a;
+      --bg-control: #1a1c26;
+      --border-color: #262938;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-color: #00f2fe;
+      --accent-glow: rgba(0, 242, 254, 0.4);
+      --btn-hover: #05d0db;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .main-container {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 2rem;
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Área de Exibição do Sprite */
+    .viewport-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 400px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .sprite-canvas {
+      width: 100%;
+      height: 300px;
+      border-radius: 12px;
+      border: 1px dashed var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      /* Fundo quadriculado (Checkerboard) */
+      background-image: 
+        linear-gradient(45deg, #181922 25%, transparent 25%), 
+        linear-gradient(-45deg, #181922 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #181922 75%), 
+        linear-gradient(-45deg, transparent 75%, #181922 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      background-color: #1e202c;
+      overflow: hidden;
+    }
+
+    /* Elemento da Animação do Sprite */
+    .sprite-element {
+      width: var(--frame-width);
+      height: var(--frame-height);
+      background-image: var(--sprite-url);
+      background-repeat: no-repeat;
+      background-position: 0px 0px;
+      background-size: calc(var(--frame-width) * var(--frames)) var(--frame-height);
+      animation: play-sprite var(--duration) steps(var(--frames)) infinite;
+      animation-play-state: var(--play-state);
+      transform: scale(var(--scale));
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      transform-origin: center;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes play-sprite {
+      from {
+        background-position: 0px 0px;
+      }
+      to {
+        background-position: calc(-1 * var(--frame-width) * var(--frames)) 0px;
+      }
+    }
+
+    /* Barra de Informações do Sprite */
+    .viewport-info {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      padding-top: 1rem;
+    }
+
+    /* Painel de Controles Lateral */
+    .control-panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .panel-section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .control-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    /* Estilos de Select e Inputs */
+    select {
+      background-color: var(--bg-control);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    select:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* Botões */
+    .btn-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    button {
+      background-color: var(--bg-control);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--border-color);
+      border-color: var(--text-muted);
+    }
+
+    button.primary {
+      background-color: var(--accent-color);
+      color: var(--bg-main);
+      border: none;
+    }
+
+    button.primary:hover {
+      background-color: var(--btn-hover);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* Sliders de Controle */
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-control);
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      cursor: pointer;
+      box-shadow: 0 0 5px var(--accent-glow);
+      transition: background 0.15s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: var(--btn-hover);
+    }
+
+    .slider-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      width: 45px;
+      text-align: right;
+    }
+
+    /* Seção da Folha Original (Sprite Sheet) */
+    .spritesheet-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 1000px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .spritesheet-view {
+      width: 100%;
+      overflow-x: auto;
+      background-color: #161720;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 1rem;
+    }
+
+    .spritesheet-img {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      max-height: 128px;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Wizard Sprite Animator</h1>
+    <p>Visualizador de Sprites em Looping — Teste de Renderização de Pixel Art</p>
+  </header>
+
+  <div class="main-container">
+    
+    <!-- Visualizador principal -->
+    <div class="viewport-card">
+      <div class="sprite-canvas">
+        <div id="sprite-display" class="sprite-element"></div>
+      </div>
+      
+      <div class="viewport-info">
+        <div>Dimensões Frame: <span id="info-frame-dim">128x128 px</span></div>
+        <div>Total de Quadros: <span id="info-frames-count">5</span></div>
+        <div>Arquivo: <span id="info-filename">Dead.png</span></div>
+      </div>
+    </div>
+
+    <!-- Painel de configurações -->
+    <div class="control-panel">
+      
+      <div class="control-group">
+        <h3 class="panel-section-title">Animação</h3>
+        <label for="animation-select" class="control-label">Selecionar Sprite Sheet</label>
+        <select id="animation-select">
+          <option value="dead" selected>Dead (Morte) - Padrão</option>
+          <option value="idle">Idle (Ocioso)</option>
+          <option value="walk">Walk (Caminhada)</option>
+          <option value="run">Run (Corrida)</option>
+          <option value="hurt">Hurt (Dano)</option>
+          <option value="attack1">Attack 1 (Ataque 1)</option>
+          <option value="attack2">Attack 2 (Ataque 2)</option>
+          <option value="charge">Charge (Carga - 64px)</option>
+          <option value="lightCharge">Light Charge (Carga de Luz)</option>
+          <option value="lightBall">Light Ball (Esfera de Luz)</option>
+          <option value="jump">Jump (Pulo)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <h3 class="panel-section-title">Controles do Loop</h3>
+        <div class="btn-group">
+          <button id="btn-play-pause" class="primary">Pausar</button>
+          <button id="btn-reset">Resetar</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="speed-slider" class="control-label">Duração do Ciclo (s)</label>
+        <div class="slider-container">
+          <input type="range" id="speed-slider" min="0.1" max="2.0" step="0.05" value="0.8">
+          <span id="speed-value" class="slider-value">0.8s</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="scale-slider" class="control-label">Zoom (Escala)</label>
+        <div class="slider-container">
+          <input type="range" id="scale-slider" min="1" max="6" step="0.5" value="3">
+          <span id="scale-value" class="slider-value">3.0x</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Folha original -->
+  <div class="spritesheet-card">
+    <h3 class="panel-section-title">Folha de Sprite Original (Sprite Sheet)</h3>
+    <div class="spritesheet-view">
+      <img id="spritesheet-image" class="spritesheet-img" src="./sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Dead.png" alt="Sprite Sheet Original">
+    </div>
+  </div>
+
+  <script>
+    // Configurações das animações com base no mapeamento das imagens
+    const animations = {
+      dead: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Dead.png',
+        frames: 5,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.8
+      },
+      idle: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Idle.png',
+        frames: 7,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.8
+      },
+      walk: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Walk.png',
+        frames: 7,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.8
+      },
+      run: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Run.png',
+        frames: 8,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.6
+      },
+      hurt: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Hurt.png',
+        frames: 3,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.4
+      },
+      attack1: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Attack_1.png',
+        frames: 10,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.9
+      },
+      attack2: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Attack_2.png',
+        frames: 4,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.5
+      },
+      charge: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Charge.png',
+        frames: 10,
+        width: 64,
+        height: 64,
+        defaultDuration: 0.8
+      },
+      lightCharge: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Light_charge.png',
+        frames: 13,
+        width: 128,
+        height: 128,
+        defaultDuration: 1.2
+      },
+      lightBall: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Light_ball.png',
+        frames: 7,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.7
+      },
+      jump: {
+        file: './sprites teste/craftpix-net-529677-free-wizard-sprite-sheets-pixel-art/Lightning Mage/Jump.png',
+        frames: 8,
+        width: 128,
+        height: 128,
+        defaultDuration: 0.8
+      }
+    };
+
+    // Seleção de elementos DOM
+    const spriteDisplay = document.getElementById('sprite-display');
+    const animationSelect = document.getElementById('animation-select');
+    const btnPlayPause = document.getElementById('btn-play-pause');
+    const btnReset = document.getElementById('btn-reset');
+    const speedSlider = document.getElementById('speed-slider');
+    const speedValue = document.getElementById('speed-value');
+    const scaleSlider = document.getElementById('scale-slider');
+    const scaleValue = document.getElementById('scale-value');
+    const spritesheetImage = document.getElementById('spritesheet-image');
+    
+    // Elementos de Metadados
+    const infoFrameDim = document.getElementById('info-frame-dim');
+    const infoFramesCount = document.getElementById('info-frames-count');
+    const infoFilename = document.getElementById('info-filename');
+
+    // Estado da Aplicação
+    let isPlaying = true;
+    let currentAnimKey = 'dead';
+
+    // Atualiza a visualização do sprite com base nos inputs atuais
+    function updateSpriteSettings() {
+      const anim = animations[currentAnimKey];
+      const filename = anim.file.substring(anim.file.lastIndexOf('/') + 1);
+
+      // Define variáveis CSS no elemento do sprite
+      spriteDisplay.style.setProperty('--sprite-url', `url('${anim.file}')`);
+      spriteDisplay.style.setProperty('--frames', anim.frames);
+      spriteDisplay.style.setProperty('--frame-width', `${anim.width}px`);
+      spriteDisplay.style.setProperty('--frame-height', `${anim.height}px`);
+      spriteDisplay.style.setProperty('--duration', `${speedSlider.value}s`);
+      spriteDisplay.style.setProperty('--scale', scaleSlider.value);
+      spriteDisplay.style.setProperty('--play-state', isPlaying ? 'running' : 'paused');
+
+      // Atualiza metadados na tela
+      infoFrameDim.textContent = `${anim.width}x${anim.height} px`;
+      infoFramesCount.textContent = anim.frames;
+      infoFilename.textContent = filename;
+
+      // Atualiza imagem da folha de sprite inferior
+      spritesheetImage.src = anim.file;
+    }
+
+    // Manipuladores de Eventos
+    animationSelect.addEventListener('change', (e) => {
+      currentAnimKey = e.target.value;
+      const anim = animations[currentAnimKey];
+      
+      // Atualiza o slider de velocidade com a duração padrão da nova animação
+      speedSlider.value = anim.defaultDuration;
+      speedValue.textContent = `${anim.defaultDuration}s`;
+
+      updateSpriteSettings();
+      resetAnimation();
+    });
+
+    btnPlayPause.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        btnPlayPause.textContent = 'Pausar';
+        btnPlayPause.classList.add('primary');
+      } else {
+        btnPlayPause.textContent = 'Iniciar';
+        btnPlayPause.classList.remove('primary');
+      }
+      updateSpriteSettings();
+    });
+
+    // Resetar animação (remove a classe de animação temporariamente para reiniciar o ciclo)
+    function resetAnimation() {
+      spriteDisplay.style.animation = 'none';
+      spriteDisplay.offsetHeight; /* força um reflow do navegador */
+      spriteDisplay.style.animation = '';
+      updateSpriteSettings();
+    }
+
+    btnReset.addEventListener('click', resetAnimation);
+
+    speedSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value).toFixed(2);
+      speedValue.textContent = `${val}s`;
+      updateSpriteSettings();
+    });
+
+    scaleSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value).toFixed(1);
+      scaleValue.textContent = `${val}x`;
+      updateSpriteSettings();
+    });
+
+    // Inicialização da Página
+    updateSpriteSettings();
+  </script>
+</body>
+</html>

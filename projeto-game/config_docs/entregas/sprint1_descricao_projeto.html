@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualização HTML - sprint1_descricao_projeto</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+    * { box-sizing: border-box; }
+    body {
+        font-family: 'EB Garamond', serif;
+        font-size: 13.5pt;
+        line-height: 1.6;
+        color: #2c241e;
+        background-color: #fcfbfa;
+        margin: 0;
+        padding: 2.5cm 2cm;
+    }
+    h1, h2, h3, h4 {
+        font-family: 'Cinzel', serif;
+        color: #6e1a12;
+        font-weight: 700;
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+        line-height: 1.2;
+    }
+    h1 {
+        font-size: 26pt;
+        text-align: center;
+        border-bottom: 2px double #c5a059;
+        padding-bottom: 0.3em;
+        margin-bottom: 1.2em;
+    }
+    h2 {
+        font-size: 18pt;
+        border-bottom: 1px solid #c5a059;
+        padding-bottom: 0.2em;
+        margin-top: 1.8em;
+    }
+    h3 {
+        font-size: 14pt;
+        color: #3b2e2a;
+    }
+    p { margin-bottom: 1.2em; text-align: justify; }
+    strong { color: #6e1a12; font-weight: 600; }
+    ul, ol { margin-bottom: 1.2em; padding-left: 1.5em; }
+    li { margin-bottom: 0.5em; }
+    hr {
+        border: none;
+        border-top: 2px double #c5a059;
+        height: 5px;
+        margin: 2.5em 0;
+    }
+    .mermaid-container {
+        text-align: center;
+        margin: 2em 0;
+        padding: 15px;
+        background-color: #f7f3eb;
+        border: 1px solid #e3dac9;
+        border-radius: 4px;
+    }
+    .mermaid-img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5em 0;
+    }
+    th, td {
+        border: 1px solid #e3dac9;
+        padding: 8px 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #6e1a12;
+        color: #ffffff;
+    }
+    tr:nth-child(even) {
+        background-color: #f7f3eb;
+    }
+    </style>
+</head>
+<body>
+    <h1>Sprint 1: Descrição do Projeto - Fracture: The Vaslen Echoes</h1>
+<p>Este documento formaliza a proposta de projeto de desenvolvimento de software para a disciplina de Programação Orientada a Objetos (POO). Ele define as diretrizes gerais, o problema a ser resolvido, a solução proposta e as regras fundamentais do jogo.</p>
+<hr />
+<h3>Nome do Sistema</h3>
+<p><strong>Fracture: The Vaslen Echoes</strong></p>
+<h3>Área de Atuação</h3>
+<p>Desenvolvimento de Software, Jogos Digitais e Aplicações Web Interativas.</p>
+<hr />
+<h3>Descrição do Problema</h3>
+<p>O ensino e aprendizado prático de Programação Orientada a Objetos (POO) em nível universitário costuma ser pautado em sistemas de informação administrativos tradicionais, como controle de vendas, cadastros de clientes ou gestão de frotas. Embora úteis, esses temas falham em ilustrar de forma orgânica e empolgante o uso de mecânicas de estado em tempo real e comportamentos polimórficos ricos. </p>
+<p>Além disso, há uma escassez de exemplos práticos que integrem de forma harmônica a orientação a objetos robusta com tecnologias web e persistência em banco de dados, sem cair na simplicidade de operações de CRUD básicas (criação, leitura, atualização e exclusão sem regras de domínio significativas).</p>
+<h3>Descrição da Solução Proposta</h3>
+<p>A solução consiste no desenvolvimento de um jogo de RPG de batalhas por turnos baseado em navegador (Web App) com estética de fantasia medieval sombria. O jogo utiliza os pilares de POO para gerenciar a lógica complexa de combate e estados. </p>
+<p>As entidades do jogo (heróis, classes, monstros, chefes e efeitos de status) serão modeladas utilizando conceitos de <strong>Herança e Polimorfismo</strong>. As fórmulas matemáticas de combate e modificadores de atributos serão protegidos através de <strong>Encapsulamento</strong>, e as regras de negócio de morte do personagem serão integradas diretamente à persistência do banco de dados, implementando exclusão lógica (<strong>Soft Delete</strong>) de forma a agregar consequências reais e permanência à jogabilidade.</p>
+<h3>Público-alvo</h3>
+<ul>
+<li>Estudantes e entusiastas de engenharia de software e programação orientada a objetos interessados em modelagem de domínio rica.</li>
+<li>Jogadores casuais de RPGs táticos e jogos de combate por turnos que apreciam desafios estratégicos e ambientação medieval sombria.</li>
+</ul>
+<h3>Objetivo Geral do Sistema</h3>
+<p>Prover uma plataforma web dinâmica, interativa e envolvente na qual os jogadores criem personagens, distribuam atributos estrategicamente, enfrentem criaturas e chefes em combate tático por turnos, evoluam seu nível através do acúmulo de experiência, enquanto experimentam as consequências definitivas de suas ações (morte permanente regulada por banco de dados).</p>
+<hr />
+<h3>Principais Funcionalidades</h3>
+<ol>
+<li><strong>Autenticação de Usuários</strong>: Cadastro de conta, login seguro e controle de acesso a rotas protegidas.</li>
+<li><strong>Lobby de Personagens</strong>: Exibição dos personagens ativos da conta e opção de desativação manual (Soft Delete).</li>
+<li><strong>Criação Personalizada</strong>: Sistema de criação de personagens com escolha de classe e validação matemática obrigatória de exatamente 20 pontos de atributos iniciais para evitar trapaças.</li>
+<li><strong>Hub Central e Evolução</strong>: Exibição detalhada de status, evolução de nível do herói com redistribuição de novos pontos de atributos permanentes.</li>
+<li><strong>Códice de Vaslen</strong>: Interface de pesquisa textual ligada ao banco de dados contendo o lore do reino, regras de combate e informações sobre monstros e chefes.</li>
+<li><strong>Motor de Combate por Turnos</strong>: Sistema de batalha em tempo real simulado no navegador entre o herói e um chefe, com cálculo matemático de dano (ataque/defesa).</li>
+<li><strong>Consequência de Morte</strong>: Sistema automatizado de derrota que inativa de forma permanente o personagem no banco de dados após sua vida chegar a zero.</li>
+</ol>
+<hr />
+<h3>Descrição do Processo Principal</h3>
+<p>O processo de jogo segue o seguinte fluxo linear:</p>
+<div class="mermaid-container"><img src="https://mermaid.ink/img/eyJjb2RlIjogImdyYXBoIFREXG4gICAgQVtKb2dhZG9yIGZheiBMb2dpbl0gLS0-IEJbQWNlc3NhIG8gTG9iYnldXG4gICAgQiAtLT4gQ3tDcmlhciBvdSBTZWxlY2lvbmFyIEhlclx1MDBmM2k_fVxuICAgIEMgLS0-fENyaWFyfCBEW0Rpc3RyaWJ1aSBleGF0YW1lbnRlIDIwIHBvbnRvcyBkZSBhdHJpYnV0b3NdXG4gICAgQyAtLT58U2VsZWNpb25hcnwgRVtBY2Vzc2EgSHViIENlbnRyYWwgZG8gSGVyXHUwMGYzaV1cbiAgICBEIC0tPiBFXG4gICAgRSAtLT4gRltJbmljaWEgQ29tYmF0ZSBjb20gbyBCb3NzXVxuICAgIEYgLS0-IEdbVHVybm8gZG8gSm9nYWRvcjogRXNjb2xoZSBBdGFjYXIgb3UgRGVmZW5kZXJdXG4gICAgRyAtLT4gSFtUdXJubyBkbyBJbmltaWdvOiBCb3NzIGFnZSBhdXRvbWF0aWNhbWVudGVdXG4gICAgSCAtLT4gSXtBbGd1bSBIUCB6ZXJvdT99XG4gICAgSSAtLT58Tlx1MDBlM298IEdcbiAgICBJIC0tPnxTaW06IFZpdFx1MDBmM3JpYXwgSltHYW5oYXMgWFAsIHNvYmUgZGUgblx1MDBlZHZlbCBlIGRpc3RyaWJ1aSBwb250b3Mgbm8gSHViXVxuICAgIEkgLS0-fFNpbTogRGVycm90YXwgS1tQZXJzb25hZ2VtIHNvZnJlIFNvZnQgRGVsZXRlIGF1dG9tXHUwMGUxdGljbyBlIGpvZ2Fkb3Igdm9sdGEgYW8gTG9iYnldIiwgIm1lcm1haWQiOiB7InRoZW1lIjogIm5ldXRyYWwiLCAidGhlbWVWYXJpYWJsZXMiOiB7InByaW1hcnlDb2xvciI6ICIjZjVlYmQ2IiwgInByaW1hcnlUZXh0Q29sb3IiOiAiIzJjMjQxZSIsICJsaW5lQ29sb3IiOiAiIzZlMWExMiIsICJhY3RvckJvcmRlciI6ICIjYzVhMDU5IiwgInNpZ25hbENvbG9yIjogIiM2ZTFhMTIifX19" alt="Diagrama de Fluxo" class="mermaid-img" /></div>
+
+<ol>
+<li><strong>Acesso</strong>: O jogador realiza o login ou cadastro para acessar a lista de personagens ativos da sua conta.</li>
+<li><strong>Criação/Seleção</strong>: O jogador seleciona um personagem existente ou cria um novo, distribuindo obrigatoriamente 20 pontos iniciais em seus atributos.</li>
+<li><strong>Combate</strong>: O jogador entra no painel de combate contra um monstro/chefe medieval. </li>
+<li><strong>Duelo de Turnos</strong>: No seu turno, o jogador escolhe uma ação (ex: atacar ou defender). O sistema calcula o impacto de dano baseado nos atributos do personagem. No turno do sistema, a inteligência do monstro responde atacando o jogador.</li>
+<li><strong>Desfecho</strong>:<ul>
+<li><strong>Vitória</strong>: Se o HP do chefe chegar a zero primeiro, o herói recebe XP. Caso suba de nível, ele pode distribuir pontos extras no Hub Central.</li>
+<li><strong>Derrota</strong>: Se o HP do herói zerar, ocorre a <strong>derrota definitiva</strong>. O sistema altera o status do personagem no banco de dados para inativo (Soft Delete). O herói é "apagado" da lista de seleção do jogador, restando ao usuário criar ou selecionar outro personagem no Lobby.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h3>Justificativa para a Escolha do Tema</h3>
+<p>A escolha de um RPG medieval de batalhas por turnos se justifica pela perfeita aderência entre a temática do jogo e os requisitos pedagógicos e técnicos da disciplina de Programação Orientada a Objetos. </p>
+<p>Em sistemas web tradicionais, o comportamento polimórfico costuma se limitar a pequenos detalhes, enquanto em um RPG de combate, heróis e monstros possuem comportamentos e reações radicalmente diferentes que se beneficiam diretamente de classes abstratas e interfaces de combate. Além disso, a aplicação de regras matemáticas restritas na criação e a mecânica de morte permanente (Soft Delete) demonstram a robustez necessária na integração entre o back-end, banco de dados e a experiência final no front-end web.</p>
+</body>
+</html>
