@@ -29,9 +29,11 @@ O projeto consiste em um jogo de RPG de batalhas por turnos baseado em navegador
 *   **Códice de Pesquisa**: Campo de busca textual com filtros. Permite pesquisar termos relacionados ao lore do jogo (ex: inimigos, regras de combate) com consultas dinâmicas ao banco de dados e retorno em formato de cards.
 
 ### 4. Motor de Batalha (O Processo Principal)
-*   **Layout de Combate**: Exibição lateralizada do HP e status do Personagem (esquerda) contra os do Chefe/Boss (direita).
-*   **O Turno do Jogador**: Botões de ação como `Atacar` e `Defender`. O dano e a eficácia da defesa são calculados usando POO com base nos atributos das entidades envolvidas.
-*   **O Turno do Sistema**: Processamento automático da ação do Boss e atualização da interface de forma sequencial.
+*   **Layout de Combate**: Exibição lateralizada do HP, Energia e status do Personagem (esquerda) contra os do Chefe/Boss (direita).
+*   **O Turno do Jogador**: Botões de ação como `Atacar` (ataques variados), `Defender`, `Habilidade Especial` e `Usar Item`. 
+*   **Sistema de Energia e Recursos**: Toda entidade combatente possui pontos de `Energia` (estamina/mana). Ataques especiais e habilidades de classe consomem energia (`custoEnergia`). A ação de `Defender` ou golpes básicos servem para recuperar energia. Se a energia estiver zerada, o combatente fica restrito em suas ações até descansar/defender.
+*   **Sistema de Itens e Modificadores**: Personagens podem carregar e usar itens consumíveis (poções de cura, elixires de energia) ou itens táticos que aplicam `Vantagem` (buff que eleva o dano temporariamente) ou `Desvantagem` (debuff que reduz a eficácia do alvo).
+*   **O Turno do Sistema**: Processamento automático da ação do Boss com base na sua vida e energia restante.
 *   **Fim de Combate**:
     *   **Vitória**: Concessão de pontos de XP e redirecionamento de volta ao Hub Central.
     *   **Derrota**: Ocorre a **inativação automática (Soft Delete)** do personagem no banco de dados. O usuário é redirecionado de volta ao Painel de Seleção para criar ou selecionar outro personagem.
@@ -56,3 +58,6 @@ O projeto consiste em um jogo de RPG de batalhas por turnos baseado em navegador
 | 25/08/2026 | Levantamento e Mapeamento de Requisitos (Sprint 2) | Definição detalhada de 13 requisitos funcionais, 5 requisitos não funcionais, 9 regras de negócio e modelagem do motor de combate baseada em POO. | IA (Antigravity) |
 | 27/08/2026 | Adoção de Nomenclatura em PT-BR e Foco Educativo | Toda a nomenclatura customizada do projeto deve ser em PT-BR para simplificar a apresentação acadêmica. O papel da IA será focado em mentoria e revisão, sem gerar códigos diretamente no backend. | Usuário & IA |
 | 27/08/2026 | Criação dos Diretórios do Backend | Inicialização física da estrutura de pastas em 'projeto-game/backend/src/' em português, seguindo o padrão de arquitetura em camadas. | IA & Usuário |
+| 01/09/2026 | Consolidação de Entregas e Identificação de Classes (Sprint 3) | Unificação de todas as entregas (1 a 3) em um único arquivo DOCX consolidado e modelagem completa das 7 classes principais do domínio em PT-BR. | IA (Antigravity) |
+| 03/09/2026 | Início da Sprint 1 de Implementação (Domínio & Setup) | Criação de `config_docs/sprints/sprint1.md` estruturando os chamados técnicos 0 a 4 com foco pedagógico em POO pura para o desenvolvedor. | IA & Usuário |
+| 03/09/2026 | Mecânica de Energia, Custo de Ações e Sistema de Itens | Adição de pontos de energia com consumo por golpe/habilidade, recuperação via postura de defesa e modelagem de itens consumíveis com vantagem/desvantagem. | Usuário & IA |

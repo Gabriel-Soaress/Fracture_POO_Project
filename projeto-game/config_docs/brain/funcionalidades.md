@@ -54,16 +54,21 @@ Este documento mapeia todas as funcionalidades que serão desenvolvidas no siste
 ## ⚔️ Mecânica de Combate (Processo Principal)
 
 ### 1. Processamento do Turno do Usuário
-*   **Descrição**: Ações ativas de `Atacar` ou `Defender`, calculando danos ou reduções com base nos atributos do personagem contra os do inimigo.
+*   **Descrição**: Ações ativas de `Atacar` (básico ou habilidades de classe com custo de energia), `Defender` (recupera energia e mitiga dano), `Ação Especial` ou `Usar Item` (cura, energia, vantagem ou desvantagem).
 *   **Localização**: `[PENDENTE - A implementar]`
 *   **Chamada de Exemplo**: `[PENDENTE]`
 
 ### 2. Processamento do Turno do Inimigo (IA do Boss)
-*   **Descrição**: Motor de ações automatizadas do Boss logo após o término do turno do jogador.
+*   **Descrição**: Motor de ações automatizadas do Boss logo após o término do turno do jogador, decidindo entre ataques, especiais ou defesa com base na sua energia e vida restante.
 *   **Localização**: `[PENDENTE - A implementar]`
 *   **Chamada de Exemplo**: `[PENDENTE]`
 
-### 3. Fluxo de Fim de Combate
+### 3. Gestão de Energia e Uso de Itens
+*   **Descrição**: Sistema de recurso tático (estamina/mana) onde cada habilidade possui custo de energia, a postura de defesa regenera energia e itens consumíveis do inventário podem ser utilizados em combate.
+*   **Localização**: `[PENDENTE - A implementar]`
+*   **Chamada de Exemplo**: `[PENDENTE]`
+
+### 4. Fluxo de Fim de Combate
 *   **Descrição**: Validação de término (HP de algum lado == 0). Em caso de vitória, atribuição de XP. Em caso de derrota, inativação automática (Soft Delete) do personagem no banco.
 *   **Localização**: `[PENDENTE - A implementar]`
 *   **Chamada de Exemplo**: `[PENDENTE]`
