@@ -32,7 +32,7 @@ O projeto consiste em um jogo de RPG de batalhas por turnos baseado em navegador
 *   **Layout de Combate**: Exibição lateralizada do HP, Energia e status do Personagem (esquerda) contra os do Chefe/Boss (direita).
 *   **O Turno do Jogador**: Botões de ação como `Atacar` (ataques variados), `Defender`, `Habilidade Especial` e `Usar Item`. 
 *   **Sistema de Energia e Recursos**: Toda entidade combatente possui pontos de `Energia` (estamina/mana). Ataques especiais e habilidades de classe consomem energia (`custoEnergia`). A ação de `Defender` ou golpes básicos servem para recuperar energia. Se a energia estiver zerada, o combatente fica restrito em suas ações até descansar/defender.
-*   **Sistema de Itens e Modificadores**: Personagens podem carregar e usar itens consumíveis (poções de cura, elixires de energia) ou itens táticos que aplicam `Vantagem` (buff que eleva o dano temporariamente) ou `Desvantagem` (debuff que reduz a eficácia do alvo).
+*   **Sistema de Itens e Modificadores**: Personagens podem carregar e usar itens consumíveis (poções de cura, elixires de energia) ou itens táticos que aplicam `Reforço de Dano` (`REFORCO_DANO` - buff que eleva o dano aplicado na rodada).
 *   **O Turno do Sistema**: Processamento automático da ação do Boss com base na sua vida e energia restante.
 *   **Fim de Combate**:
     *   **Vitória**: Concessão de pontos de XP e redirecionamento de volta ao Hub Central.
@@ -61,3 +61,5 @@ O projeto consiste em um jogo de RPG de batalhas por turnos baseado em navegador
 | 01/09/2026 | Consolidação de Entregas e Identificação de Classes (Sprint 3) | Unificação de todas as entregas (1 a 3) em um único arquivo DOCX consolidado e modelagem completa das 7 classes principais do domínio em PT-BR. | IA (Antigravity) |
 | 03/09/2026 | Início da Sprint 1 de Implementação (Domínio & Setup) | Criação de `config_docs/sprints/sprint1.md` estruturando os chamados técnicos 0 a 4 com foco pedagógico em POO pura para o desenvolvedor. | IA & Usuário |
 | 03/09/2026 | Mecânica de Energia, Custo de Ações e Sistema de Itens | Adição de pontos de energia com consumo por golpe/habilidade, recuperação via postura de defesa e modelagem de itens consumíveis com vantagem/desvantagem. | Usuário & IA |
+
+

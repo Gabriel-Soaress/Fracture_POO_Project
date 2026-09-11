@@ -312,33 +312,33 @@ No TypeScript e JavaScript, parâmetros opcionais (com `?`) não podem vir antes
 
 ## 🎫 Chamado 2: A Entidade dos Itens e Consumíveis (`Item.ts`)
 
-* **Status:** Pendente
+* **Status:** Concluído ✅
 * **Prioridade:** Média
-* **Arquivo a Criar:** `backend/src/dominio/entidades/Item.ts`
+* **Arquivo:** `backend/src/dominio/entidades/Item.ts`
 
 ### 💡 Por que este arquivo?
-Em um RPG tático, a vitória não depende apenas de força bruta, mas da gestão de recursos. A classe `Item` encapsula consumíveis que alteram o estado da batalha: curam vida, recuperam energia ou aplicam buffs de **Vantagem** (aumento de dano) ou debuffs de **Desvantagem** (redução de dano).
+Em um RPG tático, a vitória não depende apenas de força bruta, mas da gestão de recursos. A classe `Item` encapsula consumíveis que alteram o estado da batalha: curam vida, recuperam energia ou aplicam buffs táticos de **Reforço de Dano** (`REFORCO_DANO`), aumentando o dano da próxima rodada.
 
-### 📝 O que a classe deve conter:
-1. **Atributos:**
-   * `id: number`
-   * `nome: string` (ex: "Poção de Vida Menor", "Elixir de Estamina", "Óleo de Fogo Vantajoso")
-   * `tipo: 'CURA_VIDA' | 'RECUPERA_ENERGIA' | 'VANTAGEM' | 'DESVANTAGEM'`
-   * `valorEfeito: number` (ex: `30` para curar 30 de HP, `25` para recuperar 25 de energia, `1.5` para vantagem de +50% de dano)
-   * `descricao: string`
+### 📝 O que a classe contém:
+1. **Atributos Protegidos (Encapsulamento):**
+   * `protected id: number`
+   * `protected nome: string` (ex: "Poção de Sangue Antigo", "Elixir de Foco", "Óleo de Fogo")
+   * `protected tipo: 'CURA_VIDA' | 'RECUPERA_ENERGIA' | 'REFORCO_DANO'`
+   * `protected valorEfeito: number` (ex: `30` para curar 30 de HP, `25` para recuperar 25 de energia, `1.5` ou valor de reforço de dano)
+   * `protected descricao: string`
 2. **Construtor:** Recebe todos os atributos essenciais para instanciar o item.
 3. **Método Principal de Ação:**
    * `aplicarEfeito(alvo: EntidadeCombatente): string`:
      * Avalia o `this.tipo`:
-       * Se `'CURA_VIDA'`: chama `alvo.curarVida(this.valorEfeito)` e retorna `"Usou [nome] e recuperou [valor] de vida!"`.
-       * Se `'RECUPERA_ENERGIA'`: chama `alvo.recuperarEnergia(this.valorEfeito)` e retorna `"Usou [nome] e restaurou [valor] de energia!"`.
-       * Se `'VANTAGEM'`: chama `alvo.aplicarModificadorDano(this.valorEfeito)` e retorna `"Usou [nome] e ganhou Vantagem no próximo ataque!"`.
-       * Se `'DESVANTAGEM'`: chama `alvo.aplicarModificadorDano(this.valorEfeito)` e retorna `"Aplicou Desvantagem no alvo!"`.
-4. **Getters:** Para `getNome()`, `getTipo()`, `getDescricao()`.
+       * Se `'CURA_VIDA'`: chama `alvo.curarVida(this.valorEfeito)` e retorna mensagem de vida recuperada.
+       * Se `'RECUPERA_ENERGIA'`: chama `alvo.recuperarEnergia(this.valorEfeito)` e retorna mensagem de energia restaurada.
+       * Se `'REFORCO_DANO'`: chama `alvo.aplicarModificadorDano(this.valorEfeito)` e retorna mensagem informando o dano extra aplicado na rodada.
+4. **Getters:** Para `getId()`, `getNome()`, `getTipo()`, `getValorEfeito()` e `getDescricao()`.
 
 ### ✅ Critérios de Aceite:
-* Classe `Item` instanciável com diferentes tipos de efeitos.
+* Classe `Item` instanciável com tipos de efeitos `'CURA_VIDA'`, `'RECUPERA_ENERGIA'` e `'REFORCO_DANO'`.
 * Método `aplicarEfeito` altera os atributos da `EntidadeCombatente` alvo com retorno descritivo.
+* Getters encapsulando com segurança todos os atributos protegidos.
 
 ---
 
@@ -441,11 +441,12 @@ Os inimigos também combatem e agora também gerenciam sua estamina/energia para
 | :--- | :--- | :--- | :--- |
 | **Chamado 0** | Setup de Node.js + TypeScript na pasta `backend/` | Gabriel | 🟢 Concluído |
 | **Chamado 1** | Implementação da base `EntidadeCombatente.ts` (Vida, Energia e Ações) | Gabriel | 🟢 Concluído |
-| **Chamado 2** | Implementação da classe `Item.ts` (Consumíveis, Vantagem e Buffs) | Gabriel | 🟡 Em Andamento (Próximo) |
-| **Chamado 3** | Implementação de `Personagem.ts` (Inventário, 3 Ataques com Custo e XP) | Gabriel | ⚪ Pendente |
+| **Chamado 2** | Implementação da classe `Item.ts` (Consumíveis, Cura, Energia e Reforço de Dano) | Gabriel | 🟢 Concluído |
+| **Chamado 3** | Implementação de `Personagem.ts` (Inventário, 3 Ataques com Custo e XP) | Gabriel | 🟡 Em Andamento (Próximo) |
 | **Chamado 4** | Implementação de `Monstro.ts` (IA de Energia e Lore) | Gabriel | ⚪ Pendente |
 | **Chamado 5** | Script de simulação de combate em `testes/teste_entidades.ts` | Gabriel | ⚪ Pendente |
 
 ---
 
-> Chamado 1 aprovado e validado com sucesso (zero erros de compilação no TypeScript)! O próximo passo é o **Chamado 2**: criar a classe `Item.ts` em `backend/src/dominio/entidades/`. Bora pra cima! 🚀
+> Chamados 0, 1 e 2 aprovados e validados com sucesso (zero erros de compilação no TypeScript)! O próximo passo é o **Chamado 3**: criar a classe `Personagem.ts` em `backend/src/dominio/entidades/`. Bora pra cima! 🚀
+

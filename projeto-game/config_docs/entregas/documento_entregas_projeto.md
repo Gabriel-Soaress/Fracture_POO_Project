@@ -354,6 +354,8 @@ Nesta etapa são identificadas e modeladas as principais classes que compõem o 
 | **`EntidadeCombatente`** | Abstrata | Classe mãe de `Personagem` e `Monstro` | **Abstração & Herança** (reutilização de atributos vitais e métodos base) |
 | **`Personagem`** | Concreta | Herda de `EntidadeCombatente` | **Polimorfismo & Herança** (implementa habilidades de herói e progressão de XP) |
 | **`Monstro`** | Concreta | Herda de `EntidadeCombatente` | **Polimorfismo & Herança** (implementa IA de monstro e habilidades de chefe) |
+| **`Item`** | Concreta | Agregado ao inventário de `Personagem` | **Abstração & Encapsulamento** (itens de consumo e modificadores táticos) |
 | **`MotorCombate`** | Concreta | Associa `Personagem` e `Monstro` | **Abstração & Identificação de Responsabilidades** (orquestração de turnos) |
 | **`CalculadoraCombate`** | Concreta | Serviço de cálculo utilizado pelo motor | **Encapsulamento** (isolamento das fórmulas matemáticas de dano) |
 | **`EntradaCodice`** | Concreta | Entidade independente associada a `Usuario` (Admin) | **Abstração** (representação de registros textuais dinâmicos do lore) |
+
