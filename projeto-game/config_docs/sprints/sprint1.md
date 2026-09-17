@@ -344,9 +344,9 @@ Em um RPG tático, a vitória não depende apenas de força bruta, mas da gestã
 
 ## 🎫 Chamado 3: O Herói do Jogador (`Personagem.ts`)
 
-* **Status:** Pendente
+* **Status:** Concluído ✅
 * **Prioridade:** Alta
-* **Arquivo a Criar:** `backend/src/dominio/entidades/Personagem.ts`
+* **Arquivo:** `backend/src/dominio/entidades/personagem.ts`
 
 ### 💡 Por que este arquivo?
 O `Personagem` é a especialização da `EntidadeCombatente`. Ele representa o jogador humano. Além de lutar, ele gerencia seu **inventário de itens**, seus **3 ataques de classe com custo de energia**, sua progressão de nível e a validação rígida dos 20 pontos.
@@ -442,11 +442,12 @@ Os inimigos também combatem e agora também gerenciam sua estamina/energia para
 | **Chamado 0** | Setup de Node.js + TypeScript na pasta `backend/` | Gabriel | 🟢 Concluído |
 | **Chamado 1** | Implementação da base `EntidadeCombatente.ts` (Vida, Energia e Ações) | Gabriel | 🟢 Concluído |
 | **Chamado 2** | Implementação da classe `Item.ts` (Consumíveis, Cura, Energia e Reforço de Dano) | Gabriel | 🟢 Concluído |
-| **Chamado 3** | Implementação de `Personagem.ts` (Inventário, 3 Ataques com Custo e XP) | Gabriel | 🟡 Em Andamento (Próximo) |
-| **Chamado 4** | Implementação de `Monstro.ts` (IA de Energia e Lore) | Gabriel | ⚪ Pendente |
+| **Chamado 3** | Implementação de `Personagem.ts` (Inventário, 3 Ataques com Custo e XP) | Gabriel | 🟢 Concluído |
+| **Chamado 4** | Implementação de `Monstro.ts` (IA de Energia e Lore) | Gabriel | 🟡 Em Andamento (Próximo) |
 | **Chamado 5** | Script de simulação de combate em `testes/teste_entidades.ts` | Gabriel | ⚪ Pendente |
 
 ---
 
-> Chamados 0, 1 e 2 aprovados e validados com sucesso (zero erros de compilação no TypeScript)! O próximo passo é o **Chamado 3**: criar a classe `Personagem.ts` em `backend/src/dominio/entidades/`. Bora pra cima! 🚀
+> Chamados 0, 1, 2 e 3 aprovados e validados com sucesso (zero erros de compilação no TypeScript)! O próximo passo é o **Chamado 4**: criar a classe `Monstro.ts` em `backend/src/dominio/entidades/`. Bora pra cima! 🚀
+
 

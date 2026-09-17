@@ -37,9 +37,10 @@ export abstract class EntidadeCombatente {
         this.modificadorDano = 1;
     }
 
-    atacar(alvo: EntidadeCombatente): void {
-        const dano = Math.round(this.forca * this.modificadorDano);
+    atacar(alvo: EntidadeCombatente,valorAtaque:number):number {
+        const dano = Math.round((valorAtaque * this.forca) * this.modificadorDano);
         alvo.receberDano(dano);
+        return dano;
     }
 
     receberDano(valorDano: number): void {
