@@ -416,22 +416,20 @@ Os inimigos também combatem e agora também gerenciam sua estamina/energia para
 
 ## 🎫 Chamado 5: Campo de Batalha de Teste (`testes/teste_entidades.ts`)
 
-* **Status:** Pendente
+* **Status:** Concluído ✅
 * **Prioridade:** Alta (Validação da Sprint)
-* **Arquivo a Criar:** `backend/testes/teste_entidades.ts`
+* **Arquivo:** `backend/testes/teste_entidades.ts`
 
-### 📝 O que você deve testar:
-1. Instanciar um `Personagem` com 20 pontos distribuídos.
-2. Instanciar um `Monstro`.
-3. Instanciar itens (ex: `Poção de Vida` e `Elixir de Energia`) e colocar no inventário do herói.
-4. Simular o combate rodada a rodada:
-   * Herói gasta energia para atacar;
-   * Herói fica com pouca energia e tenta um golpe caro (verificando que falha por falta de energia);
-   * Herói usa `defender()` para mitigar dano e recuperar energia;
-   * Herói usa a poção de cura/energia do inventário;
-   * Monstro age com sua IA baseada em energia;
-   * Imprimir os logs das rodadas no console.
-5. Executar no terminal:
+### 📝 O que foi testado e validado:
+1. **Instanciação com Validação de Regra de Negócio (RN01):** Herói instanciado com 20 pontos de atributos exatos (`9 Força + 6 Defesa + 5 Agilidade = 20`).
+2. **Criação de Inimigo e Lore:** Monstro instanciado com classe `ELITE`, lore de Vaslen e recompensa de XP.
+3. **Gestão de Inventário e Consumo de Itens:** Herói utilizou itens do inventário (`Poção de Sangue Antigo`, `Elixir de Foco Puro` e `Óleo de Fogo Vantajoso`) aplicando efeitos em combate.
+4. **Ciclo de Combate por Turnos e Gastos de Energia:**
+   * Alternância entre golpes rápidos, pesados e brutais com custos proporcionais de estamina.
+   * Uso da postura de defesa para descansar (+15 de energia) e mitigar 30% do dano recebido.
+   * IA autônoma do Monstro reagindo dinamicamente à sua própria energia e desferindo contra-ataques.
+5. **Progressão Pós-Vitória:** Acúmulo de XP (+150 XP), evolução de nível (`1 ➡️ 2`) e distribuição bem-sucedida de pontos de atributos livres (+1 Força, +1 Defesa, +1 Agilidade).
+6. **Comando de Teste no Terminal:**
    ```bash
    npm run testar
    ```
@@ -447,11 +445,13 @@ Os inimigos também combatem e agora também gerenciam sua estamina/energia para
 | **Chamado 2** | Implementação da classe `Item.ts` (Consumíveis, Cura, Energia e Reforço de Dano) | Gabriel | 🟢 Concluído |
 | **Chamado 3** | Implementação de `Personagem.ts` (Inventário, 3 Ataques com Custo e XP) | Gabriel | 🟢 Concluído |
 | **Chamado 4** | Implementação de `Monstro.ts` (IA de Energia e Lore) | Gabriel / Antigravity | 🟢 Concluído |
-| **Chamado 5** | Script de simulação de combate em `testes/teste_entidades.ts` | Gabriel | 🟡 Em Andamento (Próximo) |
+| **Chamado 5** | Script de simulação de combate em `testes/teste_entidades.ts` | Antigravity / Gabriel | 🟢 Concluído |
 
 ---
 
-> Chamados 0, 1, 2, 3 e 4 aprovados e validados com sucesso (zero erros de compilação no TypeScript)! O próximo passo é o **Chamado 5**: criar o script de teste de batalha em `backend/testes/teste_entidades.ts` para fecharmos a Sprint 1 com chave de ouro! 🚀
+> 🏆 **SPRINT 1 FINALIZADA COM 100% DE SUCESSO!** 
+> Todas as entidades puras do domínio de combate (`EntidadeCombatente`, `Personagem`, `Monstro`, `Item`), o sistema tático de energia, os 3 ataques com escalonamento de dano, inventário, IA autônoma de inimigo e a validação de regras de negócio foram implementados e testados no terminal. O domínio de POO do projeto está sólido e pronto para as próximas etapas! 🚀
+
 
 
 
