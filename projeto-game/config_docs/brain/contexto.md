@@ -32,7 +32,7 @@ O projeto consiste em um jogo de RPG de batalhas por turnos baseado em navegador
 *   **Layout de Combate**: Exibição lateralizada do HP, Energia e status do Personagem (esquerda) contra os do Chefe/Boss (direita).
 *   **O Turno do Jogador**: Botões de ação como `Atacar` (ataques variados), `Defender`, `Habilidade Especial` e `Usar Item`. 
 *   **Sistema de Energia e Recursos**: Toda entidade combatente possui pontos de `Energia` (estamina/mana). Ataques especiais e habilidades de classe consomem energia (`custoEnergia`). A ação de `Defender` ou golpes básicos servem para recuperar energia. Se a energia estiver zerada, o combatente fica restrito em suas ações até descansar/defender.
-*   **Sistema de Itens e Modificadores**: Personagens podem carregar e usar itens consumíveis (poções de cura, elixires de energia) ou itens táticos que aplicam `Reforço de Dano` (`REFORCO_DANO` - buff que eleva o dano aplicado na rodada).
+*   **Sistema de Itens, Modificadores e Loot**: O jogador inicia sua jornada com o inventário vazio (sem itens prévios, dispensando sistemas de moeda/loja). Cada monstro derrotado possui um espólio exclusivo (`droparLoot()`), transferindo consumíveis de cura de vida (`CURA_VIDA`), recuperação de energia (`RECUPERA_ENERGIA`) ou buffs táticos (`REFORCO_DANO`) diretamente para o inventário do herói vitorioso.
 *   **O Turno do Sistema**: Processamento automático da ação do Boss com base na sua vida e energia restante.
 *   **Fim de Combate**:
     *   **Vitória**: Concessão de pontos de XP e redirecionamento de volta ao Hub Central.

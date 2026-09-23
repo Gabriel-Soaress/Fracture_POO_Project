@@ -1,9 +1,11 @@
 import { EntidadeCombatente } from "./EntidadeCombatente";
+import { Item } from "./Item";
 
 export class Monstro extends EntidadeCombatente {
     public tipoMonstro: 'COMUM' | 'ELITE' | 'CHEFE';
     public experienciaConcedida: number;
     public descricaoLore: string;
+    public itemRecompensa?: Item;
 
     constructor(
         nome: string,
@@ -17,12 +19,14 @@ export class Monstro extends EntidadeCombatente {
         tipoMonstro: 'COMUM' | 'ELITE' | 'CHEFE',
         experienciaConcedida: number,
         descricaoLore: string,
+        itemRecompensa?: Item,
         id?: number
     ) {
         super(nome, nivel, vidaMaxima, vidaAtual, energiaMaxima, forca, defesa, agilidade, id);
         this.tipoMonstro = tipoMonstro;
         this.experienciaConcedida = experienciaConcedida;
         this.descricaoLore = descricaoLore;
+        this.itemRecompensa = itemRecompensa;
     }
 
     ataque(alvo: EntidadeCombatente, tipoAtaque: number): string {
@@ -130,6 +134,10 @@ export class Monstro extends EntidadeCombatente {
         }
     }
 
+    droparLoot(): Item | null {
+        return this.itemRecompensa ?? null;
+    }
+
     getTipoMonstro(): string {
         return this.tipoMonstro;
     }
@@ -140,5 +148,9 @@ export class Monstro extends EntidadeCombatente {
 
     getDescricaoLore(): string {
         return this.descricaoLore;
+    }
+
+    getItemRecompensa(): Item | undefined {
+        return this.itemRecompensa;
     }
 }
