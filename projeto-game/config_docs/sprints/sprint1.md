@@ -389,25 +389,28 @@ O `Personagem` é a especialização da `EntidadeCombatente`. Ele representa o j
 
 ---
 
-## 🎫 Chamado 4: As Ameaças de Vaslen (`Monstro.ts`)
+### 🎫 Chamado 4: As Ameaças de Vaslen (`Monstro.ts`)
 
-* **Status:** Pendente
+* **Status:** Concluído ✅
 * **Prioridade:** Média
-* **Arquivo a Criar:** `backend/src/dominio/entidades/Monstro.ts`
+* **Arquivo:** `backend/src/dominio/entidades/Monstro.ts`
 
 ### 💡 Por que este arquivo?
 Os inimigos também combatem e agora também gerenciam sua estamina/energia para agir taticamente.
 
-### 📝 O que a classe deve conter:
+### 📝 O que a classe contém:
 1. **Herança:** `export class Monstro extends EntidadeCombatente`.
 2. **Atributos Específicos:**
-   * `tipoMonstro` (string: `'COMUM'`, `'ELITE'` ou `'CHEFE'`)
+   * `tipoMonstro` (`'COMUM'`, `'ELITE'` ou `'CHEFE'`)
    * `experienciaConcedida` (number)
    * `descricaoLore` (string)
 3. **Métodos Específicos:**
    * `decidirAcao(alvo: EntidadeCombatente): { tipo: 'ATACAR' | 'DEFENDER' | 'ESPECIAL', mensagem: string }`:
-     * **IA Tática de Energia:** Se a `energiaAtual < 20`, o monstro opta por `defender()` para descansar e recuperar energia! Se tiver energia alta e vida baixa, tenta o golpe especial. Caso contrário, ataca normalmente.
-   * Implementação de `executarAcaoEspecial(alvo: EntidadeCombatente): string`.
+     * **IA Tática de Energia:** Se estiver exausto (`energiaAtual < 25%`), o monstro opta por `defender()` para descansar, recuperar energia e mitigar danos!
+     * **IA de Desespero/Fúria:** Se a vida estiver crítica (`vidaAtual <= 35%`) e tiver energia (`>= 40%`), conjura a ação especial!
+     * **IA Padrão:** Executa ataque feroz gastando estamina (`15%`) e desferindo dano escalonado.
+   * `executarAcaoEspecial(alvo: EntidadeCombatente): string`:
+     * Polimorfismo temático com base na hierarquia da criatura (`CHEFE`, `ELITE` ou `COMUM`).
 
 ---
 
@@ -443,11 +446,12 @@ Os inimigos também combatem e agora também gerenciam sua estamina/energia para
 | **Chamado 1** | Implementação da base `EntidadeCombatente.ts` (Vida, Energia e Ações) | Gabriel | 🟢 Concluído |
 | **Chamado 2** | Implementação da classe `Item.ts` (Consumíveis, Cura, Energia e Reforço de Dano) | Gabriel | 🟢 Concluído |
 | **Chamado 3** | Implementação de `Personagem.ts` (Inventário, 3 Ataques com Custo e XP) | Gabriel | 🟢 Concluído |
-| **Chamado 4** | Implementação de `Monstro.ts` (IA de Energia e Lore) | Gabriel | 🟡 Em Andamento (Próximo) |
-| **Chamado 5** | Script de simulação de combate em `testes/teste_entidades.ts` | Gabriel | ⚪ Pendente |
+| **Chamado 4** | Implementação de `Monstro.ts` (IA de Energia e Lore) | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 5** | Script de simulação de combate em `testes/teste_entidades.ts` | Gabriel | 🟡 Em Andamento (Próximo) |
 
 ---
 
-> Chamados 0, 1, 2 e 3 aprovados e validados com sucesso (zero erros de compilação no TypeScript)! O próximo passo é o **Chamado 4**: criar a classe `Monstro.ts` em `backend/src/dominio/entidades/`. Bora pra cima! 🚀
+> Chamados 0, 1, 2, 3 e 4 aprovados e validados com sucesso (zero erros de compilação no TypeScript)! O próximo passo é o **Chamado 5**: criar o script de teste de batalha em `backend/testes/teste_entidades.ts` para fecharmos a Sprint 1 com chave de ouro! 🚀
+
 
 
