@@ -61,5 +61,9 @@ O projeto consiste em um jogo de RPG de batalhas por turnos baseado em navegador
 | 01/09/2026 | Consolidação de Entregas e Identificação de Classes (Sprint 3) | Unificação de todas as entregas (1 a 3) em um único arquivo DOCX consolidado e modelagem completa das 7 classes principais do domínio em PT-BR. | IA (Antigravity) |
 | 03/09/2026 | Início da Sprint 1 de Implementação (Domínio & Setup) | Criação de `config_docs/sprints/sprint1.md` estruturando os chamados técnicos 0 a 4 com foco pedagógico em POO pura para o desenvolvedor. | IA & Usuário |
 | 03/09/2026 | Mecânica de Energia, Custo de Ações e Sistema de Itens | Adição de pontos de energia com consumo por golpe/habilidade, recuperação via postura de defesa e modelagem de itens consumíveis com vantagem/desvantagem. | Usuário & IA |
+| 22/09/2026 | Conclusão da Sprint 1 e Validação de Combate com 50/50 | Implementação 100% testada do domínio de combate (`EntidadeCombatente`, `Personagem`, `Monstro`, `Item`) e simulação justa com d10/ações autônomas. | Usuário & IA |
+| 22/09/2026 | Arquitetura de Conteúdo de Fábrica vs. Dinâmico | Monstros, itens de loot e verbetes do Códice são criados canonicamente por Fábricas (`dominio/fabricas/`). Usuários, heróis e sessões de combate são criados dinamicamente. | Usuário & IA |
+| 22/09/2026 | Planejamento Integrado das Sprints 2, 3 e 4 | Formalização detalhada dos documentos `sprint2.md` (Catálogo, Orquestração e Códice), `sprint3.md` (Persistência e Banco) e `sprint4.md` (API Express RESTful) com política de auto-atualização contínua. | Usuário & IA |
+
 
 
