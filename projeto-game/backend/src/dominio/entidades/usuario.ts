@@ -6,7 +6,7 @@ export class Usuario {
     private id: number;
     private nome: string;
     private email: string;
-    private senha: string;
+    private senhaHash: string;
     private tipoUsuario: TipoUsuario;
     private personagens: Personagem[] = [];
     private dataCriacao: Date = new Date();
@@ -15,34 +15,26 @@ export class Usuario {
         id: number,
         nome: string,
         email: string,
-        senha: string,
+        senhaHash: string,
         tipoUsuario: TipoUsuario = 'JOGADOR'
     ) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.senha = senha;
+        this.senhaHash = senhaHash;
         this.tipoUsuario = tipoUsuario;
     }
 
-    autenticar(senhaInformada: string): boolean {
-        return this.senha === senhaInformada;
+    autenticarComHash(hashInformado: string): boolean {
+        return this.senhaHash === hashInformado;
     }
 
-    alterarSenha(senhaAtual: string, novaSenha: string): boolean {
-        if (!this.autenticar(senhaAtual)) {
-            console.log("Erro: Senha atual incorreta.");
-            return false;
+    atualizarSenhaHash(novoSenhaHash: string): void {
+        if (!novoSenhaHash || novoSenhaHash.trim().length === 0) {
+            throw new Error("O hash da senha não pode ser vazio.");
         }
-
-        if (!novaSenha || novaSenha.trim().length < 4) {
-            console.log("Erro: A nova senha deve conter pelo menos 4 caracteres.");
-            return false;
-        }
-
-        this.senha = novaSenha;
-        console.log(`Senha do usuário ${this.nome} alterada com sucesso.`);
-        return true;
+        this.senhaHash = novoSenhaHash;
+        console.log(`Senha do usuário ${this.nome} atualizada com sucesso.`);
     }
 
     ehAdministrador(): boolean {
@@ -92,8 +84,8 @@ export class Usuario {
         return this.email;
     }
 
-    getSenha(): string {
-        return this.senha;
+    getSenhaHash(): string {
+        return this.senhaHash;
     }
 
     getTipoUsuario(): TipoUsuario {

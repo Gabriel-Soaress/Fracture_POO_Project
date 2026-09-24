@@ -35,8 +35,8 @@ No jogo, o jogador precisa ter uma conta de acesso com suas credenciais seguras 
 
 ### 🎓 Conceitos de POO Aplicados:
 * **Composição / Agregação:** A classe `Usuario` agrega uma coleção de instâncias de `Personagem`.
-* **Encapsulamento Estrito:** A senha e o perfil ficam protegidos por campos privados e a lista de personagens só pode ser manipulada através dos métodos da própria classe.
-* **Segurança e Regras de Negócio:** Métodos de autenticação, alteração de credenciais e verificação de privilégios administrativos.
+* **Encapsulamento Estrito:** A credencial protegida (`senhaHash`) e o perfil ficam restritos por campos privados e a lista de personagens só pode ser manipulada através dos métodos da própria classe.
+* **Segurança e Regras de Negócio:** Armazenamento seguro de hash criptográfico (RNF02), atualização de hash e verificação de privilégios administrativos.
 
 ### 📝 O que a classe contém:
 1. **Tipos Auxiliares:**
@@ -45,19 +45,19 @@ No jogo, o jogador precisa ter uma conta de acesso com suas credenciais seguras 
    * `id: number` (identificador único da conta)
    * `nome: string` (nome de exibição)
    * `email: string` (email único para login)
-   * `senha: string` (credencial de acesso)
+   * `senhaHash: string` (hash seguro da credencial - nunca texto puro)
    * `tipoUsuario: TipoUsuario` (perfil padrão `'JOGADOR'` ou `'ADMINISTRADOR'`)
    * `personagens: Personagem[]` (lista de heróis vinculados à conta)
    * `dataCriacao: Date`
 3. **Métodos de Domínio:**
-   * `autenticar(senhaInformada: string): boolean`: Valida se a senha informada corresponde à senha do usuário.
-   * `alterarSenha(senhaAtual: string, novaSenha: string): boolean`: Valida a senha atual e o tamanho mínimo antes de atualizar.
+   * `autenticarComHash(hashInformado: string): boolean`: Valida se o hash informado confere com o cadastrado.
+   * `atualizarSenhaHash(novoSenhaHash: string): void`: Atualiza com segurança o hash da senha na entidade.
    * `ehAdministrador(): boolean`: Retorna `true` se o usuário tiver perfil `'ADMINISTRADOR'`.
    * `adicionarPersonagem(personagem: Personagem): void`: Adiciona o herói respeitando o limite máximo de 5 personagens.
    * `obterPersonagensAtivos(): Personagem[]`: Retorna apenas os heróis com `ativo === true` (Soft Delete).
    * `obterPersonagemPorId(id: number | string): Personagem | undefined`: Localiza um personagem específico no arsenal.
    * `inativarPersonagem(id: number | string): string`: Aciona `personagem.inativar()` no herói desejado.
-   * Getters para todos os atributos necessários.
+   * Getters: `getId()`, `getNome()`, `getEmail()`, `getSenhaHash()`, `getTipoUsuario()`, `getPersonagens()`, `getDataCriacao()`.
 
 ### ✅ Critérios de Aceite:
 * Criação de conta com tipo de usuário padrão `'JOGADOR'` ou customizado.
