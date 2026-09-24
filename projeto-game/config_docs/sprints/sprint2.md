@@ -24,44 +24,46 @@
 
 ---
 
-## 🎫 Chamado 0: A Conta do Jogador (`Usuario.ts`)
+## 🎫 Chamado 0: A Conta do Jogador (`usuario.ts`)
 
-* **Status:** ⚪ A Fazer
+* **Status:** Concluído ✅
 * **Prioridade:** Alta
-* **Arquivo:** `backend/src/dominio/entidades/Usuario.ts`
+* **Arquivo:** `backend/src/dominio/entidades/usuario.ts`
 
 ### 💡 Por que este arquivo existe?
-No jogo, o jogador precisa ter uma conta de acesso com suas credenciais seguras e poder gerenciar seus heróis criados. Um usuário pode ter múltiplos personagens (ex: um guerreiro focado em força e outro ladino ágil), mas apenas personagens ativos participam das jornadas.
+No jogo, o jogador precisa ter uma conta de acesso com suas credenciais seguras e poder gerenciar seus heróis criados. Um usuário pode ter múltiplos personagens (ex: um guerreiro focado em força e outro ladino ágil), com controle de limite por conta (máximo 5), distinção de perfis de permissão (Jogador vs Administrador - Requisitos RF13 e RN08) e filtro de personagens ativos (Soft Delete).
 
 ### 🎓 Conceitos de POO Aplicados:
 * **Composição / Agregação:** A classe `Usuario` agrega uma coleção de instâncias de `Personagem`.
-* **Encapsulamento Estrito:** A senha nunca fica exposta publicamente e a lista de personagens só pode ser manipulada através de métodos da classe (impedindo adições diretas no array).
+* **Encapsulamento Estrito:** A senha e o perfil ficam protegidos por campos privados e a lista de personagens só pode ser manipulada através dos métodos da própria classe.
+* **Segurança e Regras de Negócio:** Métodos de autenticação, alteração de credenciais e verificação de privilégios administrativos.
 
-### 📝 O que a classe deve conter:
-1. **Atributos Privados:**
-   * `id: string` (identificador único da conta)
+### 📝 O que a classe contém:
+1. **Tipos Auxiliares:**
+   * `TipoUsuario = 'JOGADOR' | 'ADMINISTRADOR'`
+2. **Atributos Privados:**
+   * `id: number` (identificador único da conta)
    * `nome: string` (nome de exibição)
    * `email: string` (email único para login)
-   * `senhaHash: string` (hash seguro da senha - a senha crua nunca é salva)
+   * `senha: string` (credencial de acesso)
+   * `tipoUsuario: TipoUsuario` (perfil padrão `'JOGADOR'` ou `'ADMINISTRADOR'`)
    * `personagens: Personagem[]` (lista de heróis vinculados à conta)
    * `dataCriacao: Date`
-2. **Construtor:**
-   * Recebe `id`, `nome`, `email`, `senhaHash` e inicializa a lista vazia de personagens.
 3. **Métodos de Domínio:**
-   * `adicionarPersonagem(personagem: Personagem): void`:
-     * Valida se o usuário já não atingiu o limite de heróis por conta (ex: máximo de 5 personagens).
-   * `obterPersonagensAtivos(): Personagem[]`:
-     * Retorna apenas os heróis cujo atributo `ativo === true` (respeitando o Soft Delete implementado na Sprint 1).
-   * `obterPersonagemPorId(id: string): Personagem | undefined`:
-     * Localiza um personagem específico dentro do arsenal do usuário.
-   * `removerPersonagem(id: string): boolean`:
-     * Aplica o `inativar()` no personagem correspondente (Soft Delete).
-   * Getters para `id`, `nome`, `email` e `dataCriacao`.
+   * `autenticar(senhaInformada: string): boolean`: Valida se a senha informada corresponde à senha do usuário.
+   * `alterarSenha(senhaAtual: string, novaSenha: string): boolean`: Valida a senha atual e o tamanho mínimo antes de atualizar.
+   * `ehAdministrador(): boolean`: Retorna `true` se o usuário tiver perfil `'ADMINISTRADOR'`.
+   * `adicionarPersonagem(personagem: Personagem): void`: Adiciona o herói respeitando o limite máximo de 5 personagens.
+   * `obterPersonagensAtivos(): Personagem[]`: Retorna apenas os heróis com `ativo === true` (Soft Delete).
+   * `obterPersonagemPorId(id: number | string): Personagem | undefined`: Localiza um personagem específico no arsenal.
+   * `inativarPersonagem(id: number | string): string`: Aciona `personagem.inativar()` no herói desejado.
+   * Getters para todos os atributos necessários.
 
 ### ✅ Critérios de Aceite:
-* Criação de conta validando dados obrigatórios.
-* Associação correta de instâncias de `Personagem`.
+* Criação de conta com tipo de usuário padrão `'JOGADOR'` ou customizado.
+* Associação correta de instâncias de `Personagem` respeitando o teto de 5 heróis.
 * Filtro de personagens ativos ignorando os inativados (`ativo = false`).
+* Verificação de perfil administrativo via `ehAdministrador()`.
 
 ---
 
@@ -231,7 +233,7 @@ O `MotorCombate` mantém o estado atual da sessão:
 
 | Chamado | Descrição | Responsável | Status |
 | :--- | :--- | :--- | :--- |
-| **Chamado 0** | Criação da entidade `Usuario.ts` (Gestão de conta e múltiplos heróis) | Gabriel / Antigravity | ⚪ A Fazer |
+| **Chamado 0** | Criação da entidade `usuario.ts` (Gestão de conta e múltiplos heróis) | Gabriel / Antigravity | 🟢 Concluído |
 | **Chamado 1** | Criação da entidade `EntradaCodice.ts` (Enciclopédia de Vaslen e busca textual) | Gabriel / Antigravity | ⚪ A Fazer |
 | **Chamado 2** | Fábricas de Domínio (`FabricaItens`, `FabricaMonstros`, `FabricaCodice`) | Gabriel / Antigravity | ⚪ A Fazer |
 | **Chamado 3** | Serviço de Domínio `CalculadoraCombate.ts` (Fórmulas de dano, defesa e crítico) | Gabriel / Antigravity | ⚪ A Fazer |
