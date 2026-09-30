@@ -69,7 +69,7 @@ No jogo, o jogador precisa ter uma conta de acesso com suas credenciais seguras 
 
 ## 🎫 Chamado 1: O Códice do Mundo de Vaslen (`EntradaCodice.ts`)
 
-* **Status:** ⚪ A Fazer
+* **Status:** Concluído ✅
 * **Prioridade:** Média
 * **Arquivo:** `backend/src/dominio/entidades/EntradaCodice.ts`
 
@@ -105,7 +105,7 @@ O Códice é o repositório enciclopédico do jogo, contendo histórias dos deus
 
 ## 🎫 Chamado 2: Fábricas de Conteúdo de Fábrica (`dominio/fabricas/`)
 
-* **Status:** ⚪ A Fazer
+* **Status:** Em Andamento 🟡 (FabricaItens concluída ✅)
 * **Prioridade:** Alta
 * **Arquivos:**
   * `backend/src/dominio/fabricas/FabricaItens.ts`
@@ -234,8 +234,8 @@ O `MotorCombate` mantém o estado atual da sessão:
 | Chamado | Descrição | Responsável | Status |
 | :--- | :--- | :--- | :--- |
 | **Chamado 0** | Criação da entidade `usuario.ts` (Gestão de conta e múltiplos heróis) | Gabriel / Antigravity | 🟢 Concluído |
-| **Chamado 1** | Criação da entidade `EntradaCodice.ts` (Enciclopédia de Vaslen e busca textual) | Gabriel / Antigravity | ⚪ A Fazer |
-| **Chamado 2** | Fábricas de Domínio (`FabricaItens`, `FabricaMonstros`, `FabricaCodice`) | Gabriel / Antigravity | ⚪ A Fazer |
+| **Chamado 1** | Criação da entidade `EntradaCodice.ts` (Enciclopédia de Vaslen e busca textual) | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 2** | Fábricas de Domínio (`FabricaItens`, `FabricaMonstros`, `FabricaCodice`) | Gabriel / Antigravity | 🟡 Em Andamento (FabricaItens ✅) |
 | **Chamado 3** | Serviço de Domínio `CalculadoraCombate.ts` (Fórmulas de dano, defesa e crítico) | Gabriel / Antigravity | ⚪ A Fazer |
 | **Chamado 4** | Orquestrador de Sessão `MotorCombate.ts` (Turnos, estados, loot e XP) | Gabriel / Antigravity | ⚪ A Fazer |
 | **Chamado 5** | Testes de Integração em `testes/teste_motor_e_codice.ts` | Antigravity / Gabriel | ⚪ A Fazer |
