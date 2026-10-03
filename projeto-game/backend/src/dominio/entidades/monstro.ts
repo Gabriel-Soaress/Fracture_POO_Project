@@ -1,11 +1,21 @@
 import { EntidadeCombatente } from "./EntidadeCombatente";
 import { Item } from "./Item";
 
+export type BiomaVaslen =
+    | 'CRIPTAS'
+    | 'BOSQUE_SOMBRIO'
+    | 'LABIRINTO_CINZAS'
+    | 'PANTANO_PETRIFICANTE'
+    | 'COLINAS_LUA_SANGUE'
+    | 'LIMBO_ESPECTRAL'
+    | 'PINACULO_ECLIPSE';
+
 export class Monstro extends EntidadeCombatente {
     public tipoMonstro: 'COMUM' | 'ELITE' | 'CHEFE';
     public experienciaConcedida: number;
     public descricaoLore: string;
     public itemRecompensa?: Item;
+    public bioma: BiomaVaslen | string;
 
     constructor(
         nome: string,
@@ -20,6 +30,7 @@ export class Monstro extends EntidadeCombatente {
         experienciaConcedida: number,
         descricaoLore: string,
         itemRecompensa?: Item,
+        bioma: BiomaVaslen | string = 'CRIPTAS',
         id?: number
     ) {
         super(nome, nivel, vidaMaxima, vidaAtual, energiaMaxima, forca, defesa, agilidade, id);
@@ -27,6 +38,7 @@ export class Monstro extends EntidadeCombatente {
         this.experienciaConcedida = experienciaConcedida;
         this.descricaoLore = descricaoLore;
         this.itemRecompensa = itemRecompensa;
+        this.bioma = bioma;
     }
 
     ataque(alvo: EntidadeCombatente, tipoAtaque: number): string {
@@ -152,5 +164,9 @@ export class Monstro extends EntidadeCombatente {
 
     getItemRecompensa(): Item | undefined {
         return this.itemRecompensa;
+    }
+
+    getBioma(): string {
+        return this.bioma;
     }
 }

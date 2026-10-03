@@ -105,18 +105,18 @@ O Códice é o repositório enciclopédico do jogo, contendo histórias dos deus
 
 ## 🎫 Chamado 2: Fábricas de Conteúdo de Fábrica (`dominio/fabricas/`)
 
-* **Status:** Em Andamento 🟡 (FabricaItens concluída ✅)
+* **Status:** Concluído ✅
 * **Prioridade:** Alta
 * **Arquivos:**
-  * `backend/src/dominio/fabricas/FabricaItens.ts`
-  * `backend/src/dominio/fabricas/FabricaMonstros.ts`
-  * `backend/src/dominio/fabricas/FabricaCodice.ts`
+  * `backend/src/dominio/fabricas/FabricaItens.ts` (Concluída ✅)
+  * `backend/src/dominio/fabricas/FabricaMonstros.ts` (Concluída ✅)
+  * `backend/src/dominio/fabricas/FabricaCodice.ts` (Concluída ✅)
 
 ### 💡 Por que esses arquivos existem?
 Conforme alinhamos, o ecossistema de Vaslen tem dezenas de itens de loot, criaturas e páginas de história que não devem ser codificados aleatoriamente em testes ou controladores. O padrão de projeto **Factory (Fábrica)** centraliza e padroniza a criação de instâncias canônicas do jogo.
 
 ### 🎓 Conceito de POO: Padrão de Projeto Factory (Fábrica)
-Em vez de espalhar `new Monstro(...)` ou `new Item(...)` com dezenas de parâmetros pelo projeto inteiro, usamos métodos estáticos (`FabricaMonstros.criarCriaDaNévoa()`) que encapsulam os atributos canônicos, balanceamento e loots apropriados.
+Em vez de espalhar `new Monstro(...)` ou `new Item(...)` com dezenas de parâmetros pelo projeto inteiro, usamos métodos estáticos (`FabricaMonstros.criarKitsuneNoveEcos()`) que encapsulam os atributos canônicos, balanceamento e loots apropriados.
 
 ### 📝 Especificações de cada Fábrica:
 
@@ -126,26 +126,52 @@ Em vez de espalhar `new Monstro(...)` ou `new Item(...)` com dezenas de parâmet
   * `criarPocaoVidaMaior(): Item` (+70 Vida)
   * `criarElixirEnergia(): Item` (+40 Energia)
   * `criarFrascoReforcoDano(): Item` (+8 Dano Bônus)
-  * `criarExtratoNevoaPurificada(): Item` (+50 Vida, +30 Energia)
+  * `criarExtratoNevoaPurificada(): Item` (+50 Vida, +30 Energia via classe polimórfica `ItemComposto`)
+  * `obterCatalogo(): Item[]`
 
-#### 2. `FabricaMonstros.ts`:
-* Métodos estáticos criando as feras de Vaslen, com atributos calculados e itens de loot definidos:
-  * `criarRastejanteDaNevoa(): Monstro` (Comum, nível baixo, dropa `PocaoVidaMenor`)
-  * `criarSentinelaDePedraCorrompida(): Monstro` (Elite, alta defesa, dropa `FrascoReforcoDano`)
-  * `criarDevoradorDeEcos(): Monstro` (Chefe, golpes brutais, alta estamina, dropa `ExtratoNevoaPurificada`)
-  * `obterCatalogo(): Monstro[]` (retorna lista de modelos de monstros disponíveis para sorteio de encontros)
+#### 2. `FabricaMonstros.ts` (Organizada pelos 7 Biomas canônicos e sprites do front):
+* **Criptas de Vaslen (`CRIPTAS` - Esqueletos):**
+  * `criarGuerreiroEsqueletico(): Monstro` (Nível 1, Comum, drop: `PocaoVidaMenor`)
+  * `criarLanceiroEsqueletico(): Monstro` (Nível 2, Comum, drop: `PocaoVidaMenor`)
+  * `criarArqueiroEspectral(): Monstro` (Nível 3, Elite, drop: `ElixirEnergia`)
+* **Bosque Sombrio (`BOSQUE_SOMBRIO` - Sátiros):**
+  * `criarDegoladorSatiro(): Monstro` (Nível 3, Comum, drop: `PocaoVidaMenor`)
+  * `criarXamaDosChifres(): Monstro` (Nível 4, Elite, drop: `ElixirEnergia`)
+  * `criarLordeCarniceiro(): Monstro` (Nível 5, Elite, drop: `FrascoReforcoDano`)
+* **Labirinto de Cinzas (`LABIRINTO_CINZAS` - Minotauros):**
+  * `criarBrutoDoLabirinto(): Monstro` (Nível 5, Comum, drop: `PocaoVidaMenor`)
+  * `criarRompedorDeFalanges(): Monstro` (Nível 6, Elite, drop: `FrascoReforcoDano`)
+  * `criarGeneralTaurico(): Monstro` (Nível 7, Elite, drop: `PocaoVidaMaior`)
+* **Pântano Petrificante (`PANTANO_PETRIFICANTE` - Górgones):**
+  * `criarDonzelaRastejante(): Monstro` (Nível 7, Comum, drop: `PocaoVidaMenor`)
+  * `criarGorgoneOlharCinzento(): Monstro` (Nível 8, Elite, drop: `ElixirEnergia`)
+  * `criarMatriarcaGorgone(): Monstro` (Nível 9, Chefe 👑, drop: `PocaoVidaMaior`)
+* **Colinas da Lua de Sangue (`COLINAS_LUA_SANGUE` - Lobisomens):**
+  * `criarEspreitadorDaNoite(): Monstro` (Nível 8, Comum, drop: `ElixirEnergia`)
+  * `criarFeraCarmesim(): Monstro` (Nível 9, Elite, drop: `FrascoReforcoDano`)
+  * `criarAlfaAlbinoDeVaslen(): Monstro` (Nível 10, Chefe 👑, drop: `ExtratoNevoaPurificada`)
+* **Limbo Espectral (`LIMBO_ESPECTRAL` - Youkais / Espectros):**
+  * `criarGotokuDasChamas(): Monstro` (Nível 9, Comum, drop: `ElixirEnergia`)
+  * `criarYureiAguasMortas(): Monstro` (Nível 10, Elite, drop: `ElixirEnergia`)
+  * `criarOnryoDoRancor(): Monstro` (Nível 11, Chefe 👑, drop: `ExtratoNevoaPurificada`)
+* **Pináculo do Eclipse (`PINACULO_ECLIPSE` - Tengu / Kitsune):**
+  * `criarKarasuTengu(): Monstro` (Nível 10, Elite, drop: `FrascoReforcoDano`)
+  * `criarYamabushiDosPicos(): Monstro` (Nível 11, Elite, drop: `PocaoVidaMaior`)
+  * `criarKitsuneNoveEcos(): Monstro` (Nível 12, Chefe Supremo 👑, drop: `ExtratoNevoaPurificada`)
+* **Métodos Utilitários de Domínio:**
+  * `obterCatalogo(): Monstro[]` (Catálogo com os 21 monstros)
+  * `obterPorBioma(bioma): Monstro[]` (Filtro por bioma)
+  * `sortearPorBioma(bioma): Monstro` (Sorteador de encontros)
 
 #### 3. `FabricaCodice.ts`:
 * Métodos estáticos gerando as entradas oficiais da enciclopédia:
   * `criarEntradasIniciais(): EntradaCodice[]`:
-    * Verbete 1: "A Grande Fratura de Vaslen" (História)
-    * Verbete 2: "Crias da Névoa Corrompida" (Monstro)
-    * Verbete 3: "O Elixir dos Ecos Antigos" (Relíquia)
-    * Verbete 4: "O Vale dos Ossos Silenciosos" (Região)
+    * Verbetes de História, Regiões dos 7 Biomas, Monstros e Relíquias canônicas.
 
 ### ✅ Critérios de Aceite:
 * Cada fábrica gera instâncias novas, válidas e prontas para uso.
 * Monstros criados por fábrica contam com itens de loot devidamente associados via `droparLoot()`.
+* Filtragem e sorteio por bioma funcionando corretamente.
 
 ---
 
@@ -235,7 +261,7 @@ O `MotorCombate` mantém o estado atual da sessão:
 | :--- | :--- | :--- | :--- |
 | **Chamado 0** | Criação da entidade `usuario.ts` (Gestão de conta e múltiplos heróis) | Gabriel / Antigravity | 🟢 Concluído |
 | **Chamado 1** | Criação da entidade `EntradaCodice.ts` (Enciclopédia de Vaslen e busca textual) | Gabriel / Antigravity | 🟢 Concluído |
-| **Chamado 2** | Fábricas de Domínio (`FabricaItens`, `FabricaMonstros`, `FabricaCodice`) | Gabriel / Antigravity | 🟡 Em Andamento (FabricaItens ✅) |
+| **Chamado 2** | Fábricas de Domínio (`FabricaItens`, `FabricaMonstros`, `FabricaCodice`) | Gabriel / Antigravity | 🟢 Concluído |
 | **Chamado 3** | Serviço de Domínio `CalculadoraCombate.ts` (Fórmulas de dano, defesa e crítico) | Gabriel / Antigravity | ⚪ A Fazer |
 | **Chamado 4** | Orquestrador de Sessão `MotorCombate.ts` (Turnos, estados, loot e XP) | Gabriel / Antigravity | ⚪ A Fazer |
 | **Chamado 5** | Testes de Integração em `testes/teste_motor_e_codice.ts` | Antigravity / Gabriel | ⚪ A Fazer |
