@@ -163,25 +163,29 @@ Permite à interface web consultar a enciclopédia viva de Vaslen para leitura d
 O combate ocorre em turnos. Quando o jogador clica em "Iniciar Batalha", uma sessão é aberta vinculando seu `Personagem` a um `Monstro` sorteado de fábrica. A cada rodada, o jogador envia sua ação, o servidor processa o turno no `MotorCombate`, atualiza o estado e devolve o feedback visual imediato.
 
 ### 📝 Endpoints a Implementar:
-1. **`POST /api/combate/iniciar`** (Protegido por JWT):
-   * *Body:* `{ personagemId, tipoMonstro?: 'COMUM' | 'ELITE' | 'CHEFE' }`
+1. **`GET /api/combate/mural/:bioma`** (Protegido por JWT):
+   * Retorna os monstros daquele bioma indicando quais o personagem já eliminou (`status: 'ELIMINADO' | 'DISPONIVEL'`), loot associado e nível recomendado.
+2. **`POST /api/combate/iniciar`** (Protegido por JWT):
+   * *Body:* `{ personagemId, monstroId: number }`
    * Carrega o herói ativo do banco.
-   * Cria o monstro apropriado via `FabricaMonstros`.
+   * Validação do Mural: Se `heroi.jaDerrotouMonstro(monstroId) === true`, rejeita a requisição com `400 Bad Request` ("Este monstro já foi expurgado de Vaslen").
+   * Cria a instância canônica do monstro a partir da `FabricaMonstros`.
    * Inicializa o `MotorCombate` e armazena a sessão ativa na memória/cache.
    * Retorna os dados iniciais do encontro (quem tem iniciativa, status de vida e energia de ambos).
-2. **`POST /api/combate/turno`** (Protegido por JWT):
+3. **`POST /api/combate/turno`** (Protegido por JWT):
    * *Body:* `{ sessaoId, acao: { tipo: 'ATACAR' | 'DEFENDER' | 'USAR_ITEM', indiceAtaque?: number, idItem?: string } }`
    * Executa a jogada do jogador e a IA autônoma do monstro via `motorCombate.processarAcaoJogador(acao)`.
    * Se a batalha terminar:
-     * **Vitória:** Persiste o XP ganho e o item dropado no banco de dados do herói via `PersonagemRepositorio`.
+     * **Vitória:** Registra a eliminação do monstro no herói (`heroi.registrarVitoriaContraMonstro(monstroId)`), persiste o XP ganho e o item dropado no banco de dados via `PersonagemRepositorio`.
      * **Derrota:** Inativa o personagem no banco de dados (`ativo = false`).
    * Retorna o relatório do turno (danos, esquivas, gastos de energia e log de texto narrativo).
-3. **`GET /api/combate/:sessaoId`** (Protegido por JWT):
+4. **`GET /api/combate/:sessaoId`** (Protegido por JWT):
    * Retorna o estado atual da batalha em andamento.
 
 ### ✅ Critérios de Aceite:
 * Jogador não pode agir fora do seu turno ou em batalhas já encerradas.
-* Vitória atualiza inventário e XP do personagem no banco de forma atômica.
+* Bloqueio estrito de combate contra monstros já derrotados (anti-farm infinito).
+* Vitória atualiza inventário, monstros derrotados e XP do personagem no banco de forma atômica.
 * Derrota inativa o personagem com confirmação de Soft Delete.
 
 ---

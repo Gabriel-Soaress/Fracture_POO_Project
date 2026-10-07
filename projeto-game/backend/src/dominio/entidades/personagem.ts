@@ -1,7 +1,7 @@
 import { EntidadeCombatente } from "./EntidadeCombatente";
 import { Item } from "./Item";
 
-export class Personagem extends EntidadeCombatente{
+export class Personagem extends EntidadeCombatente {
     public classeHeroi: 'GUERREIRO' | 'MAGO' | 'ARQUEIRO';
     public experienciaAtual: number;
     public experienciaNecessaria: number;
@@ -9,6 +9,7 @@ export class Personagem extends EntidadeCombatente{
     public ativo: boolean;
     public idUsuario: string | number;
     public inventario: Item[];
+    public monstrosDerrotados: number[];
 
     constructor(
         nome: string,
@@ -26,7 +27,8 @@ export class Personagem extends EntidadeCombatente{
         ativo: boolean,
         idUsuario: string | number,
         inventario: Item[] = [],
-        id?: number
+        id?: number,
+        monstrosDerrotados: number[] = []
     ) {
         super(nome, nivel, vidaMaxima, vidaAtual, energiaMaxima, forca, defesa, agilidade, id);
         this.classeHeroi = classeHeroi;
@@ -36,24 +38,23 @@ export class Personagem extends EntidadeCombatente{
         this.ativo = ativo;
         this.idUsuario = idUsuario;
         this.inventario = inventario;
+        this.monstrosDerrotados = monstrosDerrotados;
 
-        if(forca + defesa + agilidade !=20){
+        if (forca + defesa + agilidade !== 20) {
             throw new Error("Erro ao cadastrar personagem: A soma das estatísticas deve ser igual a 20.");
         }
-
-        
     }
 
-    adicionarItemAoInventario(item: Item): string{
+    adicionarItemAoInventario(item: Item): string {
         this.inventario.push(item);
-        return `Item ${item.getNome()} foi adicionado ao inventário.`; 
+        return `Item ${item.getNome()} foi adicionado ao inventário.`;
     }
 
-    usarItemDoInventario(indice: number, alvo: EntidadeCombatente):string{
+    usarItemDoInventario(indice: number, alvo: EntidadeCombatente): string {
         const item = this.inventario[indice];
         item.aplicarEfeito(alvo);
-        this.inventario.splice(indice, 1);    
-        return `Item ${item.getNome()} foi usado em ${alvo.getNome()}.`;  
+        this.inventario.splice(indice, 1);
+        return `Item ${item.getNome()} foi usado em ${alvo.getNome()}.`;
     }
 
     ataque(alvo: EntidadeCombatente, tipoAtaque: number): string {
@@ -61,7 +62,7 @@ export class Personagem extends EntidadeCombatente{
             const custo = Math.round(this.energiaMaxima * 0.10);
             if (this.gastarEnergia(custo)) {
                 const dano = super.atacar(alvo, 1);
-                return `${this.nome} atacou ${alvo.getNome()} com ${dano} de dano.`;
+                return `${this.nome} desferiu um Golpe Rápido em ${alvo.getNome()} com ${dano} de dano.`;
             } else {
                 return `${this.nome} não tem energia para atacar.`;
             }
@@ -69,7 +70,7 @@ export class Personagem extends EntidadeCombatente{
             const custo = Math.round(this.energiaMaxima * 0.25);
             if (this.gastarEnergia(custo)) {
                 const dano = super.atacar(alvo, 1.5);
-                return `${this.nome} atacou ${alvo.getNome()} com ${dano} de dano.`;
+                return `${this.nome} desferiu um Golpe Pesado em ${alvo.getNome()} com ${dano} de dano.`;
             } else {
                 return `${this.nome} não tem energia para atacar.`;
             }
@@ -77,7 +78,7 @@ export class Personagem extends EntidadeCombatente{
             const custo = Math.round(this.energiaMaxima * 0.35);
             if (this.gastarEnergia(custo)) {
                 const dano = super.atacar(alvo, 1.7);
-                return `${this.nome} atacou ${alvo.getNome()} com ${dano} de dano.`;
+                return `${this.nome} desferiu um Ataque Brutal em ${alvo.getNome()} com ${dano} de dano.`;
             } else {
                 return `${this.nome} não tem energia para atacar.`;
             }
@@ -87,38 +88,33 @@ export class Personagem extends EntidadeCombatente{
     }
 
     executarAcaoEspecial(alvo: EntidadeCombatente): string {
-        if (this.classeHeroi === 'GUERREIRO') {
-            if (!this.gastarEnergia(Math.round(this.energiaMaxima * 0.5))) {
-                return `${this.nome} não tem energia suficiente para usar a ação especial (necessário 50).`;
-            }
-            this.aplicarModificadorDano(1.5);
-            return `${this.nome} ativou o modo fúria gastando 50 de energia! Seu dano foi aumentado em 1.5x neste turno.`;
-        } else if (this.classeHeroi === 'MAGO') {
-            this.recuperarEnergia(this.energiaMaxima);
-            this.aplicarModificadorDano(0.5);
-            return `${this.nome} canalizou suas forças e recuperou toda a sua energia instantaneamente, mas seu dano foi reduzido em 50% neste turno.`;
-        } else if (this.classeHeroi === 'ARQUEIRO') {
-            const itensPossiveis = [
-                new Item(Date.now(), 'Poção de Vida', 'CURA_VIDA', 30, 'Recupera 30 pontos de vida.'),
-                new Item(Date.now() + 1, 'Poção de Energia', 'RECUPERA_ENERGIA', 30, 'Recupera 30 pontos de energia.'),
-                new Item(Date.now() + 2, 'Flecha Precisa', 'REFORCO_DANO', 1.3, 'Aumenta o modificador de dano em 30%.')
-            ];
-            const itemSorteado = itensPossiveis[Math.floor(Math.random() * itensPossiveis.length)];
-            this.adicionarItemAoInventario(itemSorteado);
-            return `${this.nome} vasculhou seus suprimentos de arqueiro e obteve um item extra: ${itemSorteado.getNome()}!`;
+        const custo = Math.round(this.energiaMaxima * 0.40);
+
+        if (!this.gastarEnergia(custo)) {
+            return `${this.nome} tentou usar sua habilidade especial, mas não tem energia suficiente!`;
         }
 
-        return "Classe não possui ação especial definida.";
+        if (this.classeHeroi === 'GUERREIRO') {
+            const dano = super.atacar(alvo, 2.0);
+            return `⚔️ [GOLPE DEVASTADOR] ${this.nome} desferiu um golpe esmagador com sua espada em ${alvo.getNome()} causando ${dano} de dano!`;
+        } else if (this.classeHeroi === 'MAGO') {
+            const dano = super.atacar(alvo, 2.2);
+            return `🔥 [EXPLOSÃO ARCANA] ${this.nome} canalizou os ecos da Fratura e atingiu ${alvo.getNome()} com ${dano} de dano mágico!`;
+        } else if (this.classeHeroi === 'ARQUEIRO') {
+            const dano = super.atacar(alvo, 1.9);
+            return `🏹 [DISPARO PERFURANTE] ${this.nome} disparou uma flecha certeira no ponto vital de ${alvo.getNome()} causando ${dano} de dano!`;
+        }
+
+        return `${this.nome} executou uma ação especial em ${alvo.getNome()}.`;
     }
 
-    ganharExperiencia(qtd: number): void {
-        if (qtd <= 0) return;
-        this.experienciaAtual += qtd;
+    ganharExperiencia(quantidade: number): void {
+        this.experienciaAtual += quantidade;
         while (this.experienciaAtual >= this.experienciaNecessaria) {
             this.subirNivel();
         }
     }
-    
+
     subirNivel(): void {
         this.nivel += 1;
         this.experienciaAtual -= this.experienciaNecessaria;
@@ -143,9 +139,22 @@ export class Personagem extends EntidadeCombatente{
         this.agilidade += agilidadeAdd;
         this.pontosLivres -= total;
     }
-    
+
     inativar(): void {
         this.ativo = false;
     }
-    
+
+    registrarVitoriaContraMonstro(idMonstro: number): void {
+        if (!this.monstrosDerrotados.includes(idMonstro)) {
+            this.monstrosDerrotados.push(idMonstro);
+        }
+    }
+
+    jaDerrotouMonstro(idMonstro: number): boolean {
+        return this.monstrosDerrotados.includes(idMonstro);
+    }
+
+    obterTotalMonstrosDerrotados(): number {
+        return this.monstrosDerrotados.length;
+    }
 }

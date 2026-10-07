@@ -64,6 +64,7 @@ O projeto consiste em um jogo de RPG de batalhas por turnos baseado em navegador
 | 22/09/2026 | Conclusão da Sprint 1 e Validação de Combate com 50/50 | Implementação 100% testada do domínio de combate (`EntidadeCombatente`, `Personagem`, `Monstro`, `Item`) e simulação justa com d10/ações autônomas. | Usuário & IA |
 | 22/09/2026 | Arquitetura de Conteúdo de Fábrica vs. Dinâmico | Monstros, itens de loot e verbetes do Códice são criados canonicamente por Fábricas (`dominio/fabricas/`). Usuários, heróis e sessões de combate são criados dinamicamente. | Usuário & IA |
 | 22/09/2026 | Planejamento Integrado das Sprints 2, 3 e 4 | Formalização detalhada dos documentos `sprint2.md` (Catálogo, Orquestração e Códice), `sprint3.md` (Persistência e Banco) e `sprint4.md` (API Express RESTful) com política de auto-atualização contínua. | Usuário & IA |
+| 06/10/2026 | Mural de Caçadas Únicas e Fim do Farm Infinito | Cada um dos 21 monstros dos 7 biomas é um alvo único de caçada (`monstrosDerrotados[]`). Derrotou, o monstro é expurgado e a recompensa é concedida uma única vez, valorizando cada loot e forçando gestão estratégica de risco. | Usuário & IA |
 
 
 

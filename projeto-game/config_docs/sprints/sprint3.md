@@ -91,6 +91,7 @@ O banco de dados precisa representar as relações do mundo real do nosso jogo c
 * `agilidade`: Int
 * `pontosLivres`: Int (inicia em 0)
 * `ativo`: Boolean (padrão `true` - **Suporte a Soft Delete!**)
+* `monstrosDerrotados`: String (JSON ou lista delimitada de IDs de monstros eliminados no Mural de Caçadas)
 * `criadoEm`: DateTime (padrão `now()`)
 * Relações: `usuario` e `itens` (`ItemInventario[]`)
 

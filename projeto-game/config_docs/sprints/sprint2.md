@@ -227,15 +227,17 @@ O `MotorCombate` mantém o estado atual da sessão:
 * `estadoBatalha: 'EM_ANDAMENTO' | 'VITORIA_JOGADOR' | 'DERROTA_JOGADOR'`
 
 ### 📝 Métodos Principais:
-1. `iniciarCombate(): { primeiroAJogar: string, mensagem: string }`
+1. `iniciarCombate(): { primeiroAJogar: string, mensagem: string }`:
+   * Valida se o herói já derrotou este monstro (`heroi.jaDerrotouMonstro(monstro.getId())`). Se já derrotou, impede a batalha com erro explicativo (Mural de Caçadas Únicas).
 2. `processarAcaoJogador(acao: { tipo: 'ATACAR' | 'DEFENDER' | 'USAR_ITEM', indiceAtaque?: number, idItem?: string }): ResultadoTurno`
 3. `finalizarCombate(): RelatorioFimBatalha`:
-   * Em caso de vitória: coleta loot do monstro (`droparLoot()`), adiciona ao inventário do herói e entrega o XP.
-   * Em caso de derrota: aciona `heroi.inativar()` (Soft Delete).
+   * Em caso de vitória: registra a eliminação no herói (`heroi.registrarVitoriaContraMonstro(monstro.getId())`), coleta loot do monstro (`droparLoot()`), adiciona ao inventário do herói e entrega o XP.
+   * Em caso de derrota: aciona `heroi.inativar()` (Soft Delete permanente).
 
 ### ✅ Critérios de Aceite:
 * Transições de estado precisas entre `EM_ANDAMENTO`, `VITORIA_JOGADOR` e `DERROTA_JOGADOR`.
 * Loot e XP repassados de forma segura e transparente.
+* Bloqueio estrito de lutas repetidas contra monstros já caçados (anti-farm infinito).
 
 ---
 

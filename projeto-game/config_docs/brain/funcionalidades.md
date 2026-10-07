@@ -49,6 +49,11 @@ Este documento mapeia todas as funcionalidades que serão desenvolvidas no siste
 *   **Localização**: `[PENDENTE - A implementar]`
 *   **Chamada de Exemplo**: `[PENDENTE]`
 
+### 3. Mural de Caçadas Únicas (Seleção de Alvos por Bioma)
+*   **Descrição**: Exibição dos 21 alvos lendários distribuídos nos 7 biomas de Vaslen. Cada monstro derrotado é marcado como concluído (`monstrosDerrotados[]`), impedindo farm infinito e garantindo loot/XP únicos. O jogador escolhe se enfrenta os monstros em ordem linear ou se arrisca enfrentar chefes precocemente sob risco de Soft Delete.
+*   **Localização**: `[IMPLEMENTADO NO DOMÍNIO - Personagem.ts / FabricaMonstros.ts]`
+*   **Chamada de Exemplo**: `personagem.jaDerrotouMonstro(idMonstro)`
+
 ---
 
 ## ⚔️ Mecânica de Combate (Processo Principal)
