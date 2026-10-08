@@ -177,7 +177,7 @@ Em vez de espalhar `new Monstro(...)` ou `new Item(...)` com dezenas de parâmet
 
 ## 🎫 Chamado 3: Serviço Matemático de Combate (`CalculadoraCombate.ts`)
 
-* **Status:** ⚪ A Fazer
+* **Status:** Concluído ✅
 * **Prioridade:** Média
 * **Arquivo:** `backend/src/dominio/servicos/CalculadoraCombate.ts`
 
@@ -264,7 +264,7 @@ O `MotorCombate` mantém o estado atual da sessão:
 | **Chamado 0** | Criação da entidade `usuario.ts` (Gestão de conta e múltiplos heróis) | Gabriel / Antigravity | 🟢 Concluído |
 | **Chamado 1** | Criação da entidade `EntradaCodice.ts` (Enciclopédia de Vaslen e busca textual) | Gabriel / Antigravity | 🟢 Concluído |
 | **Chamado 2** | Fábricas de Domínio (`FabricaItens`, `FabricaMonstros`, `FabricaCodice`) | Gabriel / Antigravity | 🟢 Concluído |
-| **Chamado 3** | Serviço de Domínio `CalculadoraCombate.ts` (Fórmulas de dano, defesa e crítico) | Gabriel / Antigravity | ⚪ A Fazer |
+| **Chamado 3** | Serviço de Domínio `CalculadoraCombate.ts` (Fórmulas de dano, defesa e crítico) | Gabriel / Antigravity | 🟢 Concluído |
 | **Chamado 4** | Orquestrador de Sessão `MotorCombate.ts` (Turnos, estados, loot e XP) | Gabriel / Antigravity | ⚪ A Fazer |
 | **Chamado 5** | Testes de Integração em `testes/teste_motor_e_codice.ts` | Antigravity / Gabriel | ⚪ A Fazer |
 
