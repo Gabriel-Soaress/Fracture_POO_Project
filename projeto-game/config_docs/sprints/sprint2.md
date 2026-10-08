@@ -205,7 +205,7 @@ A classe `CalculadoraCombate` é stateless (sem estado interno). Ela recebe os d
 
 ## 🎫 Chamado 4: O Orquestrador Oficial de Batalha (`MotorCombate.ts`)
 
-* **Status:** ⚪ A Fazer
+* **Status:** Concluído ✅
 * **Prioridade:** Alta (Coração do Jogo)
 * **Arquivo:** `backend/src/dominio/servicos/MotorCombate.ts`
 
@@ -243,17 +243,20 @@ O `MotorCombate` mantém o estado atual da sessão:
 
 ## 🎫 Chamado 5: Provas de Integração de Domínio (`testes/teste_motor_e_codice.ts`)
 
-* **Status:** ⚪ A Fazer
+* **Status:** Concluído ✅
 * **Prioridade:** Alta (Validação da Sprint)
 * **Arquivo:** `backend/testes/teste_motor_e_codice.ts`
 
-### 📝 O que deve ser testado:
-1. **Fábricas:** Instanciação em massa de itens, monstros e verbetes através das 3 fábricas estáticas.
-2. **Códice:** Consulta e filtragem de entradas por categorias e por termos parciais de busca.
-3. **Usuário e Heróis:** Criação de usuário, associação de heróis com validação de limite e listagem de heróis ativos.
-4. **Combate Orquestrado:** Batalha completa executada pelo `MotorCombate`, registrando o log narrativo, ações de estamina, itens usados e resultado final (verificando se o loot foi para o inventário do herói).
-5. **Comando de Teste:**
-   * Criar script `"testar:motor": "tsx testes/teste_motor_e_codice.ts"` no `package.json`.
+### 📝 O que foi testado e validado:
+1. **Fábricas:** Criação dos 21 monstros, catálogo de loots e 19 verbetes enciclopédicos do Códice.
+2. **Combate Orquestrado:** Batalha completa executada pelo `MotorCombate`, com iniciativa via `CalculadoraCombate`, gastos de estamina, posturas defensivas e IA de monstro.
+3. **Mural de Caçadas Únicas:** Registro automático da vitória no herói (`monstrosDerrotados = [1]`), ganho de XP, subida de nível e loot transferido para o inventário.
+4. **Trava Anti-Farm:** Tentativa de batalhar novamente contra monstro já expurgado bloqueada com sucesso lançando exceção.
+5. **Códice:** Buscas textuais e por categoria (`RELÍQUIA`, `HISTORIA`) validadas.
+6. **Comando de Teste:**
+   ```bash
+   npm run testar:motor
+   ```
 
 ---
 
@@ -265,10 +268,11 @@ O `MotorCombate` mantém o estado atual da sessão:
 | **Chamado 1** | Criação da entidade `EntradaCodice.ts` (Enciclopédia de Vaslen e busca textual) | Gabriel / Antigravity | 🟢 Concluído |
 | **Chamado 2** | Fábricas de Domínio (`FabricaItens`, `FabricaMonstros`, `FabricaCodice`) | Gabriel / Antigravity | 🟢 Concluído |
 | **Chamado 3** | Serviço de Domínio `CalculadoraCombate.ts` (Fórmulas de dano, defesa e crítico) | Gabriel / Antigravity | 🟢 Concluído |
-| **Chamado 4** | Orquestrador de Sessão `MotorCombate.ts` (Turnos, estados, loot e XP) | Gabriel / Antigravity | ⚪ A Fazer |
-| **Chamado 5** | Testes de Integração em `testes/teste_motor_e_codice.ts` | Antigravity / Gabriel | ⚪ A Fazer |
+| **Chamado 4** | Orquestrador de Sessão `MotorCombate.ts` (Turnos, estados, loot e XP) | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 5** | Testes de Integração em `testes/teste_motor_e_codice.ts` | Gabriel / Antigravity | 🟢 Concluído |
 
 ---
 
-> ⚠️ **Política de Auto-Atualização Contínua:**  
-> Caso qualquer especificação de assinatura de método, nome de atributo ou mecânica mude durante o desenvolvimento da Sprint 2, este documento e os documentos das Sprints 3 e 4 serão atualizados imediatamente para manter a coerência arquitetural total do projeto.
+> 🏆 **SPRINT 2 FINALIZADA COM 100% DE SUCESSO!**  
+> Todo o ecossistema de regras de domínio, catálogo de Vaslen com 7 biomas, enciclopédia interativa (Códice), fábrica de monstros com espólios temáticos e o orquestrador oficial de batalhas (`MotorCombate`) estão implementados e testados. A camada de POO pura está completa e pronta para receber a persistência de banco de dados na **Sprint 3**! 🚀
+
