@@ -6,13 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "testar": "tsx testes/teste_entidades.ts",
-    "testar:motor": "tsx testes/teste_motor_e_codice.ts"
+    "testar:motor": "tsx testes/teste_motor_e_codice.ts",
+    "banco:semear": "tsx src/infra/scripts/semear_banco.ts",
+    "testar:banco": "tsx testes/teste_persistencia.ts"
   },
   "keywords": [],
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^26.4.1",
+    "prisma": "^5.22.0",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^18.0.8"
   }
 }

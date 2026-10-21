@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id          Int          @id @default(autoincrement())
+  nome        String
+  email       String       @unique
+  senhaHash   String
+  tipoUsuario String       @default("JOGADOR")
+  criadoEm    DateTime     @default(now())
+  personagens Personagem[]
+
+  @@map("usuarios")
+}
+
+model Personagem {
+  id                    Int               @id @default(autoincrement())
+  usuarioId             Int
+  nome                  String
+  classeHeroi           String            // 'GUERREIRO' | 'MAGO' | 'ARQUEIRO'
+  nivel                 Int               @default(1)
+  experienciaAtual      Int               @default(0)
+  experienciaNecessaria Int               @default(100)
+  vidaMaxima            Int
+  vidaAtual             Int
+  energiaMaxima         Int
+  energiaAtual          Int
+  forca                 Int
+  defesa                Int
+  agilidade             Int
+  pontosLivres          Int               @default(0)
+  ativo                 Boolean           @default(true) // Suporte a Soft Delete!
+  monstrosDerrotados    Int[]             @default([])   // IDs dos monstros eliminados no Mural
+  criadoEm              DateTime          @default(now())
+
+  usuario               Usuario           @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  inventario            ItemInventario[]
+
+  @@map("personagens")
+}
+
+model ItemInventario {
+  id           Int        @id @default(autoincrement())
+  personagemId Int
+  itemId       Int        // ID canônico do item
+  nome         String
+  tipo         String     // 'CURA_VIDA' | 'RECUPERA_ENERGIA' | 'REFORCO_DANO' | 'COMPOSTO'
+  valorEfeito  Int
+  valorEnergia Int?       @default(0)
+  descricao    String
+
+  personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+
+  @@map("itens_inventario")
+}
+
+model EntradaCodice {
+  id               Int      @id
+  titulo           String
+  categoria        String   // 'MONSTRO' | 'REGIAO' | 'RELÍQUIA' | 'HISTORIA'
+  resumo           String
+  conteudoCompleto String
+  tags             String[]
+
+  @@map("entradas_codice")
+}
