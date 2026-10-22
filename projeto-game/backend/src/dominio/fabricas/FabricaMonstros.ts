@@ -213,6 +213,14 @@ export class FabricaMonstros {
         ];
     }
 
+    public static criarPorId(id: number): Monstro {
+        const monstro = FabricaMonstros.obterCatalogo().find(m => m.getId() === id);
+        if (!monstro) {
+            throw new Error(`Monstro com ID ${id} não encontrado no catálogo.`);
+        }
+        return monstro;
+    }
+
     public static obterPorBioma(bioma: BiomaVaslen | string): Monstro[] {
         return FabricaMonstros.obterCatalogo().filter(
             monstro => monstro.getBioma().toUpperCase() === bioma.toUpperCase()
