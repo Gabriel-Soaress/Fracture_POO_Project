@@ -354,6 +354,58 @@
   animation: anim-heroi-hurt 0.4s steps(2) infinite;
 }
 
+/* Herói 2: Mago do Eclipse */
+@keyframes anim-mago-idle {
+  from { background-position: 0px 0px; }
+  to { background-position: -896px 0px; }
+}
+@keyframes anim-mago-attack {
+  from { background-position: 0px 0px; }
+  to { background-position: -1280px 0px; }
+}
+@keyframes anim-mago-hurt {
+  from { background-position: 0px 0px; }
+  to { background-position: -384px 0px; }
+}
+.sprite-mago-idle {
+  background-image: url('/sprites/herois/mago/Idle.png');
+  animation: anim-mago-idle 0.9s steps(7) infinite;
+}
+.sprite-mago-attack {
+  background-image: url('/sprites/herois/mago/Attack_1.png');
+  animation: anim-mago-attack 0.7s steps(10) infinite;
+}
+.sprite-mago-hurt {
+  background-image: url('/sprites/herois/mago/Hurt.png');
+  animation: anim-mago-hurt 0.4s steps(3) infinite;
+}
+
+/* Herói 3: Patrulheiro / Samurai Arqueiro */
+@keyframes anim-arqueiro-idle {
+  from { background-position: 0px 0px; }
+  to { background-position: -1152px 0px; }
+}
+@keyframes anim-arqueiro-attack {
+  from { background-position: 0px 0px; }
+  to { background-position: -640px 0px; }
+}
+@keyframes anim-arqueiro-hurt {
+  from { background-position: 0px 0px; }
+  to { background-position: -384px 0px; }
+}
+.sprite-arqueiro-idle {
+  background-image: url('/sprites/herois/arqueiro/Idle.png');
+  animation: anim-arqueiro-idle 1s steps(9) infinite;
+}
+.sprite-arqueiro-attack {
+  background-image: url('/sprites/herois/arqueiro/Attack_1.png');
+  animation: anim-arqueiro-attack 0.6s steps(5) infinite;
+}
+.sprite-arqueiro-hurt {
+  background-image: url('/sprites/herois/arqueiro/Hurt.png');
+  animation: anim-arqueiro-hurt 0.4s steps(3) infinite;
+}
+
 /* Monstro 1: Esqueleto (Criptas) */
 @keyframes anim-esqueleto-idle {
   from { background-position: 0px 0px; }

@@ -172,20 +172,55 @@ export class CombateControlador {
                 return;
             }
 
+            let tipoAtaqueNum: number = 1;
+            if (acao.tipoAtaque === "RAPIDO" || acao.tipoAtaque === 1) {
+                tipoAtaqueNum = 1;
+            } else if (acao.tipoAtaque === "PESADO" || acao.tipoAtaque === 2) {
+                tipoAtaqueNum = 2;
+            } else if (acao.tipoAtaque === "BRUTAL" || acao.tipoAtaque === 3) {
+                tipoAtaqueNum = 3;
+            } else if (typeof acao.tipoAtaque === "number") {
+                tipoAtaqueNum = acao.tipoAtaque;
+            }
+
             const parametrosAcao: ParametrosAcaoJogador = {
                 tipo: acao.tipo,
-                tipoAtaque: acao.tipoAtaque,
+                tipoAtaque: tipoAtaqueNum,
                 indiceItem: acao.indiceItem
             };
 
-            const resultado = sessao.motor.processarTurno(parametrosAcao);
+            const relatorio = sessao.motor.processarTurno(parametrosAcao);
 
             // Se o combate terminou, persistir a alteração no banco e encerrar a sessão
-            if (resultado.estado === "VITORIA_JOGADOR" || resultado.estado === "DERROTA_JOGADOR") {
+            if (relatorio.estado === "VITORIA_JOGADOR" || relatorio.estado === "DERROTA_JOGADOR") {
                 const heroiAtualizado = sessao.motor.getHeroi();
                 await this.personagemRepositorio.atualizarProgresso(heroiAtualizado);
                 this.gerenciadorSessao.encerrarSessao(sessaoId);
             }
+
+            const resultado = {
+                ...relatorio,
+                vidaHeroiAtual: relatorio.heroiStatus.vidaAtual,
+                vidaHeroiMaxima: relatorio.heroiStatus.vidaMaxima,
+                energiaHeroiAtual: relatorio.heroiStatus.energiaAtual,
+                energiaHeroiMaxima: relatorio.heroiStatus.energiaMaxima,
+                vidaMonstroAtual: relatorio.monstroStatus.vidaAtual,
+                vidaMonstroMaxima: relatorio.monstroStatus.vidaMaxima,
+                energiaMonstroAtual: relatorio.monstroStatus.energiaAtual,
+                energiaMonstroMaxima: relatorio.monstroStatus.energiaMaxima,
+                logsRodada: relatorio.mensagensTurno,
+                recompensas: {
+                    xpGanho: relatorio.experienciaGanha || 0,
+                    subiuNivel: false,
+                    nivelAtual: sessao.motor.getHeroi().getNivel(),
+                    itemLoot: relatorio.lootConcedido ? {
+                        id: relatorio.lootConcedido.getId(),
+                        nome: relatorio.lootConcedido.getNome(),
+                        tipo: relatorio.lootConcedido.getTipo(),
+                        descricao: relatorio.lootConcedido.getDescricao()
+                    } : undefined
+                }
+            };
 
             res.status(200).json({
                 sessaoId,

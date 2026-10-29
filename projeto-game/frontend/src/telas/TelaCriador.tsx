@@ -38,7 +38,7 @@ const CLASSES_DISPONIVEIS: InfoClasse[] = [
     hpBase: 100,
     energiaBase: 90,
     descricao: "Manipula os éteres sombrios para infligir grande dano mágico à distância. Reserva de energia superior.",
-    classeSprite: "sprite-heroi-idle"
+    classeSprite: "sprite-mago-idle"
   },
   {
     id: "ARQUEIRO",
@@ -48,7 +48,7 @@ const CLASSES_DISPONIVEIS: InfoClasse[] = [
     hpBase: 100,
     energiaBase: 80,
     descricao: "Ágil e mortal, desvia com destreza dos golpes inimigos e explora pontos fracos com precisão cirúrgica.",
-    classeSprite: "sprite-heroi-idle"
+    classeSprite: "sprite-arqueiro-idle"
   }
 ];
 

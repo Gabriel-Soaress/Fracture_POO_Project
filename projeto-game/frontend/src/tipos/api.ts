@@ -164,7 +164,8 @@ export interface ResultadoTurnoDTO {
 export interface EntradaCodiceDTO {
   id: number;
   titulo: string;
-  categoria: "LORE" | "BIOMA" | "MONSTRO" | "ITEM" | "RELIQUIA";
-  conteudo: string;
+  categoria: string;
+  resumo: string;
+  conteudoCompleto?: string;
   tags: string[];
 }

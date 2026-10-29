@@ -13,7 +13,6 @@ import {
   IconeOrbeReliquia
 } from "../componentes/IconesPixelArt";
 import type {
-  ResultadoTurnoDTO,
   TipoAcaoCombate,
   TipoAtaque,
   ItemInventarioDTO
@@ -91,12 +90,18 @@ export const TelaArena: FC<PropsTelaArena> = ({ aoTerminarDuelo }) => {
         acao
       });
 
-      const res: ResultadoTurnoDTO = resposta.resultado;
-      setRodada(res.rodada);
-      setVidaHeroi(res.vidaHeroiAtual);
-      setEnergiaHeroi(res.energiaHeroiAtual);
-      setVidaMonstro(res.vidaMonstroAtual);
-      setEnergiaMonstro(res.energiaMonstroAtual);
+      const res: any = resposta.resultado;
+      const vHeroi = res.vidaHeroiAtual ?? res.heroiStatus?.vidaAtual ?? vidaHeroi;
+      const eHeroi = res.energiaHeroiAtual ?? res.heroiStatus?.energiaAtual ?? energiaHeroi;
+      const vMonstro = res.vidaMonstroAtual ?? res.monstroStatus?.vidaAtual ?? vidaMonstro;
+      const eMonstro = res.energiaMonstroAtual ?? res.monstroStatus?.energiaAtual ?? energiaMonstro;
+      const logsNovos: string[] = res.logsRodada ?? res.mensagensTurno ?? [];
+
+      setRodada(res.rodada || (rodada + 1));
+      setVidaHeroi(vHeroi);
+      setEnergiaHeroi(eHeroi);
+      setVidaMonstro(vMonstro);
+      setEnergiaMonstro(eMonstro);
 
       // Reage a animação de contra-ataque do monstro
       setTimeout(() => {
@@ -109,8 +114,8 @@ export const TelaArena: FC<PropsTelaArena> = ({ aoTerminarDuelo }) => {
       }, 400);
 
       // Adiciona novos logs ao topo
-      if (res.logsRodada && res.logsRodada.length > 0) {
-        setLogsBatalha(prev => [...res.logsRodada, ...prev]);
+      if (logsNovos.length > 0) {
+        setLogsBatalha(prev => [...logsNovos, ...prev]);
       }
 
       // Verifica fim do combate
@@ -158,6 +163,21 @@ export const TelaArena: FC<PropsTelaArena> = ({ aoTerminarDuelo }) => {
       tipo: "USAR_ITEM",
       indiceItem
     });
+  };
+
+  const obterClasseSpriteHeroi = () => {
+    const classe = sessaoCombate.heroi.classe;
+    if (classe === "MAGO") {
+      return animHeroi === "idle" ? "sprite-mago-idle" :
+             animHeroi === "attack" ? "sprite-mago-attack" : "sprite-mago-hurt";
+    }
+    if (classe === "ARQUEIRO") {
+      return animHeroi === "idle" ? "sprite-arqueiro-idle" :
+             animHeroi === "attack" ? "sprite-arqueiro-attack" : "sprite-arqueiro-hurt";
+    }
+    return animHeroi === "idle" ? "sprite-heroi-idle" :
+           animHeroi === "attack" ? "sprite-heroi-attack" :
+           animHeroi === "defend" ? "sprite-heroi-defend" : "sprite-heroi-hurt";
   };
 
   const obterClasseSpriteMonstro = () => {
@@ -318,15 +338,7 @@ export const TelaArena: FC<PropsTelaArena> = ({ aoTerminarDuelo }) => {
                   : efeitoVisualHeroi?.tipo === "ENERGIA"
                   ? "anim-aura-energia"
                   : ""
-              } ${
-                animHeroi === "idle"
-                  ? "sprite-heroi-idle"
-                  : animHeroi === "attack"
-                  ? "sprite-heroi-attack"
-                  : animHeroi === "defend"
-                  ? "sprite-heroi-defend"
-                  : "sprite-heroi-hurt"
-              }`}
+              } ${obterClasseSpriteHeroi()}`}
             ></div>
           </div>
 

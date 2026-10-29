@@ -37,14 +37,30 @@ export const ModalCodice: FC<PropsModalCodice> = ({ aberto, aoFechar }) => {
 
   if (!aberto) return null;
 
-  const categorias = ["TODOS", "LORE", "BIOMA", "MONSTRO", "ITEM", "RELIQUIA"];
+  const categorias = ["TODOS", "HISTORIA", "REGIAO", "MONSTRO", "RELÍQUIA"];
+
+  const selecionarEntrada = async (entrada: EntradaCodiceDTO) => {
+    setEntradaSelecionada(entrada);
+    try {
+      const detalhada = await CodiceServico.buscarPorId(entrada.id);
+      if (detalhada) {
+        setEntradaSelecionada(detalhada);
+      }
+    } catch (err) {
+      console.warn("Usando resumo do verbete:", err);
+    }
+  };
 
   const entradasFiltradas = entradas.filter(e => {
-    const correspondeCategoria = filtroCategoria === "TODOS" || e.categoria === filtroCategoria;
+    const catUpper = (e.categoria || "").toUpperCase();
+    const filtroUpper = filtroCategoria.toUpperCase();
+    const correspondeCategoria = filtroCategoria === "TODOS" || catUpper === filtroUpper;
+    const termo = buscaTexto.toLowerCase();
     const correspondeTexto =
-      e.titulo.toLowerCase().includes(buscaTexto.toLowerCase()) ||
-      e.conteudo.toLowerCase().includes(buscaTexto.toLowerCase()) ||
-      e.tags.some(t => t.toLowerCase().includes(buscaTexto.toLowerCase()));
+      (e.titulo || "").toLowerCase().includes(termo) ||
+      (e.resumo || "").toLowerCase().includes(termo) ||
+      (e.conteudoCompleto || "").toLowerCase().includes(termo) ||
+      (e.tags || []).some(t => (t || "").toLowerCase().includes(termo));
 
     return correspondeCategoria && correspondeTexto;
   });
@@ -120,7 +136,7 @@ export const ModalCodice: FC<PropsModalCodice> = ({ aberto, aoFechar }) => {
                 return (
                   <button
                     key={e.id}
-                    onClick={() => setEntradaSelecionada(e)}
+                    onClick={() => selecionarEntrada(e)}
                     className={`w-full text-left p-2.5 pixel-box transition-all flex flex-col gap-1 ${
                       selecionada
                         ? "bg-[var(--bg-subcard)] border-2 border-[var(--accent-gold)] shadow-pixel-ouro"
@@ -167,7 +183,7 @@ export const ModalCodice: FC<PropsModalCodice> = ({ aberto, aoFechar }) => {
                 </div>
 
                 <div className="font-medieval text-base md:text-lg text-[var(--text-secondary)] leading-relaxed whitespace-pre-line">
-                  {entradaSelecionada.conteudo}
+                  {entradaSelecionada.conteudoCompleto || entradaSelecionada.resumo}
                 </div>
 
                 <div className="pt-4 border-t border-[var(--border-card)]">

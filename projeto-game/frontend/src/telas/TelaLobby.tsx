@@ -59,8 +59,9 @@ export const TelaLobby: FC<PropsTelaLobby> = ({ aoCriarPersonagem, aoSelecionarH
       case "GUERREIRO":
         return "sprite-heroi-idle";
       case "MAGO":
-        return "sprite-heroi-idle"; // utiliza spritesheet disponível
+        return "sprite-mago-idle";
       case "ARQUEIRO":
+        return "sprite-arqueiro-idle";
       default:
         return "sprite-heroi-idle";
     }

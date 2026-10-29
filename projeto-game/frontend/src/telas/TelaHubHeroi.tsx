@@ -68,6 +68,12 @@ export const TelaHubHeroi: FC<PropsTelaHubHeroi> = ({ aoIrParaMural, aoVoltarLob
     }
   };
 
+  const obterSpriteHeroi = (classe: string) => {
+    if (classe === "MAGO") return "sprite-mago-idle";
+    if (classe === "ARQUEIRO") return "sprite-arqueiro-idle";
+    return "sprite-heroi-idle";
+  };
+
   const renderizarIconeItem = (tipo: string) => {
     switch (tipo) {
       case "POCAO_VIDA":
@@ -131,7 +137,7 @@ export const TelaHubHeroi: FC<PropsTelaHubHeroi> = ({ aoIrParaMural, aoVoltarLob
             {/* Plataforma e Sprite */}
             <div className="h-44 w-full bg-[var(--bg-subcard)] border-2 border-[var(--border-card)] flex flex-col items-center justify-center relative overflow-hidden mb-4">
               <div className="transform scale-[2.0] origin-bottom mt-10">
-                <div className="w-[128px] h-[128px] pixelated sprite-heroi-idle"></div>
+                <div className={`w-[128px] h-[128px] pixelated ${obterSpriteHeroi(heroiAtivo.classeHeroi)}`}></div>
               </div>
             </div>
 
