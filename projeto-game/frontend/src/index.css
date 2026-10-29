@@ -1,0 +1,411 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================== */
+/* PALETAS DE CORES TEMÁTICAS VINCULADAS AOS BIOMAS              */
+/* ============================================================== */
+
+/* 1. AS CRIPTAS (Pedra Fria, Tochas Azuis e Névoa Cadavérica) */
+:root, [data-theme="CRIPTAS"] {
+  --bg-page: #060709;
+  --bg-panel: #0a0e16;
+  --bg-card: #111622;
+  --bg-subcard: #171f30;
+  --border-card: #232f45;
+  --border-light: #344666;
+  --accent-gold: #38bdf8;
+  --accent-gold-light: #e0f2fe;
+  --accent-gold-dark: #0369a1;
+  --accent-primary: #e11d48;
+  --accent-secondary: #0284c7;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --shadow-color: #000000;
+  --plataforma-cor: #1a2333;
+  --plataforma-borda: #3b4c6b;
+  --plataforma-brilho: rgba(56, 189, 248, 0.2);
+}
+
+/* 2. O BOSQUE SOMBRIO (Verde Musgo, Seiva Negra e Alquimia Tribal) */
+[data-theme="BOSQUE_SOMBRIO"] {
+  --bg-page: #050e07;
+  --bg-panel: #0a180e;
+  --bg-card: #102416;
+  --bg-subcard: #183320;
+  --border-card: #244b2f;
+  --border-light: #356b44;
+  --accent-gold: #a3e635;
+  --accent-gold-light: #ecfccb;
+  --accent-gold-dark: #65a30d;
+  --accent-primary: #10b981;
+  --accent-secondary: #22d3ee;
+  --text-primary: #ecfdf5;
+  --text-secondary: #a7f3d0;
+  --text-muted: #528b67;
+  --shadow-color: #020804;
+  --plataforma-cor: #142e1c;
+  --plataforma-borda: #2f6940;
+  --plataforma-brilho: rgba(34, 197, 94, 0.2);
+}
+
+/* 3. O LABIRINTO DE CINZAS (Basalto Vulcânico, Fendas de Lava e Fogo) */
+[data-theme="LABIRINTO_CINZAS"] {
+  --bg-page: #120808;
+  --bg-panel: #1a0d0d;
+  --bg-card: #261313;
+  --bg-subcard: #351a1a;
+  --border-card: #4f2727;
+  --border-light: #733939;
+  --accent-gold: #f97316;
+  --accent-gold-light: #ffedd5;
+  --accent-gold-dark: #c2410c;
+  --accent-primary: #dc2626;
+  --accent-secondary: #fb923c;
+  --text-primary: #fff1f2;
+  --text-secondary: #fecdd3;
+  --text-muted: #996262;
+  --shadow-color: #080303;
+  --plataforma-cor: #301919;
+  --plataforma-borda: #6b3535;
+  --plataforma-brilho: rgba(249, 115, 22, 0.25);
+}
+
+/* 4. AS COLINAS DA LUA DE SANGUE (Céu Carmesim, Licantropia e Sombras) */
+[data-theme="COLINAS_LUA_SANGUE"] {
+  --bg-page: #120509;
+  --bg-panel: #1a0a10;
+  --bg-card: #260e17;
+  --bg-subcard: #371422;
+  --border-card: #541e33;
+  --border-light: #7a2b4b;
+  --accent-gold: #fb7185;
+  --accent-gold-light: #ffe4e6;
+  --accent-gold-dark: #be123c;
+  --accent-primary: #e11d48;
+  --accent-secondary: #f43f5e;
+  --text-primary: #fff1f2;
+  --text-secondary: #fecdd3;
+  --text-muted: #9f6579;
+  --shadow-color: #0a0204;
+  --plataforma-cor: #331320;
+  --plataforma-borda: #6e2744;
+  --plataforma-brilho: rgba(225, 29, 72, 0.3);
+}
+
+/* 5. O PINÁCULO DO ECLIPSE (Sol Negro, Luz Cósmica e Mármore Sagrado) */
+[data-theme="PINACULO_ECLIPSE"] {
+  --bg-page: #080512;
+  --bg-panel: #100b21;
+  --bg-card: #181131;
+  --bg-subcard: #221843;
+  --border-card: #3c2a6f;
+  --border-light: #563d9e;
+  --accent-gold: #facc15;
+  --accent-gold-light: #fef9c3;
+  --accent-gold-dark: #a16207;
+  --accent-primary: #a855f7;
+  --accent-secondary: #38bdf8;
+  --text-primary: #faf5ff;
+  --text-secondary: #e9d5ff;
+  --text-muted: #8b74ad;
+  --shadow-color: #04020a;
+  --plataforma-cor: #241947;
+  --plataforma-borda: #583e9c;
+  --plataforma-brilho: rgba(168, 85, 247, 0.3);
+}
+
+/* 6. O PÂNTANO PETRIFICANTE (Águas Tóxicas, Musgo Venenoso e Serpentes) */
+[data-theme="PANTANO_PETRIFICANTE"] {
+  --bg-page: #050d09;
+  --bg-panel: #0a1712;
+  --bg-card: #10261e;
+  --bg-subcard: #16362b;
+  --border-card: #1f4f3e;
+  --border-light: #2d735b;
+  --accent-gold: #2dd4bf;
+  --accent-gold-light: #ccfbf1;
+  --accent-gold-dark: #0f766e;
+  --accent-primary: #14b8a6;
+  --accent-secondary: #10b981;
+  --text-primary: #f0fdfa;
+  --text-secondary: #99f6e4;
+  --text-muted: #4e8574;
+  --shadow-color: #020805;
+  --plataforma-cor: #143026;
+  --plataforma-borda: #29614e;
+  --plataforma-brilho: rgba(45, 212, 191, 0.25);
+}
+
+/* 7. O LIMBO ESPECTRAL (Névoa de Almas, Éteres Azuis e Frio Imaterial) */
+[data-theme="LIMBO_ESPECTRAL"] {
+  --bg-page: #040810;
+  --bg-panel: #081120;
+  --bg-card: #0e1c33;
+  --bg-subcard: #142847;
+  --border-card: #1e3b68;
+  --border-light: #2c5494;
+  --accent-gold: #67e8f9;
+  --accent-gold-light: #cffafe;
+  --accent-gold-dark: #0891b2;
+  --accent-primary: #06b6d4;
+  --accent-secondary: #818cf8;
+  --text-primary: #ecfeff;
+  --text-secondary: #a5f3fc;
+  --text-muted: #5879a6;
+  --shadow-color: #020408;
+  --plataforma-cor: #12223d;
+  --plataforma-borda: #2a4c80;
+  --plataforma-brilho: rgba(103, 232, 249, 0.3);
+}
+
+/* ============================================================== */
+/* REGRAS PIXEL ART & COMPONENTES                                 */
+/* ============================================================== */
+
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Molduras 9-slice dinâmicas */
+.pixel-box {
+  background-color: var(--bg-card);
+  border: 4px solid var(--border-card);
+  box-shadow: 
+    inset -4px -4px 0px 0px var(--bg-panel),
+    inset 4px 4px 0px 0px var(--border-light),
+    4px 4px 0px 0px var(--shadow-color);
+  position: relative;
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+.pixel-box-ouro {
+  background-color: var(--bg-subcard);
+  border: 4px solid var(--accent-gold-dark);
+  box-shadow: 
+    inset -4px -4px 0px 0px rgba(0,0,0,0.5),
+    inset 4px 4px 0px 0px var(--accent-gold-light),
+    4px 4px 0px 0px var(--shadow-color);
+  position: relative;
+}
+
+/* Botões com efeito de clique afundando */
+.pixel-btn {
+  font-family: "Silkscreen", monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 18px;
+  background-color: var(--bg-subcard);
+  color: var(--text-primary);
+  border: 3px solid var(--border-light);
+  box-shadow: 
+    inset -3px -3px 0px 0px var(--bg-panel),
+    inset 3px 3px 0px 0px var(--border-card),
+    3px 3px 0px 0px var(--shadow-color);
+  cursor: pointer;
+  transition: filter 0.05s ease-in-out;
+  user-select: none;
+}
+
+.pixel-btn:hover {
+  filter: brightness(1.15);
+}
+
+.pixel-btn:active {
+  box-shadow: 
+    inset 3px 3px 0px 0px var(--bg-panel),
+    inset -3px -3px 0px 0px var(--border-card),
+    1px 1px 0px 0px var(--shadow-color);
+  transform: translate(2px, 2px);
+}
+
+.pixel-btn-ouro {
+  background-color: var(--accent-gold-dark);
+  color: var(--accent-gold-light);
+  border-color: var(--accent-gold);
+  box-shadow: 
+    inset -3px -3px 0px 0px rgba(0,0,0,0.4),
+    inset 3px 3px 0px 0px var(--accent-gold-light),
+    3px 3px 0px 0px var(--shadow-color);
+}
+.pixel-btn-ouro:hover {
+  filter: brightness(1.1);
+}
+
+.pixel-btn-sangue {
+  background-color: #9f1239;
+  color: #ffe4e6;
+  border-color: #e11d48;
+  box-shadow: 
+    inset -3px -3px 0px 0px #4c0519,
+    inset 3px 3px 0px 0px #fecdd3,
+    3px 3px 0px 0px var(--shadow-color);
+}
+.pixel-btn-sangue:hover {
+  filter: brightness(1.1);
+}
+
+/* Scanlines retrô */
+.scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+}
+
+/* Barra de Vida e Energia */
+.pixel-bar-bg {
+  background-color: var(--bg-panel);
+  border: 3px solid var(--border-card);
+  box-shadow: inset 2px 2px 0px 0px #000, 2px 2px 0px 0px #000;
+}
+
+/* ============================================================== */
+/* PLATAFORMAS DE BATALHA DIAGONAL (ESTILO POKÉMON / RETRO RPG)   */
+/* ============================================================== */
+.plataforma-combate {
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, var(--plataforma-cor) 0%, rgba(0,0,0,0.85) 85%);
+  border: 3px solid var(--plataforma-borda);
+  box-shadow: 
+    0 8px 0px 0px rgba(0, 0, 0, 0.8),
+    0 0 20px var(--plataforma-brilho);
+  transform: rotateX(60deg);
+  transition: all 0.3s ease;
+}
+
+/* ============================================================== */
+/* ANIMAÇÕES DE EFEITO AO USAR ITEM (CURA / ENERGIA)              */
+/* ============================================================== */
+@keyframes float-up-fade {
+  0% { transform: translateY(0px) scale(0.85); opacity: 0; }
+  20% { transform: translateY(-10px) scale(1.15); opacity: 1; }
+  75% { transform: translateY(-35px) scale(1.0); opacity: 1; }
+  100% { transform: translateY(-55px) scale(0.8); opacity: 0; }
+}
+
+.anim-cura-subir {
+  animation: float-up-fade 1.5s ease-out forwards;
+}
+
+@keyframes pulse-aura-cura {
+  0% { filter: drop-shadow(0 0 0px #22c55e); }
+  40% { filter: drop-shadow(0 0 24px #4ade80) brightness(1.25); }
+  100% { filter: drop-shadow(0 0 0px #22c55e); }
+}
+
+.anim-aura-cura {
+  animation: pulse-aura-cura 1.2s ease-out;
+}
+
+@keyframes pulse-aura-energia {
+  0% { filter: drop-shadow(0 0 0px #06b6d4); }
+  40% { filter: drop-shadow(0 0 24px #38bdf8) brightness(1.25); }
+  100% { filter: drop-shadow(0 0 0px #06b6d4); }
+}
+
+.anim-aura-energia {
+  animation: pulse-aura-energia 1.2s ease-out;
+}
+
+
+/* Herói (Cavaleiro) */
+@keyframes anim-heroi-idle {
+  from { background-position: 0px 0px; }
+  to { background-position: -512px 0px; }
+}
+@keyframes anim-heroi-attack {
+  from { background-position: 0px 0px; }
+  to { background-position: -640px 0px; }
+}
+@keyframes anim-heroi-defend {
+  from { background-position: 0px 0px; }
+  to { background-position: -640px 0px; }
+}
+@keyframes anim-heroi-hurt {
+  from { background-position: 0px 0px; }
+  to { background-position: -256px 0px; }
+}
+
+.sprite-heroi-idle {
+  background-image: url('/sprites/herois/cavaleiro/Idle.png');
+  animation: anim-heroi-idle 0.8s steps(4) infinite;
+}
+.sprite-heroi-attack {
+  background-image: url('/sprites/herois/cavaleiro/Attack 1.png');
+  animation: anim-heroi-attack 0.6s steps(5) infinite;
+}
+.sprite-heroi-defend {
+  background-image: url('/sprites/herois/cavaleiro/Defend.png');
+  animation: anim-heroi-defend 0.6s steps(5) infinite;
+}
+.sprite-heroi-hurt {
+  background-image: url('/sprites/herois/cavaleiro/Hurt.png');
+  animation: anim-heroi-hurt 0.4s steps(2) infinite;
+}
+
+/* Monstro 1: Esqueleto (Criptas) */
+@keyframes anim-esqueleto-idle {
+  from { background-position: 0px 0px; }
+  to { background-position: -896px 0px; }
+}
+@keyframes anim-esqueleto-attack {
+  from { background-position: 0px 0px; }
+  to { background-position: -640px 0px; }
+}
+@keyframes anim-esqueleto-hurt {
+  from { background-position: 0px 0px; }
+  to { background-position: -256px 0px; }
+}
+.sprite-esqueleto-idle {
+  background-image: url('/sprites/monstros/esqueleto/Idle.png');
+  animation: anim-esqueleto-idle 1s steps(7) infinite;
+}
+.sprite-esqueleto-attack {
+  background-image: url('/sprites/monstros/esqueleto/Attack_1.png');
+  animation: anim-esqueleto-attack 0.6s steps(5) infinite;
+}
+.sprite-esqueleto-hurt {
+  background-image: url('/sprites/monstros/esqueleto/Hurt.png');
+  animation: anim-esqueleto-hurt 0.4s steps(2) infinite;
+}
+
+/* Monstro 2: Sátiro Degolador (Bosque Sombrio) */
+@keyframes anim-satiro-idle {
+  from { background-position: 0px 0px; }
+  to { background-position: -896px 0px; }
+}
+.sprite-satiro-idle {
+  background-image: url('/sprites/monstros/satiro/Idle.png');
+  animation: anim-satiro-idle 0.9s steps(7) infinite;
+}
+
+/* Monstro 3: Minotauro Bruto (Labirinto de Cinzas) */
+@keyframes anim-minotauro-idle {
+  from { background-position: 0px 0px; }
+  to { background-position: -1280px 0px; }
+}
+.sprite-minotauro-idle {
+  background-image: url('/sprites/monstros/minotauro/Idle.png');
+  animation: anim-minotauro-idle 1.1s steps(10) infinite;
+}
+
+/* Monstro 4: Lobisomem Carmesim (Colinas da Lua de Sangue) */
+@keyframes anim-lobisomem-idle {
+  from { background-position: 0px 0px; }
+  to { background-position: -1024px 0px; }
+}
+.sprite-lobisomem-idle {
+  background-image: url('/sprites/monstros/lobisomem/Idle.png');
+  animation: anim-lobisomem-idle 0.9s steps(8) infinite;
+}

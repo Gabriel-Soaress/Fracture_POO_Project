@@ -134,16 +134,16 @@ flowchart LR
 
 | Chamado | Descrição | Responsável | Status |
 | :--- | :--- | :--- | :--- |
-| **Chamado 0** | Setup Vite + React + TypeScript + Tailwind CSS | Gabriel / Antigravity | ⚪ A Fazer |
-| **Chamado 1** | Camada de Serviços / Repositórios de API no Frontend | Gabriel / Antigravity | ⚪ A Fazer |
-| **Chamado 2** | Telas de Autenticação e Lobby com Soft Delete | Gabriel / Antigravity | ⚪ A Fazer |
-| **Chamado 3** | Criador de Personagens com validação visual dos 20 pontos | Gabriel / Antigravity | ⚪ A Fazer |
-| **Chamado 4** | Hub Central do Herói e Modal de Busca do Códice | Gabriel / Antigravity | ⚪ A Fazer |
-| **Chamado 5** | Mural de Caçadas Únicas e Arena de Combate 2D | Gabriel / Antigravity | ⚪ A Fazer |
-| **Chamado 6** | Build de Produção e Configuração para Vercel | Gabriel / Antigravity | ⚪ A Fazer |
+| **Chamado 0** | Setup Vite + React + TypeScript + Tailwind CSS | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 1** | Camada de Serviços / Repositórios de API no Frontend | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 2** | Telas de Autenticação e Lobby com Soft Delete | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 3** | Criador de Personagens com validação visual dos 20 pontos | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 4** | Hub Central do Herói e Modal de Busca do Códice | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 5** | Mural de Caçadas Únicas e Arena de Combate 2D | Gabriel / Antigravity | 🟢 Concluído |
+| **Chamado 6** | Build de Produção e Configuração para Vercel | Gabriel / Antigravity | 🟢 Concluído |
 
 ---
 
 > 🏁 **Estado Atual do Projeto:**  
-> Sprints 1, 2, 3 e 4 estão 100% concluídas, testadas e sincronizadas no GitHub.  
-> O desenvolvimento da Sprint 5 será iniciado na próxima semana conforme cronograma definido!
+> Sprints 1, 2, 3, 4 e 5 estão 100% concluídas, testadas e integradas!  
+> O Frontend Web em Pixel Art retrô está totalmente conectado à API RESTful e ao Neon Cloud PostgreSQL via camada desacoplada de serviços (`src/servicos/`), pronto para defesa acadêmica de POO.
