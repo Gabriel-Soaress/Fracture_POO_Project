@@ -2,7 +2,7 @@ import { EntidadeCombatente } from "./EntidadeCombatente";
 import { Item } from "./Item";
 
 export class Personagem extends EntidadeCombatente {
-    public classeHeroi: 'GUERREIRO' | 'MAGO' | 'ARQUEIRO';
+    public classeHeroi: 'GUERREIRO' | 'MAGO' | 'SAMURAI' | 'ARQUEIRO';
     public experienciaAtual: number;
     public experienciaNecessaria: number;
     public pontosLivres: number;
@@ -20,7 +20,7 @@ export class Personagem extends EntidadeCombatente {
         forca: number,
         defesa: number,
         agilidade: number,
-        classeHeroi: 'GUERREIRO' | 'MAGO' | 'ARQUEIRO',
+        classeHeroi: 'GUERREIRO' | 'MAGO' | 'SAMURAI' | 'ARQUEIRO',
         experienciaAtual: number,
         experienciaNecessaria: number,
         pontosLivres: number,
@@ -40,7 +40,8 @@ export class Personagem extends EntidadeCombatente {
         this.inventario = inventario;
         this.monstrosDerrotados = monstrosDerrotados;
 
-        if (forca + defesa + agilidade !== 20) {
+        // A regra de 20 pontos (RN01) aplica-se estritamente na criação de um novo herói (sem ID) no Nível 1.
+        if (!id && nivel === 1 && (forca + defesa + agilidade !== 20)) {
             throw new Error("Erro ao cadastrar personagem: A soma das estatísticas deve ser igual a 20.");
         }
     }
@@ -51,34 +52,37 @@ export class Personagem extends EntidadeCombatente {
     }
 
     usarItemDoInventario(indice: number, alvo: EntidadeCombatente): string {
+        if (indice < 0 || indice >= this.inventario.length || !this.inventario[indice]) {
+            throw new Error("Este item já foi consumido ou não está mais na mochila.");
+        }
         const item = this.inventario[indice];
-        item.aplicarEfeito(alvo);
+        const msgEfeito = item.aplicarEfeito(alvo);
         this.inventario.splice(indice, 1);
-        return `Item ${item.getNome()} foi usado em ${alvo.getNome()}.`;
+        return msgEfeito || `Item ${item.getNome()} foi usado em ${alvo.getNome()}.`;
     }
 
     ataque(alvo: EntidadeCombatente, tipoAtaque: number): string {
         if (tipoAtaque === 1) {
-            const custo = Math.round(this.energiaMaxima * 0.10);
+            const custo = 10;
             if (this.gastarEnergia(custo)) {
-                const dano = super.atacar(alvo, 1);
+                const dano = super.atacar(alvo, 1.0);
                 return `${this.nome} desferiu um Golpe Rápido em ${alvo.getNome()} com ${dano} de dano.`;
             } else {
                 return `${this.nome} não tem energia para atacar.`;
             }
         } else if (tipoAtaque === 2) {
-            const custo = Math.round(this.energiaMaxima * 0.25);
+            const custo = 18;
             if (this.gastarEnergia(custo)) {
-                const dano = super.atacar(alvo, 1.5);
+                const dano = super.atacar(alvo, 1.8);
                 return `${this.nome} desferiu um Golpe Pesado em ${alvo.getNome()} com ${dano} de dano.`;
             } else {
                 return `${this.nome} não tem energia para atacar.`;
             }
         } else if (tipoAtaque === 3) {
-            const custo = Math.round(this.energiaMaxima * 0.35);
+            const custo = 26;
             if (this.gastarEnergia(custo)) {
-                const dano = super.atacar(alvo, 1.7);
-                return `${this.nome} desferiu um Ataque Brutal em ${alvo.getNome()} com ${dano} de dano.`;
+                const dano = super.atacar(alvo, 2.5);
+                return `${this.nome} desferiu um Ataque Brutal Quebra-Guarda em ${alvo.getNome()} com ${dano} de dano!`;
             } else {
                 return `${this.nome} não tem energia para atacar.`;
             }
@@ -88,21 +92,21 @@ export class Personagem extends EntidadeCombatente {
     }
 
     executarAcaoEspecial(alvo: EntidadeCombatente): string {
-        const custo = Math.round(this.energiaMaxima * 0.40);
+        const custo = 32;
 
         if (!this.gastarEnergia(custo)) {
             return `${this.nome} tentou usar sua habilidade especial, mas não tem energia suficiente!`;
         }
 
         if (this.classeHeroi === 'GUERREIRO') {
-            const dano = super.atacar(alvo, 2.0);
+            const dano = super.atacar(alvo, 2.8);
             return `⚔️ [GOLPE DEVASTADOR] ${this.nome} desferiu um golpe esmagador com sua espada em ${alvo.getNome()} causando ${dano} de dano!`;
         } else if (this.classeHeroi === 'MAGO') {
-            const dano = super.atacar(alvo, 2.2);
+            const dano = super.atacar(alvo, 3.0);
             return `🔥 [EXPLOSÃO ARCANA] ${this.nome} canalizou os ecos da Fratura e atingiu ${alvo.getNome()} com ${dano} de dano mágico!`;
-        } else if (this.classeHeroi === 'ARQUEIRO') {
-            const dano = super.atacar(alvo, 1.9);
-            return `🏹 [DISPARO PERFURANTE] ${this.nome} disparou uma flecha certeira no ponto vital de ${alvo.getNome()} causando ${dano} de dano!`;
+        } else if (this.classeHeroi === 'SAMURAI' || this.classeHeroi === 'ARQUEIRO') {
+            const dano = super.atacar(alvo, 2.8);
+            return `⛩️ [CORTE DO ECLIPSE] ${this.nome} desferiu uma estocada fulminante de katana no ponto vital de ${alvo.getNome()} causando ${dano} de dano!`;
         }
 
         return `${this.nome} executou uma ação especial em ${alvo.getNome()}.`;

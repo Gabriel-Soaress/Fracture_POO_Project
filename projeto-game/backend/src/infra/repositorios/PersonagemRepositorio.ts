@@ -12,6 +12,15 @@ export class PersonagemRepositorio {
      * Salva um novo personagem com validação de 20 pontos de atributos no banco.
      */
     public async salvar(personagem: Personagem): Promise<Personagem> {
+        const itensCriacao = (personagem.inventario || []).map(item => ({
+            itemId: item.getId(),
+            nome: item.getNome(),
+            tipo: item.getTipo(),
+            valorEfeito: item.getValorEfeito(),
+            valorEnergia: item instanceof ItemComposto ? item.getValorEnergia() : 0,
+            descricao: item.getDescricao()
+        }));
+
         const registro = await prisma.personagem.create({
             data: {
                 usuarioId: Number(personagem.idUsuario),
@@ -29,11 +38,21 @@ export class PersonagemRepositorio {
                 agilidade: personagem.getAgilidade(),
                 pontosLivres: personagem.pontosLivres,
                 ativo: personagem.ativo,
-                monstrosDerrotados: personagem.monstrosDerrotados
+                monstrosDerrotados: personagem.monstrosDerrotados,
+                ...(itensCriacao.length > 0
+                    ? {
+                          inventario: {
+                              create: itensCriacao
+                          }
+                      }
+                    : {})
+            },
+            include: {
+                inventario: true
             }
         });
 
-        return this.reconstruirEntidade(registro, []);
+        return this.reconstruirEntidade(registro, registro.inventario || []);
     }
 
     /**
@@ -138,7 +157,7 @@ export class PersonagemRepositorio {
      */
     private reconstruirEntidade(registro: any, itensBanco: any[]): Personagem {
         const itensReconstruidos: Item[] = itensBanco.map(item => {
-            if (item.tipo === "CURA_VIDA" && item.valorEnergia && item.valorEnergia > 0) {
+            if ((item.tipo === "CURA_VIDA" || item.tipo === "COMPOSTO") && item.valorEnergia && item.valorEnergia > 0) {
                 return new ItemComposto(
                     item.itemId,
                     item.nome,

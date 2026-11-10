@@ -17,6 +17,12 @@ interface InfoClasse {
   energiaBase: number;
   descricao: string;
   classeSprite: string;
+  itemInicial: {
+    nome: string;
+    efeito: string;
+    tipoBadge: string;
+    descricao: string;
+  };
 }
 
 const CLASSES_DISPONIVEIS: InfoClasse[] = [
@@ -28,7 +34,13 @@ const CLASSES_DISPONIVEIS: InfoClasse[] = [
     hpBase: 100,
     energiaBase: 70,
     descricao: "Especialista em absorção de dano e golpes devastadores. Possui alta resistência contra monstros brutais.",
-    classeSprite: "sprite-heroi-idle"
+    classeSprite: "sprite-heroi-idle",
+    itemInicial: {
+      nome: "Tônico da Guarda Real",
+      efeito: "+35 HP",
+      tipoBadge: "CURA DE VIDA",
+      descricao: "Frasco consagrado da infantaria de Vaslen que restaura 35 de vida na linha de frente."
+    }
   },
   {
     id: "MAGO",
@@ -38,17 +50,29 @@ const CLASSES_DISPONIVEIS: InfoClasse[] = [
     hpBase: 100,
     energiaBase: 90,
     descricao: "Manipula os éteres sombrios para infligir grande dano mágico à distância. Reserva de energia superior.",
-    classeSprite: "sprite-mago-idle"
+    classeSprite: "sprite-mago-idle",
+    itemInicial: {
+      nome: "Éter Condensado do Eclipse",
+      efeito: "+40 EN",
+      tipoBadge: "ENERGIA ARCANA",
+      descricao: "Cristal líquido arcano que restaura 40 de energia mental do conjurador."
+    }
   },
   {
-    id: "ARQUEIRO",
-    nome: "PATRULHEIRO SOMBRIO",
-    subtitulo: "Atirador Rápido e Preciso",
-    icone: "🏹",
+    id: "SAMURAI",
+    nome: "SAMURAI DAS SOMBRAS",
+    subtitulo: "Mestre da Katana e do Arco",
+    icone: "⛩️",
     hpBase: 100,
     energiaBase: 80,
-    descricao: "Ágil e mortal, desvia com destreza dos golpes inimigos e explora pontos fracos com precisão cirúrgica.",
-    classeSprite: "sprite-arqueiro-idle"
+    descricao: "Guerreiro oriental ágil e letal. Domina cortes rápidos de katana e disparos precisos à distância para explorar pontos vitais.",
+    classeSprite: "sprite-arqueiro-idle",
+    itemInicial: {
+      nome: "Pílula de Foco Oriental",
+      efeito: "+25 HP & +25 EN",
+      tipoBadge: "ITEM COMPOSTO (POLIMÓRFICO)",
+      descricao: "Composto ancestral dos samurais que restaura 25 de vida e 25 de energia simultaneamente."
+    }
   }
 ];
 
@@ -64,6 +88,23 @@ export const TelaCriador: FC<PropsTelaCriador> = ({ aoVoltar, aoCriadoComSucesso
   const totalPontosUsados = forca + defesa + agilidade;
   const pontosRestantes = 20 - totalPontosUsados;
   const distribuicaoValida = totalPontosUsados === 20;
+
+  const selecionarClasseComPresets = (novaClasse: ClasseHeroi) => {
+    setClasseSelecionada(novaClasse);
+    if (novaClasse === "GUERREIRO") {
+      setForca(9);
+      setDefesa(7);
+      setAgilidade(4);
+    } else if (novaClasse === "MAGO") {
+      setForca(4);
+      setDefesa(5);
+      setAgilidade(11);
+    } else if (novaClasse === "SAMURAI" || novaClasse === "ARQUEIRO") {
+      setForca(6);
+      setDefesa(4);
+      setAgilidade(10);
+    }
+  };
 
   const alterarAtributo = (tipo: "FOR" | "DEF" | "AGI", delta: number) => {
     setErro(null);
@@ -169,7 +210,7 @@ export const TelaCriador: FC<PropsTelaCriador> = ({ aoVoltar, aoCriadoComSucesso
                   <button
                     key={c.id}
                     type="button"
-                    onClick={() => setClasseSelecionada(c.id)}
+                    onClick={() => selecionarClasseComPresets(c.id)}
                     className={`p-3 pixel-box text-center transition-all flex flex-col items-center justify-between min-h-[100px] ${
                       ativo
                         ? "bg-[var(--accent-gold-dark)] border-2 border-[var(--accent-gold)] shadow-pixel-ouro scale-[1.02]"
@@ -343,6 +384,27 @@ export const TelaCriador: FC<PropsTelaCriador> = ({ aoVoltar, aoCriadoComSucesso
                 <span className="text-[var(--text-muted)]">Chance Crítico Estimada:</span>
                 <span className="text-emerald-400 font-bold">~{agilidade * 1.5}%</span>
               </div>
+            </div>
+
+            {/* Item Inicial Exclusivo da Classe */}
+            <div className="w-full mt-3 p-3 bg-[var(--bg-subcard)] border-2 border-[var(--accent-gold)]/70 text-left">
+              <div className="flex items-center justify-between gap-2 mb-1">
+                <span className="font-pixel text-[8px] text-[var(--accent-gold)]">
+                  🎒 ITEM INICIAL NA MOCHILA
+                </span>
+                <span className="font-pixel text-[7.5px] px-1.5 py-0.5 bg-black/60 text-emerald-300 border border-emerald-500/60">
+                  {classeAtualInfo.itemInicial.efeito}
+                </span>
+              </div>
+              <div className="font-silkscreen text-xs font-bold text-[var(--accent-gold-light)]">
+                {classeAtualInfo.itemInicial.nome}
+              </div>
+              <div className="font-pixel text-[7px] text-amber-300/80 mb-1">
+                [{classeAtualInfo.itemInicial.tipoBadge}]
+              </div>
+              <p className="font-medieval text-xs text-[var(--text-secondary)] leading-snug">
+                {classeAtualInfo.itemInicial.descricao}
+              </p>
             </div>
           </div>
 

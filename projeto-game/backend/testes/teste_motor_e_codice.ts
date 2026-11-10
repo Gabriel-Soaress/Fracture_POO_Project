@@ -45,10 +45,12 @@ let rodada = 1;
 while (motor.getEstado() === "EM_ANDAMENTO") {
     console.log(`--- Rodada ${rodada} ---`);
     
-    // Herói alterna entre golpe brutal (3) e defesa se estiver cansado
+    // Herói alterna entre golpe brutal (3), pesado (2) e defesa se estiver cansado
     let resultado;
-    if (heroi.getEnergiaAtual() >= 25) {
+    if (heroi.getEnergiaAtual() >= 26) {
         resultado = motor.processarTurno({ tipo: "ATACAR", tipoAtaque: 3 });
+    } else if (heroi.getEnergiaAtual() >= 18) {
+        resultado = motor.processarTurno({ tipo: "ATACAR", tipoAtaque: 2 });
     } else {
         resultado = motor.processarTurno({ tipo: "DEFENDER" });
     }

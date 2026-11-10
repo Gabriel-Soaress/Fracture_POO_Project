@@ -38,6 +38,16 @@ export interface ResultadoTurno {
     experienciaGanha?: number;
 }
 
+export interface AcaoInicialMonstro {
+    tipo: 'ATACAR' | 'DEFENDER' | 'ESPECIAL';
+    mensagem: string;
+    danoCausado: number;
+    vidaHeroiAntes: number;
+    vidaHeroiDepois: number;
+    energiaMonstroAntes: number;
+    energiaMonstroDepois: number;
+}
+
 export class MotorCombate {
     private heroi: Personagem;
     private monstro: Monstro;
@@ -53,7 +63,7 @@ export class MotorCombate {
         this.logsBatalha = [];
     }
 
-    public iniciarCombate(): { primeiroAJogar: string; mensagem: string } {
+    public iniciarCombate(): { primeiroAJogar: string; mensagem: string; acaoInicialMonstro?: AcaoInicialMonstro } {
         // Validações
         if (!this.heroi.ativo) {
             throw new Error("Herói inativo não pode entrar em combate.");
@@ -68,17 +78,46 @@ export class MotorCombate {
         const inicMonstro = CalculadoraCombate.rolarIniciativa(this.monstro.getAgilidade());
 
         let primeiroAJogar = "HEROI";
-
-        if (inicMonstro > inicHeroi) {
-            primeiroAJogar = "MONSTRO";
-        }
+        let acaoInicialMonstro: AcaoInicialMonstro | undefined = undefined;
 
         // Registrar início
         this.logsBatalha.push(`O combate começou! Iniciativa definida: Herói (${inicHeroi}) vs Monstro (${inicMonstro}).`);
 
+        if (inicMonstro > inicHeroi) {
+            primeiroAJogar = "MONSTRO";
+
+            // O monstro venceu a iniciativa: executa imediatamente seu ataque de abertura!
+            const vidaHeroiAntes = this.heroi.getVidaAtual();
+            const energiaMonstroAntes = this.monstro.getEnergiaAtual();
+
+            const acaoM = this.monstro.decidirAcao(this.heroi);
+
+            // Garante que o herói sobreviva com ao menos 1 HP na abertura caso estivesse muito ferido
+            if (this.heroi.estaDerrotado()) {
+                this.heroi.curarVida(1);
+            }
+
+            const vidaHeroiDepois = this.heroi.getVidaAtual();
+            const energiaMonstroDepois = this.monstro.getEnergiaAtual();
+            const danoCausado = Math.max(0, vidaHeroiAntes - vidaHeroiDepois);
+
+            this.logsBatalha.push(acaoM.mensagem);
+
+            acaoInicialMonstro = {
+                tipo: acaoM.tipo,
+                mensagem: acaoM.mensagem,
+                danoCausado,
+                vidaHeroiAntes,
+                vidaHeroiDepois,
+                energiaMonstroAntes,
+                energiaMonstroDepois
+            };
+        }
+
         return {
             primeiroAJogar,
-            mensagem: `A batalha entre ${this.heroi.getNome()} e ${this.monstro.getNome()} começou!`
+            mensagem: `A batalha entre ${this.heroi.getNome()} e ${this.monstro.getNome()} começou!`,
+            acaoInicialMonstro
         };
     }
 
@@ -91,14 +130,17 @@ export class MotorCombate {
         // Lista de mensagens da rodada atual
         const mensagensDestaRodada: string[] = [];
 
+        // Redefine a postura defensiva do herói do turno anterior antes da nova ação
+        this.heroi.redefinirDefesa();
+
         // 1. Executa a ação do Jogador
         if (acao.tipo === "ATACAR") {
             const tipo = acao.tipoAtaque ?? 1; // 1 rápido, 2 pesado, 3 brutal
             const msgAtaque = this.heroi.ataque(this.monstro, tipo);
             mensagensDestaRodada.push(msgAtaque);
         } else if (acao.tipo === "DEFENDER") {
-            this.heroi.defender();
-            mensagensDestaRodada.push(`${this.heroi.getNome()} assumiu postura defensiva (+15 Energia e mitigação de dano).`);
+            const rec = this.heroi.defender();
+            mensagensDestaRodada.push(`${this.heroi.getNome()} assumiu postura defensiva (+${rec} Energia e mitigação de dano).`);
         } else if (acao.tipo === "HABILIDADE_ESPECIAL") {
             const msgEsp = this.heroi.executarAcaoEspecial(this.monstro);
             mensagensDestaRodada.push(msgEsp);

@@ -1,9 +1,7 @@
 import type { FC } from "react";
 import {
-  IconePocaoVida,
-  IconeElixirEnergia,
-  IconeOleoDano,
-  IconeOrbeReliquia
+  IconeItemPixel,
+  BadgeAtributosItem
 } from "./IconesPixelArt";
 
 interface PropsModalFimBatalha {
@@ -17,6 +15,8 @@ interface PropsModalFimBatalha {
     nome: string;
     tipo: string;
     descricao: string;
+    valorEfeito?: number;
+    valorEnergia?: number;
   };
   aoFechar: () => void;
 }
@@ -31,20 +31,6 @@ export const ModalFimBatalha: FC<PropsModalFimBatalha> = ({
   aoFechar
 }) => {
   const eitoria = tipo === "VITORIA";
-
-  const renderizarIconeLoot = (tipoItem: string) => {
-    switch (tipoItem) {
-      case "POCAO_VIDA":
-        return <IconePocaoVida tamanho={32} />;
-      case "ELIXIR_ENERGIA":
-        return <IconeElixirEnergia tamanho={32} />;
-      case "OLEO_DANO":
-        return <IconeOleoDano tamanho={32} />;
-      case "ORBE_RELIQUIA":
-      default:
-        return <IconeOrbeReliquia tamanho={32} />;
-    }
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in zoom-in-95 duration-200">
@@ -91,9 +77,9 @@ export const ModalFimBatalha: FC<PropsModalFimBatalha> = ({
             </div>
 
             {loot && (
-              <div className="p-3 pixel-box bg-[var(--bg-subcard)] border-2 border-[var(--accent-gold)] flex items-center gap-3 text-left">
-                <div className="p-1 bg-black/50 border border-[var(--border-card)] shrink-0">
-                  {renderizarIconeLoot(loot.tipo)}
+              <div className="p-3 pixel-box bg-[var(--bg-subcard)] border-2 border-[var(--accent-gold)] flex items-start gap-3 text-left">
+                <div className="p-1.5 bg-black/50 border border-[var(--border-card)] shrink-0 mt-0.5">
+                  <IconeItemPixel id={loot.id} tipo={loot.tipo} tamanho={32} />
                 </div>
                 <div>
                   <span className="font-silkscreen text-xs font-bold text-[var(--accent-gold)] block">
@@ -102,6 +88,7 @@ export const ModalFimBatalha: FC<PropsModalFimBatalha> = ({
                   <p className="font-medieval text-xs text-[var(--text-muted)] mt-0.5">
                     {loot.descricao}
                   </p>
+                  <BadgeAtributosItem item={loot} />
                 </div>
               </div>
             )}

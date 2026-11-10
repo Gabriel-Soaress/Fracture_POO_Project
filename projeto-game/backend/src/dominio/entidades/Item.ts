@@ -1,10 +1,10 @@
 import { EntidadeCombatente } from "./EntidadeCombatente";
 
 
-export class Item{
+export class Item {
     protected id: number;
     protected nome: string;
-    protected tipo: 'CURA_VIDA' | 'RECUPERA_ENERGIA' |'REFORCO_DANO';
+    protected tipo: 'CURA_VIDA' | 'RECUPERA_ENERGIA' | 'REFORCO_DANO';
     protected valorEfeito: number;
     protected descricao: string;
 
@@ -12,11 +12,10 @@ export class Item{
     constructor(
         id: number,
         nome: string,
-        tipo: 'CURA_VIDA' | 'RECUPERA_ENERGIA' |'REFORCO_DANO',
+        tipo: 'CURA_VIDA' | 'RECUPERA_ENERGIA' | 'REFORCO_DANO',
         valorEfeito: number,
         descricao: string
-
-    ){
+    ) {
         this.id = id;
         this.nome = nome;
         this.tipo = tipo;
@@ -24,22 +23,22 @@ export class Item{
         this.descricao = descricao;
     }
 
-    aplicarEfeito(alvo: EntidadeCombatente):string{
+    aplicarEfeito(alvo: EntidadeCombatente): string {
         let mensagem = "";
-        if(this.tipo === 'CURA_VIDA'){
+        if (this.tipo === 'CURA_VIDA') {
             alvo.curarVida(this.valorEfeito);
-            mensagem = `${alvo.getNome()} usou ${this.nome} e recuperou ${this.valorEfeito} de vida.`;
-        }else if(this.tipo === 'RECUPERA_ENERGIA'){
+            mensagem = `${alvo.getNome()} usou ${this.nome} e recuperou +${this.valorEfeito} de vida (HP)!`;
+        } else if (this.tipo === 'RECUPERA_ENERGIA') {
             alvo.recuperarEnergia(this.valorEfeito);
-            mensagem = `${alvo.getNome()} usou ${this.nome} e recuperou ${this.valorEfeito} de energia.`;
-        }else if(this.tipo === 'REFORCO_DANO'){
+            mensagem = `${alvo.getNome()} usou ${this.nome} e recuperou +${this.valorEfeito} de energia (EN)!`;
+        } else if (this.tipo === 'REFORCO_DANO') {
             alvo.aplicarModificadorDano(this.valorEfeito);
-            mensagem = `${alvo.getNome()} usou ${this.nome} e nessa rodada aplica ${this.valorEfeito} de dano extra.`;
+            mensagem = `${alvo.getNome()} imbuiu sua arma com ${this.nome} (+${this.valorEfeito} de dano bônus no próximo ataque)!`;
         }
         return mensagem;
     }
 
-     getId(): number {
+    getId(): number {
         return this.id;
     }
 
@@ -58,6 +57,4 @@ export class Item{
     getDescricao(): string {
         return this.descricao;
     }
-
-
 }

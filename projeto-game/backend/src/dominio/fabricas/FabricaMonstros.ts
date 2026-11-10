@@ -7,7 +7,7 @@ export class FabricaMonstros {
     // --- CRIPTAS DE VASLEN ---
     public static criarGuerreiroEsqueletico(): Monstro {
         return new Monstro(
-            "Guerreiro Esquelético", 1, 80, 80, 50, 7, 5, 4,
+            "Guerreiro Esquelético", 1, 95, 95, 65, 8, 6, 5,
             "COMUM", 100,
             "Infantaria esquelética reanimada pela névoa da Fratura.",
             FabricaItens.criarMedulaEsqueletoAntigo(), "CRIPTAS", 1
@@ -15,7 +15,7 @@ export class FabricaMonstros {
     }
     public static criarLanceiroEsqueletico(): Monstro {
         return new Monstro(
-            "Lanceiro Esquelético", 2, 90, 90, 60, 8, 6, 5,
+            "Lanceiro Esquelético", 2, 110, 110, 75, 10, 7, 6,
             "COMUM", 130,
             "Guarda de honra das tumbas profundas de Vaslen.",
             FabricaItens.criarPoDeOssosReanimados(), "CRIPTAS", 2
@@ -23,7 +23,7 @@ export class FabricaMonstros {
     }
     public static criarArqueiroEspectral(): Monstro {
         return new Monstro(
-            "Arqueiro Espectral", 3, 110, 110, 75, 11, 7, 9,
+            "Arqueiro Espectral", 3, 135, 135, 90, 12, 9, 10,
             "ELITE", 220,
             "Atirador cadavérico com flechas que drenam a estamina.",
             FabricaItens.criarCinzasDeFocoEspectral(), "CRIPTAS", 3
@@ -33,7 +33,7 @@ export class FabricaMonstros {
     // --- BOSQUE SOMBRIO ---
     public static criarDegoladorSatiro(): Monstro {
         return new Monstro(
-            "Degolador dos Bosques", 3, 105, 105, 65, 10, 6, 8,
+            "Degolador dos Bosques", 3, 130, 130, 80, 12, 8, 9,
             "COMUM", 180,
             "Espírito pastoril corrompido munido de lâminas curvas.",
             FabricaItens.criarSeivaNegraDoBosque(), "BOSQUE_SOMBRIO", 4
@@ -41,7 +41,7 @@ export class FabricaMonstros {
     }
     public static criarXamaDosChifres(): Monstro {
         return new Monstro(
-            "Xamã dos Chifres", 4, 125, 125, 85, 12, 8, 9,
+            "Xamã dos Chifres", 4, 155, 155, 100, 14, 10, 11,
             "ELITE", 260,
             "Líder místico que canaliza o sopro da névoa viva.",
             FabricaItens.criarOrvalhoDeMiasmaTribal(), "BOSQUE_SOMBRIO", 5
@@ -49,7 +49,7 @@ export class FabricaMonstros {
     }
     public static criarLordeCarniceiro(): Monstro {
         return new Monstro(
-            "Lorde Carniceiro", 5, 145, 145, 80, 15, 10, 6,
+            "Lorde Carniceiro", 5, 180, 180, 100, 17, 12, 8,
             "ELITE", 320,
             "Besta tribal monumental cuja clava despedaça armaduras.",
             FabricaItens.criarUnguentoFuriaCarniceira(), "BOSQUE_SOMBRIO", 6
@@ -59,7 +59,7 @@ export class FabricaMonstros {
     // --- LABIRINTO DE CINZAS ---
     public static criarBrutoDoLabirinto(): Monstro {
         return new Monstro(
-            "Bruto do Labirinto", 5, 140, 140, 70, 14, 11, 5,
+            "Bruto do Labirinto", 5, 175, 175, 90, 16, 13, 7,
             "COMUM", 250,
             "Criatura gladiatória subterrânea movida a fúria.",
             FabricaItens.criarCarneSecaTaurica(), "LABIRINTO_CINZAS", 7
@@ -67,7 +67,7 @@ export class FabricaMonstros {
     }
     public static criarRompedorDeFalanges(): Monstro {
         return new Monstro(
-            "Rompedor de Falanges", 6, 165, 165, 85, 17, 13, 6,
+            "Rompedor de Falanges", 6, 205, 205, 105, 19, 16, 8,
             "ELITE", 350,
             "Veterano de armadura pesada de escória vulcânica.",
             FabricaItens.criarOleoDaForjaVulcanica(), "LABIRINTO_CINZAS", 8
@@ -75,7 +75,7 @@ export class FabricaMonstros {
     }
     public static criarGeneralTaurico(): Monstro {
         return new Monstro(
-            "General Táurico", 7, 190, 190, 95, 19, 14, 7,
+            "General Táurico", 7, 235, 235, 115, 22, 17, 9,
             "ELITE", 420,
             "Besta lendária com chifres rúnicos e investida brutal.",
             FabricaItens.criarBalsamoDoCoracaoDeTouro(), "LABIRINTO_CINZAS", 9
@@ -85,7 +85,7 @@ export class FabricaMonstros {
     // --- PÂNTANO PETRIFICANTE ---
     public static criarDonzelaRastejante(): Monstro {
         return new Monstro(
-            "Donzela Rastejante", 7, 150, 150, 80, 16, 9, 12,
+            "Donzela Rastejante", 7, 190, 190, 100, 19, 12, 14,
             "COMUM", 320,
             "Sacerdotisa corrompida em fera com presas ácidas.",
             FabricaItens.criarVenenoDePresaSerpentina(), "PANTANO_PETRIFICANTE", 10
@@ -93,7 +93,7 @@ export class FabricaMonstros {
     }
     public static criarGorgoneOlharCinzento(): Monstro {
         return new Monstro(
-            "Górgone do Olhar Cinzento", 8, 175, 175, 90, 18, 12, 13,
+            "Górgone do Olhar Cinzento", 8, 220, 220, 115, 21, 15, 15,
             "ELITE", 460,
             "Seu olhar petrificante drena a energia e agilidade do alvo.",
             FabricaItens.criarLagrimaDeMedusa(), "PANTANO_PETRIFICANTE", 11
@@ -101,7 +101,7 @@ export class FabricaMonstros {
     }
     public static criarMatriarcaGorgone(): Monstro {
         return new Monstro(
-            "Matriarca Górgone", 9, 240, 240, 120, 23, 16, 15,
+            "Matriarca Górgone", 9, 295, 295, 145, 26, 19, 17,
             "CHEFE", 700,
             "Rainha soberana do templo submerso com lâminas petrificantes.",
             FabricaItens.criarEscamaPetrificadaDaRainha(), "PANTANO_PETRIFICANTE", 12
@@ -111,7 +111,7 @@ export class FabricaMonstros {
     // --- COLINAS DA LUA DE SANGUE ---
     public static criarEspreitadorDaNoite(): Monstro {
         return new Monstro(
-            "Espreitador da Noite", 8, 160, 160, 90, 18, 10, 15,
+            "Espreitador da Noite", 8, 205, 205, 110, 21, 13, 17,
             "COMUM", 360,
             "Lobo negro das falésias com velocidade predatória.",
             FabricaItens.criarPresaDoCacadorNoturno(), "COLINAS_LUA_SANGUE", 13
@@ -119,7 +119,7 @@ export class FabricaMonstros {
     }
     public static criarFeraCarmesim(): Monstro {
         return new Monstro(
-            "Fera Carmesim", 9, 195, 195, 100, 22, 13, 16,
+            "Fera Carmesim", 9, 245, 245, 125, 25, 16, 18,
             "ELITE", 520,
             "Monstruosidade em permanente frenesi de sangue.",
             FabricaItens.criarOleoDeGarraDeFera(), "COLINAS_LUA_SANGUE", 14
@@ -127,7 +127,7 @@ export class FabricaMonstros {
     }
     public static criarAlfaAlbinoDeVaslen(): Monstro {
         return new Monstro(
-            "Alfa Albino de Vaslen", 10, 270, 270, 135, 26, 17, 18,
+            "Alfa Albino de Vaslen", 10, 335, 335, 160, 30, 20, 21,
             "CHEFE", 850,
             "Predador ápice das montanhas nevadas cujo uivo paralisa.",
             FabricaItens.criarCoracaoGelidoDoAlfa(), "COLINAS_LUA_SANGUE", 15
@@ -137,7 +137,7 @@ export class FabricaMonstros {
     // --- LIMBO ESPECTRAL ---
     public static criarGotokuDasChamas(): Monstro {
         return new Monstro(
-            "Gotoku das Chamas", 9, 170, 170, 100, 20, 11, 14,
+            "Gotoku das Chamas", 9, 220, 220, 120, 23, 14, 16,
             "COMUM", 400,
             "Espírito do fogo azul que rouba a estamina vital.",
             FabricaItens.criarCentelhaDeFogoFatuo(), "LIMBO_ESPECTRAL", 16
@@ -145,7 +145,7 @@ export class FabricaMonstros {
     }
     public static criarYureiAguasMortas(): Monstro {
         return new Monstro(
-            "Yurei das Águas Mortas", 10, 205, 205, 110, 23, 14, 16,
+            "Yurei das Águas Mortas", 10, 260, 260, 135, 27, 17, 19,
             "ELITE", 580,
             "Aparição translúcida cujos movimentos silenciosos aterrorizam.",
             FabricaItens.criarLamentoEctoplasmatico(), "LIMBO_ESPECTRAL", 17
@@ -153,7 +153,7 @@ export class FabricaMonstros {
     }
     public static criarOnryoDoRancor(): Monstro {
         return new Monstro(
-            "Onryo do Rancor Eterno", 11, 290, 290, 150, 28, 19, 19,
+            "Onryo do Rancor Eterno", 11, 365, 365, 175, 33, 22, 22,
             "CHEFE", 1000,
             "Espírito vingativo primordial com gritos rasgadores.",
             FabricaItens.criarEssenciaDoRancorPrimordial(), "LIMBO_ESPECTRAL", 18
@@ -163,7 +163,7 @@ export class FabricaMonstros {
     // --- PINÁCULO DO ECLIPSE ---
     public static criarKarasuTengu(): Monstro {
         return new Monstro(
-            "Karasu-Tengu da Névoa", 10, 220, 220, 120, 25, 16, 20,
+            "Karasu-Tengu da Névoa", 10, 280, 280, 145, 29, 19, 22,
             "ELITE", 650,
             "Guerreiro alado dos céus corrompidos com nodachi veloz.",
             FabricaItens.criarPenaCortanteDeTengu(), "PINACULO_ECLIPSE", 19
@@ -171,7 +171,7 @@ export class FabricaMonstros {
     }
     public static criarYamabushiDosPicos(): Monstro {
         return new Monstro(
-            "Yamabushi dos Picos", 11, 245, 245, 130, 27, 18, 18,
+            "Yamabushi dos Picos", 11, 315, 315, 160, 32, 22, 20,
             "ELITE", 750,
             "Mestre asceta corrompido que domina ventos mortais.",
             FabricaItens.criarIncensoDoAscetaCaido(), "PINACULO_ECLIPSE", 20
@@ -179,7 +179,7 @@ export class FabricaMonstros {
     }
     public static criarKitsuneNoveEcos(): Monstro {
         return new Monstro(
-            "Kitsune dos Nove Ecos", 12, 340, 340, 180, 32, 22, 22,
+            "Kitsune dos Nove Ecos", 12, 430, 430, 210, 37, 26, 25,
             "CHEFE", 1500,
             "A soberana das ilusões e dos fogos celestes de Vaslen.",
             FabricaItens.criarOrbeDosNoveEcos(), "PINACULO_ECLIPSE", 21

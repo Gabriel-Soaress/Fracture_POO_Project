@@ -20,27 +20,28 @@ O ensino e aprendizado prático de Programação Orientada a Objetos (POO) em n�
 Além disso, há uma escassez de exemplos práticos que integrem de forma harmônica a orientação a objetos robusta com tecnologias web e persistência em banco de dados, sem cair na simplicidade de operações de CRUD básicas (criação, leitura, atualização e exclusão sem regras de domínio significativas).
 
 ### Descrição da Solução Proposta
-A solução consiste no desenvolvimento de um jogo de RPG de batalhas por turnos baseado em navegador (Web App) com estética de fantasia medieval sombria. O jogo utiliza os pilares de POO para gerenciar a lógica complexa de combate e estados. 
+A solução consiste no desenvolvimento de um jogo de RPG de batalhas por turnos baseado em navegador (Web App) com estética de fantasia medieval sombria e arte retrô em pixel art 2D. O jogo utiliza os pilares de POO para gerenciar a lógica complexa de combate, economia de energia e estados. 
 
-As entidades do jogo (heróis, classes, monstros, chefes e efeitos de status) são modeladas utilizando conceitos de **Herança e Polimorfismo**. As fórmulas matemáticas de combate e modificadores de atributos são protegidos através de **Encapsulamento**, e as regras de negócio de morte do personagem são integradas diretamente à persistência do banco de dados, implementando exclusão lógica (**Soft Delete**) de forma a agregar consequências reais e permanência à jogabilidade.
+As entidades do jogo (heróis, classes, monstros, chefes e efeitos de status) são modeladas utilizando conceitos de **Herança e Polimorfismo** (como a classe abstrata `EntidadeCombatente` especializada em `Personagem` e `Monstro`, e a classe `Item` especializada em `ItemComposto`). As fórmulas matemáticas de combate e mitigação por postura defensiva são protegidas através de **Encapsulamento**, e as regras de negócio de morte do personagem são integradas diretamente à persistência do banco de dados relacional **Neon Cloud PostgreSQL**, implementando exclusão lógica (**Soft Delete**) de forma a agregar consequências reais e permanência à jogabilidade.
 
 ### Público-alvo
 *   Estudantes e entusiastas de engenharia de software e programação orientada a objetos interessados em modelagem de domínio rica.
 *   Jogadores casuais de RPGs táticos e jogos de combate por turnos que apreciam desafios estratégicos e ambientação medieval sombria.
 
 ### Objetivo Geral do Sistema
-Prover uma plataforma web dinâmica, interativa e envolvente na qual os jogadores criem personagens, distribuam atributos estrategicamente, enfrentem criaturas e chefes em combate tático por turnos, evoluam seu nível através do acúmulo de experiência, enquanto experimentam as consequências definitivas de suas ações (morte permanente regulada por banco de dados).
+Prover uma plataforma web dinâmica, interativa e envolvente na qual os jogadores criem personagens, distribuam atributos estrategicamente, enfrentem criaturas e chefes em combate tático por turnos ao longo dos 7 Biomas do Arquipélago da Fratura, gerenciem seus itens e elixires, evoluam seu nível através do acúmulo de experiência, enquanto experimentam as consequências definitivas de suas ações (morte permanente regulada por banco de dados com Soft Delete).
 
 ---
 
 ### Principais Funcionalidades
-1.  **Autenticação de Usuários**: Cadastro de conta, login seguro e controle de acesso a rotas protegidas.
+1.  **Autenticação de Usuários**: Cadastro de conta, login seguro com criptografia `bcrypt`, emissão de tokens JWT e controle de acesso a rotas protegidas.
 2.  **Lobby de Personagens**: Exibição dos personagens ativos da conta e opção de desativação manual (Soft Delete).
-3.  **Criação Personalizada**: Sistema de criação de personagens com escolha de classe e validação matemática obrigatória de exatamente 20 pontos de atributos iniciais para evitar trapaças.
-4.  **Hub Central e Evolução**: Exibição detalhada de status, evolução de nível do herói com redistribuição de novos pontos de atributos permanentes.
-5.  **Códice de Vaslen**: Interface de pesquisa textual ligada ao banco de dados contendo o lore do reino, regras de combate e informações sobre monstros e chefes.
-6.  **Motor de Combate por Turnos**: Sistema de batalha em tempo real simulado no navegador entre o herói e um chefe, com cálculo matemático de dano (ataque/defesa).
-7.  **Consequência de Morte**: Sistema automatizado de derrota que inativa de forma permanente o personagem no banco de dados após sua vida chegar a zero.
+3.  **Criação Personalizada**: Sistema de criação de personagens com escolha de classe (`GUERREIRO`, `MAGO` ou `SAMURAI`), atribuição de consumível inicial característico e validação matemática obrigatória no servidor de exatamente 20 pontos de atributos iniciais (RN01) para evitar trapaças.
+4.  **Hub Central e Evolução**: Exibição detalhada de status, inventário de consumíveis/relíquias e evolução de nível do herói com distribuição de novos pontos de atributos permanentes.
+5.  **Mural de Caçadas Únicas (Anti-Farm)**: Mapa mundi em pixel art 16-bit com 7 biomas e 21 monstros únicos. Cada fera só pode ser expurgada uma única vez pelo herói, concedendo loot exclusivo e XP.
+6.  **Códice de Vaslen**: Enciclopédia arcana ligada ao banco de dados Neon contendo 40 verbetes divididos em História/Crônicas, Biomas/Regiões, Bestiário Completo (com sprites animados dos 21 monstros e atributos) e Tratado de Relíquias (com ícones em pixel art 16x16 de todos os itens).
+7.  **Motor de Combate por Turnos**: Sistema de batalha em tempo real simulado entre o herói e um monstro, com sorteio de iniciativa, economia tática de energia (Ataque Rápido, Pesado, Brutal Quebra-Guarda e Postura Defensiva) e uso de consumíveis da mochila.
+8.  **Consequência de Morte**: Sistema automatizado de derrota que inativa de forma permanente o personagem no banco de dados após sua vida chegar a zero (Soft Delete).
 
 ---
 
@@ -49,34 +50,35 @@ O processo de jogo segue o seguinte fluxo linear:
 
 ```mermaid
 graph TD
-    A[Jogador faz Login] --> B[Acessa o Lobby]
-    B --> C{Criar ou Selecionar Herói?}
-    C -->|Criar| D[Distribui exatamente 20 pontos de atributos]
-    C -->|Selecionar| E[Acessa Hub Central do Herói]
+    A["Jogador faz Login"] --> B["Acessa o Lobby"]
+    B --> C{"Criar ou Selecionar<br/>Personagem?"}
+    C -->|Criar| D["Escolhe Classe e Distribui<br/>exatos 20 Pontos (RN01)"]
+    C -->|Selecionar| E["Acessa Hub Central<br/>do Herói Ativo"]
     D --> E
-    E --> F[Inicia Combate com o Boss]
-    F --> G[Turno do Jogador: Escolhe Atacar ou Defender]
-    G --> H[Turno do Inimigo: Boss age automaticamente]
-    H --> I{Algum HP zerou?}
-    I -->|Não| G
-    I -->|Sim: Vitória| J[Ganhas XP, sobe de nível e distribui pontos no Hub]
-    I -->|Sim: Derrota| K[Personagem sofre Soft Delete automático e jogador volta ao Lobby]
+    E --> F["Mural de Caçadas Únicas:<br/>Escolhe Bioma e Fera"]
+    F --> G["Sorteio de Iniciativa<br/>e Início do Duelo 2D"]
+    G --> H["Turno do Jogador:<br/>Golpe Rápido, Pesado, Brutal,<br/>Defesa ou Usar Item"]
+    H --> I["Turno do Monstro:<br/>IA Tática escolhe Ataque,<br/>Especial ou Defesa"]
+    I --> J{"Algum combatente<br/>teve HP zerado?"}
+    J -->|Não| H
+    J -->|Sim: Vitória| K["Saqueia Loot Exclusivo,<br/>Recebe XP e Registra Expurgo"]
+    J -->|Sim: Derrota| L["Morte Permanente:<br/>Soft Delete no Neon DB<br/>e Retorno ao Lobby"]
 ```
 
 1.  **Acesso**: O jogador realiza o login ou cadastro para acessar a lista de personagens ativos da sua conta.
-2.  **Criação/Seleção**: O jogador seleciona um personagem existente ou cria um novo, distribuindo obrigatoriamente 20 pontos iniciais em seus atributos.
-3.  **Combate**: O jogador entra no painel de combate contra um monstro/chefe medieval. 
-4.  **Duelo de Turnos**: No seu turno, o jogador escolhe uma ação (ex: atacar ou defender). O sistema calcula o impacto de dano baseado nos atributos do personagem. No turno do sistema, a inteligência do monstro responde atacando o jogador.
+2.  **Criação/Seleção**: O jogador seleciona um personagem existente ou cria um novo, escolhendo entre as classes `GUERREIRO`, `MAGO` ou `SAMURAI` e distribuindo obrigatoriamente 20 pontos iniciais em seus atributos (recebendo um item inicial na mochila).
+3.  **Mural e Expedição**: O jogador abre o Mural dos 7 Biomas de Vaslen e desafia uma das 21 criaturas disponíveis (o sistema impede combates repetidos contra monstros já derrotados pelo herói).
+4.  **Duelo de Turnos**: O combate inicia com um sorteio de iniciativa. No seu turno, o jogador gasta energia para desferir golpes rápidos, pesados, brutais que quebram guarda, assumir postura defensiva para recuperar energia ou consumir itens da mochila. Em seguida, a IA do monstro decide sua ação com base na postura do herói e sua reserva de energia.
 5.  **Desfecho**:
-    *   **Vitória**: Se o HP do chefe chegar a zero primeiro, o herói recebe XP. Caso suba de nível, ele pode distribuir pontos extras no Hub Central.
-    *   **Derrota**: Se o HP do herói zerar, ocorre a **derrota definitiva**. O sistema altera o status do personagem no banco de dados para inativo (Soft Delete). O herói é "apagado" da lista de seleção do jogador, restando ao usuário criar ou selecionar outro personagem no Lobby.
+    *   **Vitória**: Se o HP do monstro zerar primeiro, o herói recebe XP, saqueia o item de loot da criatura e registra a vitória no Mural (Anti-Farm). Caso suba de nível, ele pode distribuir pontos extras no Hub Central.
+    *   **Derrota**: Se o HP do herói zerar, ocorre a **derrota definitiva**. O sistema altera o status do personagem no banco de dados para inativo (`ativo = false`, Soft Delete). O herói é retirado da lista de seleção ativa do jogador, restando ao usuário criar ou selecionar outro personagem no Lobby.
 
 ---
 
 ### Justificativa para a Escolha do Tema
-A escolha de um RPG medieval de batalhas por turnos se justifica pela perfeita aderência entre a temática do jogo e os requisitos pedagógicos e técnicos da disciplina de Programação Orientada a Objetos. 
+A escolha de um RPG medieval sombrio de batalhas por turnos se justifica pela perfeita aderência entre a temática do jogo e os requisitos pedagógicos e técnicos da disciplina de Programação Orientada a Objetos. 
 
-Em sistemas web tradicionais, o comportamento polimórfico costuma se limitar a pequenos detalhes, enquanto em um RPG de combate, heróis e monstros possuem comportamentos e reações radicalmente diferentes que se beneficiam diretamente de classes abstratas e interfaces de combate. Além disso, a aplicação de regras matemáticas restritas na criação e a mecânica de morte permanente (Soft Delete) demonstram a robustez necessária na integração entre o back-end, banco de dados e a experiência final no front-end web.
+Em sistemas web tradicionais, o comportamento polimórfico costuma se limitar a pequenos detalhes cadastrais, enquanto em um RPG de combate, heróis, monstros e itens possuem comportamentos e reações radicalmente diferentes que se beneficiam diretamente de classes abstratas (`EntidadeCombatente`), interfaces, herança polimórfica (`ItemComposto`) e orquestração desacoplada de serviços (`MotorCombate`). Além disso, a aplicação de regras matemáticas restritas na criação (RN01) e a mecânica de morte permanente (Soft Delete com Prisma ORM e Neon PostgreSQL) demonstram a robustez necessária na integração entre o back-end, banco de dados e a experiência final no front-end web.
 
 ---
 
@@ -89,21 +91,22 @@ O sistema possui dois perfis distintos de usuários autenticados para garantir o
 ### 1. Jogador (Player)
 Perfil padrão destinado aos usuários que interagem com a jogabilidade e progressão.
 *   **Permissões**:
-    *   Cadastrar conta e realizar login/logout.
-    *   Criar personagens vinculados à sua conta (distribuindo atributos iniciais).
+    *   Cadastrar conta e realizar login/logout seguro com JWT.
+    *   Criar personagens vinculados à sua conta (escolhendo classe e distribuindo atributos iniciais).
     *   Visualizar e selecionar personagens ativos em seu Lobby.
     *   Inativar manualmente seus personagens (Soft Delete).
-    *   Iniciar combates, realizar ações (atacar/defender) no motor de batalha por turnos.
+    *   Navegar pelo Mural dos 7 Biomas e iniciar duelos contra criaturas disponíveis.
+    *   Realizar ações táticas no motor de batalha por turnos (Ataque Rápido, Pesado, Brutal, Defesa e Usar Itens).
     *   Evoluir personagens distribuindo novos pontos de atributos após subir de nível.
-    *   Consultar termos, regras e monstros cadastrados no Códice de Vaslen.
+    *   Consultar histórias, biomas, fichas de monstros com sprites e relíquias com ícones no Códice de Vaslen.
 
 ### 2. Administrador (Admin)
-Perfil com acesso irrestrito ao painel de controle, manutenção e balanceamento do jogo.
+Perfil com acesso ao controle, manutenção e balanceamento do jogo.
 *   **Permissões**:
     *   Todas as permissões do perfil de Jogador.
-    *   Gerenciar o Códice de Vaslen (criar, editar e remover termos de lore, guias e monstros).
-    *   Cadastrar, configurar e balancear novos monstros/chefes do jogo (HP, Força, Defesa, Agilidade).
-    *   Acessar relatórios e logs simples do sistema (ex: total de contas criadas, personagens ativos/deletados).
+    *   Gerenciar o Códice de Vaslen (criar, editar e semear termos de lore, guias e monstros).
+    *   Configurar e balancear criaturas e chefes do jogo (HP, Força, Defesa, Agilidade, Loots).
+    *   Acessar relatórios e dados do sistema no banco de dados.
 
 ---
 
@@ -112,18 +115,18 @@ Perfil com acesso irrestrito ao painel de controle, manutenção e balanceamento
 | Código | Requisito | Descrição |
 | :--- | :--- | :--- |
 | **RF01** | Cadastro de Contas | O sistema deve permitir que novos usuários criem contas informando e-mail e senha. |
-| **RF02** | Autenticação (Login) | O sistema deve permitir a autenticação do usuário e assegurar que rotas internas do jogo exijam uma sessão válida. |
-| **RF03** | Criação de Personagens | O sistema deve permitir ao Jogador criar novos personagens escolhendo um nome e uma classe (ex: Guerreiro, Mago, Arqueiro). |
+| **RF02** | Autenticação (Login) | O sistema deve autenticar o usuário gerando token JWT e assegurar que rotas internas do jogo exijam sessão válida. |
+| **RF03** | Criação de Personagens | O sistema deve permitir ao Jogador criar novos personagens escolhendo um nome, uma classe (`GUERREIRO`, `MAGO` ou `SAMURAI`) e conceder um item inicial correspondente. |
 | **RF04** | Validação de Atributos | O sistema deve validar no servidor que a soma dos atributos iniciais (Força, Defesa e Agilidade) seja exatamente igual a 20. |
-| **RF05** | Lobby de Seleção | O sistema deve exibir para o Jogador autenticado a lista de seus personagens que estão ativos no banco de dados. |
+| **RF05** | Lobby de Seleção | O sistema deve exibir para o Jogador autenticado a lista de seus personagens que estão ativos (`ativo = true`) no banco de dados. |
 | **RF06** | Inativação Manual | O sistema deve permitir ao Jogador desativar manualmente qualquer personagem (Soft Delete), removendo-o da listagem do Lobby. |
-| **RF07** | Motor de Combate (Turnos) | O sistema deve gerenciar uma batalha sequencial de turnos entre o personagem do jogador e o monstro/chefe selecionado. |
-| **RF08** | Ação do Jogador | O sistema deve permitir que o Jogador execute ações no seu turno, como "Atacar" ou "Defender". |
-| **RF09** | Processamento do Inimigo | O sistema deve processar a ação automatizada do Chefe (IA do Boss) imediatamente após o encerramento do turno do jogador. |
-| **RF10** | Evolução de Nível (XP) | O sistema deve conceder experiência (XP) ao personagem sobrevivente após uma vitória e habilitar a redistribuição/soma de novos atributos no Hub Central. |
-| **RF11** | Derrota e Soft Delete | O sistema deve inativar permanentemente no banco de dados (Soft Delete) o personagem cuja vida (HP) for reduzida a zero no combate. |
-| **RF12** | Códice de Lore | O sistema deve fornecer uma barra de pesquisa textual com filtros para consulta aos termos de lore, inimigos e mecânicas gravadas no Códice. |
-| **RF13** | Painel do Administrador | O sistema deve fornecer uma interface exclusiva para o Administrador cadastrar monstros e modificar dados do Códice de Lore. |
+| **RF07** | Motor de Combate (Turnos) | O sistema deve gerenciar uma batalha sequencial de turnos com sorteio de iniciativa entre o herói e a criatura desafiada. |
+| **RF08** | Ações Táticas do Jogador | O sistema deve permitir que o Jogador execute ações com custos reais de energia: Golpe Rápido (10 EN), Pesado (18 EN), Brutal Quebra-Guarda (26 EN), Defender (+30% EN e mitigação de dano) e Usar Item da Mochila. |
+| **RF09** | Inteligência Artificial do Inimigo | O sistema deve processar a ação automatizada do monstro com base em sua reserva de energia, postura do herói e sem repetição consecutiva de golpes. |
+| **RF10** | Mural de Caçadas Únicas (Anti-Farm) | O sistema deve rastrear os monstros derrotados por cada herói e bloquear desafios repetidos contra feras já expurgadas. |
+| **RF11** | Evolução de Nível (XP) | O sistema deve conceder XP e loot exclusivo ao personagem após a vitória, permitindo redistribuição de novos pontos de atributos no Hub Central. |
+| **RF12** | Derrota e Soft Delete | O sistema deve inativar permanentemente no banco de dados (`ativo = false`) o personagem cuja vida for reduzida a zero no combate. |
+| **RF13** | Códice Ilustrado de Vaslen | O sistema deve fornecer uma interface de pesquisa textual com filtros por categoria (`HISTORIA`, `REGIAO`, `MONSTRO`, `RELÍQUIA`), exibindo sprites animados nas criaturas e ícones pixel art nos consumíveis. |
 
 ---
 
@@ -131,11 +134,11 @@ Perfil com acesso irrestrito ao painel de controle, manutenção e balanceamento
 
 | Código | Requisito | Descrição |
 | :--- | :--- | :--- |
-| **RNF01** | Responsividade | A interface web do sistema deve ser responsiva, permitindo usabilidade fluida tanto em computadores (desktops) quanto em celulares e tablets. |
-| **RNF02** | Segurança de Senhas | O sistema deve armazenar as senhas dos usuários criptografadas no banco de dados utilizando algoritmos hash seguros (como bcrypt). |
-| **RNF03** | Tempo de Resposta | O tempo médio de processamento e persistência das ações de combate (ataques, defesas e fim de turno) não deve ultrapassar 500 milissegundos. |
+| **RNF01** | Responsividade e Interface Pixel Art | A interface web do sistema deve ser renderizada em estética retrô 16-bit com layout responsivo para desktops, tablets e celulares. |
+| **RNF02** | Segurança de Senhas e Sessão | O sistema deve armazenar senhas com hash criptográfico `bcrypt` e proteger endpoints RESTful com tokens `JWT (Bearer)`. |
+| **RNF03** | Tempo de Resposta | O tempo médio de processamento e persistência das ações de combate e turnos deve ser inferior a 300 milissegundos. |
 | **RNF04** | Portabilidade de Navegador | O sistema deve ser compatível e renderizar de forma consistente em todos os navegadores modernos (Edge, Chrome, Firefox, Safari). |
-| **RNF05** | Persistência de Estado | O sistema deve assegurar a integridade do estado da batalha, registrando o progresso do turno para evitar perdas de dados em caso de desconexão. |
+| **RNF05** | Persistência Relacional em Nuvem | Os dados de usuários, heróis, inventários, vitórias no mural e códice devem ser persistidos no banco relacional Neon Cloud PostgreSQL através do Prisma ORM. |
 
 ---
 
@@ -143,21 +146,22 @@ Perfil com acesso irrestrito ao painel de controle, manutenção e balanceamento
 
 | Código | Regra | Descrição |
 | :--- | :--- | :--- |
-| **RN01** | Distribuição Obrigatória de Pontos | A soma dos atributos de criação (`Força + Defesa + Agilidade`) deve totalizar **exatamente 20 pontos** iniciais. Qualquer valor menor ou maior deve ser rejeitado no back-end. |
-| **RN02** | Atributos Mínimos | Nenhum atributo de personagem ou monstro (HP, Força, Defesa, Agilidade) poderá conter valor negativo ou igual a zero (com exceção do HP atual durante a batalha). |
-| **RN03** | Inativação Automática (Morte) | Quando o HP do personagem chegar a zero durante a batalha, o sistema deve marcar o atributo `ativo` do registro no banco de dados como `false` (Soft Delete). |
+| **RN01** | Distribuição Obrigatória de Pontos | A soma dos atributos de criação (`Força + Defesa + Agilidade`) deve totalizar **exatamente 20 pontos** iniciais. Qualquer valor diferente deve ser rejeitado pelo construtor da classe no back-end. |
+| **RN02** | Atributos Mínimos | Nenhum atributo de personagem ou monstro (HP, Força, Defesa, Agilidade) poderá conter valor negativo ou igual a zero na criação. |
+| **RN03** | Inativação Automática (Morte) | Quando o HP do personagem chegar a zero durante a batalha, o sistema deve marcar o atributo `ativo` do registro no banco de dados como `false` (Soft Delete imediato). |
 | **RN04** | Acesso a Personagens Inativos | Registros de personagens com `ativo = false` não podem ser listados no Lobby de seleção nem ter seu estado alterado de volta para ativo. |
-| **RN05** | Fórmula de Dano Mínimo | O dano físico infligido no ataque é calculado como `Dano = Força (Atacante) - Defesa (Defensor)`. Se a Defesa for igual ou superior à Força, o dano mínimo aplicado será sempre de **1 ponto** para evitar combates infinitos. |
-| **RN06** | Iniciativa de Turno | A iniciativa do primeiro turno do combate é dada à entidade (herói ou monstro) que possuir o maior atributo de `Agilidade`. Em caso de empate, o jogador tem a preferência. |
-| **RN07** | Escalonamento de Experiência (XP) | O limite de experiência para subir de nível é calculado de forma progressiva pela fórmula `XP_Necessário = Nível_Atual * 100`. |
-| **RN08** | Restrição de Acesso Administrativo | As rotas de criação de monstros e alteração de termos do Códice de Lore devem ser validadas no back-end, permitindo acesso exclusivo a usuários marcados com perfil `ADMIN`. |
-| **RN09** | Confirmação de Level Up | O personagem que subir de nível ficará com status "pendente de evolução", impedindo-o de entrar em novos combates até que o jogador distribua os novos pontos de atributos no Hub Central. |
+| **RN05** | Fórmula de Mitigação e Dano Mínimo | O dano bruto considera a força e o multiplicador do golpe (`1.0x`, `1.8x`, `2.5x`). O dano real deduz a mitigação da defesa passiva do alvo e reduz 45% se o defensor assumiu postura de guarda (ou 20% caso o atacante use Ataque Brutal Quebra-Guarda). O dano mínimo garantido é sempre de 1 ponto. |
+| **RN06** | Iniciativa de Combate | A iniciativa do primeiro turno é determinada em sorteio visual dinâmico. Se o monstro for sorteado, ele executa seu golpe de abertura antes de liberar a vez do jogador. |
+| **RN07** | Escalonamento de Experiência (XP) | O limite de experiência para subir de nível é calculado progressivamente pela fórmula `XP_Necessário = Nível_Atual * 100`. |
+| **RN08** | Anti-Farm do Mural de Caçadas | Um herói não pode desafiar novamente um monstro cujo identificador já conste em sua lista de `monstrosDerrotados`. |
+| **RN09** | Confirmação de Level Up | O personagem que subir de nível recebe 3 pontos livres para distribuição permanente no Hub Central entre Força, Defesa ou Agilidade. |
+| **RN10** | Consumo Imediato de Itens | Ao usar um consumível na mochila durante a batalha, seus efeitos de HP, Energia ou Dano são aplicados imediatamente e o item é removido do inventário persistido no banco de dados. |
 
 ---
 
 ## Descrição Detalhada do Processo Principal
 
-O processo principal de **Fracture: The Vaslen Echoes** consiste no **Ciclo de Combate por Turnos e Suas Consequências**. Este fluxo interage ativamente com os pilares da Orientação a Objetos.
+O processo principal de **Fracture: The Vaslen Echoes** consiste no **Ciclo de Combate por Turnos, Gestão Tática e Suas Consequências**.
 
 ### Diagrama de Sequência de Combate
 
@@ -165,29 +169,26 @@ O processo principal de **Fracture: The Vaslen Echoes** consiste no **Ciclo de C
 sequenceDiagram
     autonumber
     actor Jogador
-    participant Frontend as Interface (Combate)
+    participant Frontend as Interface (Arena 2D)
     participant Motor as Motor de Combate (POO)
-    participant BD as Banco de Dados
+    participant BD as Neon PostgreSQL
     
-    Jogador->>Frontend: Clica em "Atacar" ou "Defender"
-    Frontend->>Motor: Envia Ação do Personagem (Ataque/Defesa)
-    Note over Motor: Calcula dano: Força (Herói) - Defesa (Monstro)<br/>Aplica mitigação se Monstro defendeu
-    Motor->>BD: Atualiza HP do Monstro no Banco
-    BD-->>Motor: Confirma Atualização
-    Note over Motor: IA do Boss decide ação<br/>Calcula dano no Herói
-    Motor->>BD: Atualiza HP do Herói no Banco
-    BD-->>Motor: Confirma Atualização
-    Motor->>Frontend: Retorna resultado das duas ações e HPs atualizados
-    Frontend-->>Jogador: Exibe animações e atualiza HPs na interface
-    Note over Motor: Verifica se alguma entidade chegou a HP = 0
-    alt Herói HP = 0 (Derrota)
-        Motor->>BD: Soft Delete: seta personagem ativo = false
-        Motor->>Frontend: Redireciona para o Lobby com aviso de Morte
-        Frontend-->>Jogador: Exibe tela de derrota e retorna à seleção
+    Jogador->>Frontend: Clica em "Atacar", "Defender" ou "Item"
+    Frontend->>Motor: Envia ação tática e custo de energia
+    Note over Motor: Calcula dano e mitigação da defesa ativa<br/>IA do monstro decide contra-ataque
+    Motor->>BD: Atualiza HP, Energia e progresso no banco
+    BD-->>Motor: Confirma persistência
+    Motor->>Frontend: Retorna resultado das ações e HPs atualizados
+    Frontend-->>Jogador: Exibe animações de avanço e dano no HUD
+    Note over Motor: Verifica se o HP de alguma entidade zerou
+    alt Herói HP = 0 (Derrota Definitiva)
+        Motor->>BD: Soft Delete: atualiza herói com ativo = false
+        Motor->>Frontend: Notifica derrota e inativação
+        Frontend-->>Jogador: Exibe modal de derrota e retorna ao Lobby
     else Monstro HP = 0 (Vitória)
-        Motor->>BD: Incrementa XP do Herói no Banco
-        Motor->>Frontend: Retorna ao Hub Central (verifica se subiu de nível)
-        Frontend-->>Jogador: Exibe tela de vitória e progresso de nível
+        Motor->>BD: Concede XP, Loot e registra expurgo no Mural
+        Motor->>Frontend: Notifica triunfo em Vaslen
+        Frontend-->>Jogador: Exibe modal de vitória e evolução no Hub
     end
 ```
 
@@ -202,9 +203,9 @@ Nesta etapa são identificadas e modeladas as principais classes que compõem o 
 ### Conceitos Relacionados à Modelagem
 *   **Abstração**: Separação das características essenciais das entidades do jogo (como pontos de vida e combate) dos detalhes técnicos de infraestrutura ou renderização.
 *   **Classe**: Molde/estrutura que define os atributos e comportamentos de uma entidade (ex: a classe `Personagem`).
-*   **Objeto / Instância**: A materialização concreta de uma classe na memória durante a execução (ex: um guerreiro específico chamado "Kael", que é uma instância da classe `Personagem`).
-*   **Atributos**: As variáveis que armazenam o estado interno do objeto (ex: `vidaAtual`, `forca`).
-*   **Métodos**: As funções/ações que manipulam o estado interno e definem o comportamento do objeto (ex: `atacar()`, `receberDano()`).
+*   **Objeto / Instância**: A materialização concreta de uma classe na memória durante a execução (ex: um guerreiro específico chamado "Valerius", que é uma instância da classe `Personagem`).
+*   **Atributos**: As variáveis que armazenam o estado interno do objeto (ex: `vidaAtual`, `forca`, `energiaAtual`).
+*   **Métodos**: As funções/ações que manipulam o estado interno e definem o comportamento do objeto (ex: `atacar()`, `receberDano()`, `defender()`).
 
 ---
 
@@ -216,133 +217,135 @@ Nesta etapa são identificadas e modeladas as principais classes que compõem o 
 *   **Atributos**:
     *   `id`: Identificador único da conta.
     *   `email`: Endereço de e-mail utilizado para login.
-    *   `senhaHash`: Hash criptográfico da senha de acesso.
+    *   `senhaHash`: Hash criptográfico da senha de acesso (`bcrypt`).
     *   `tipoUsuario`: Perfil do usuário (`JOGADOR` ou `ADMINISTRADOR`).
     *   `dataCriacao`: Data e hora em que a conta foi criada.
-    *   `personagens`: Lista contendo os objetos do tipo `Personagem` associados a esta conta.
+    *   `personagens`: Coleção de heróis do tipo `Personagem` pertencentes ao usuário.
 *   **Métodos**:
-    *   `autenticar(senhaInformada)`: Verifica se a senha informada corresponde ao hash cadastrado.
-    *   `alterarSenha(senhaAtual, novaSenha)`: Valida e atualiza a senha de acesso do usuário.
-    *   `adicionarPersonagem(personagem)`: Vincula um novo personagem criado à conta.
-    *   `inativarPersonagem(idPersonagem)`: Executa a inativação lógica (Soft Delete) de um personagem da lista.
-    *   `listarPersonagensAtivos()`: Retorna apenas os personagens com status ativo pertencentes ao usuário.
-    *   `ehAdministrador()`: Retorna um booleano indicando se o perfil possui privilégios de administrador.
+    *   `autenticar(senhaInformada)`: Valida a senha contra o hash criptográfico.
+    *   `adicionarPersonagem(personagem)`: Vincula um novo herói criado à conta.
+    *   `inativarPersonagem(idPersonagem)`: Executa a inativação lógica (Soft Delete) de um herói.
+    *   `listarPersonagensAtivos()`: Retorna apenas os personagens com `ativo = true`.
 
 ---
 
 ### 2. Classe Abstrata `EntidadeCombatente`
-*   **Finalidade**: Servir como classe base abstrata para todos os seres capazes de batalhar no jogo (personagens dos jogadores e monstros).
-*   **Responsabilidade**: Encapsular os atributos vitais e de combate fundamentais, fornecendo métodos universais para recebimento de dano, recuperação de vida e verificação de sobrevivência.
+*   **Finalidade**: Servir como classe base abstrata para todos os seres capazes de batalhar no jogo (`Personagem` e `Monstro`).
+*   **Responsabilidade**: Encapsular os atributos vitais e de combate fundamentais, fornecendo métodos universais para recebimento de dano com mitigação, gestão de energia, recuperação de vida e postura defensiva.
 *   **Atributos**:
     *   `id`: Identificador único da entidade.
     *   `nome`: Nome da entidade.
     *   `nivel`: Nível atual de poder da entidade.
     *   `vidaMaxima`: Quantidade máxima de pontos de vida (HP).
     *   `vidaAtual`: Quantidade atual de pontos de vida durante o combate.
-    *   `forca`: Atributo que determina o poder de ataque físico.
-    *   `defesa`: Atributo que determina a mitigação de dano recebido.
-    *   `agilidade`: Atributo que determina a iniciativa nos turnos e chance de esquiva.
-    *   `estaDefendendo`: Indicador booleano de postura defensiva no turno atual.
+    *   `energiaMaxima`: Capacidade máxima da reserva de energia.
+    *   `energiaAtual`: Quantidade atual de energia disponível para manobras de ataque.
+    *   `forca`: Atributo base que determina o poder de ataque físico.
+    *   `defesa`: Atributo base que determina a mitigação passiva de dano.
+    *   `agilidade`: Atributo que determina iniciativa e precisão.
+    *   `estadoDefesa`: Indicador booleano de postura de guarda ativa no turno.
+    *   `modificadorDano`: Bônus temporário de ataque conferido por óleos e relíquias.
 *   **Métodos**:
-    *   `atacar(alvo)`: Executa um ataque básico contra uma entidade alvo.
-    *   `defender()`: Ativa a postura de defesa para mitigar dano no próximo golpe recebido.
-    *   `receberDano(valorDano)`: Deduz pontos de vida com base no dano líquido calculado, garantindo que a vida não fique negativa.
-    *   `curarVida(quantidade)`: Restaura pontos de vida respeitando o limite de `vidaMaxima`.
-    *   `estaDerrotado()`: Retorna verdadeiro se a `vidaAtual` for igual a 0.
-    *   `calcularIniciativa()`: Retorna o valor de agilidade para desempate de ordem de ação.
-    *   `executarAcaoEspecial(alvo)`: Método abstrato que obriga cada subclasse a implementar sua habilidade única (Polimorfismo).
+    *   `atacar(alvo, multiplicadorDano)`: Executa o golpe aplicando a fórmula de dano bruto e somando bônus de óleos/relíquias.
+    *   `receberDano(valorAtaque, forcaAtacante)`: Aplica a fórmula de mitigação passiva e postura defensiva, retornando o dano líquido sofrido.
+    *   `defender()`: Ativa a guarda reforçada e restaura energia (`max(25, 30% da Energia Máxima)`).
+    *   `curarVida(quantidade)`: Restaura pontos de vida respeitando `vidaMaxima`.
+    *   `recuperarEnergia(quantidade)`: Restaura energia respeitando `energiaMaxima`.
+    *   `gastarEnergia(quantidade)`: Deduz energia com validação de saldo suficiente.
+    *   `estaDerrotado()`: Retorna verdadeiro caso `vidaAtual <= 0`.
+    *   `executarAcaoEspecial(alvo)`: Método abstrato que obriga cada subclasse a implementar sua manobra suprema (Polimorfismo).
 
 ---
 
 ### 3. Classe `Personagem` (Herda de `EntidadeCombatente`)
 *   **Finalidade**: Representar o herói criado e controlado pelo jogador dentro do RPG.
-*   **Responsabilidade**: Controlar a classe do herói, a progressão de experiência (XP), o ganho de níveis, a distribuição de atributos e o estado ativo no banco de dados.
+*   **Responsabilidade**: Controlar a especialização da classe (`GUERREIRO`, `MAGO` ou `SAMURAI`), progressão de experiência (XP), mochila de itens (`Item[]`), lista de monstros derrotados no mural e estado ativo.
 *   **Atributos**:
     *   *(Herda todos os atributos de `EntidadeCombatente`)*
-    *   `classeHeroi`: Especialização do herói (`GUERREIRO`, `MAGO`, `ARQUEIRO`).
+    *   `classeHeroi`: Especialização do herói (`GUERREIRO`, `MAGO` ou `SAMURAI`).
     *   `experienciaAtual`: Quantidade de pontos de experiência acumulados.
     *   `experienciaNecessaria`: Total de XP necessário para alcançar o próximo nível.
     *   `pontosLivres`: Pontos de atributo disponíveis para distribuição após subir de nível.
-    *   `ativo`: Indicador booleano que define se o personagem está ativo ou foi inativado (Soft Delete).
-    *   `idUsuario`: Chave estrangeira que referencia a conta dona do personagem.
+    *   `ativo`: Indicador booleano de Soft Delete (`true` = ativo, `false` = derrotado/excluído).
+    *   `idUsuario`: Chave estrangeira que referencia a conta proprietária.
+    *   `inventario`: Coleção de instâncias polimórficas de `Item` que o herói carrega.
+    *   `monstrosDerrotados`: Lista de IDs de monstros já expurgados pelo herói (Mural Anti-Farm).
 *   **Métodos**:
     *   *(Herda os métodos de `EntidadeCombatente`)*
-    *   `validarDistribuicaoInicial(forca, defesa, agilidade)`: Valida se a soma dos atributos iniciais totaliza exatamente 20 pontos.
-    *   `ganharExperiencia(quantidade)`: Adiciona XP e dispara a verificação de subida de nível.
-    *   `verificarSubidaNivel()`: Avalia se a `experienciaAtual` atingiu `experienciaNecessaria`.
-    *   `subirNivel()`: Incrementa o nível, recalcula a vida máxima e concede novos pontos livres.
-    *   `distribuirPontos(forcaAdd, defesaAdd, agilidadeAdd)`: Adiciona os pontos distribuídos aos atributos permanentes do personagem.
-    *   `marcarComoDerrotado()`: Inativa o personagem alterando `ativo` para `false` (Soft Delete).
-    *   `executarAcaoEspecial(alvo)`: Sobrescrita polimórfica que executa a habilidade característica da classe do herói (ex: *Golpe Pesado* para Guerreiro, *Bola de Fogo* para Mago).
+    *   `ataque(alvo, tipoAtaque)`: Executa ataques táticos: Golpe Rápido (10 EN [1.0x]), Pesado (18 EN [1.8x]) ou Brutal Quebra-Guarda (26 EN [2.5x]).
+    *   `usarItemDoInventario(indice, alvo)`: Aplica o efeito do item do inventário e o remove da mochila.
+    *   `adicionarItemAoInventario(item)`: Insere um novo consumível ou relíquia saqueada na mochila.
+    *   `ganharExperiencia(quantidade)`: Adiciona XP e aciona automaticamente a subida de nível quando a meta é alcançada.
+    *   `subirNivel()`: Incrementa o nível, concede 3 pontos livres e amplia HP e Energia máximos.
+    *   `distribuirPontos(forcaAdd, defesaAdd, agilidadeAdd)`: Adiciona os pontos livres aos atributos permanentes do herói.
+    *   `jaDerrotouMonstro(idMonstro)`: Verifica se o monstro já foi derrotado anteriormente pelo herói.
+    *   `registrarVitoriaContraMonstro(idMonstro)`: Registra o monstro na lista de vitórias do herói.
+    *   `executarAcaoEspecial(alvo)`: Sobrescrita polimórfica que executa a técnica suprema da classe (ex: *Golpe Devastador* para Guerreiro, *Explosão Arcana* para Mago, *Corte do Eclipse* para Samurai).
 
 ---
 
 ### 4. Classe `Monstro` (Herda de `EntidadeCombatente`)
-*   **Finalidade**: Representar os inimigos e chefes (Bosses) do reino de Vaslen enfrentados pelo jogador.
-*   **Responsabilidade**: Definir o padrão de inteligência artificial simples (escolha de ataques), a recompensa de experiência concedida e as descrições de lore.
+*   **Finalidade**: Representar as criaturas e chefes do reino de Vaslen enfrentados pelo jogador.
+*   **Responsabilidade**: Definir o padrão de inteligência artificial de combate, recompensas de experiência, loot concedido e descrições canônicas de lore.
 *   **Atributos**:
     *   *(Herda todos os atributos de `EntidadeCombatente`)*
-    *   `tipoMonstro`: Categoria da criatura (`COMUM`, `ELITE`, `CHEFE`).
-    *   `experienciaConcedida`: Quantidade de XP concedida ao jogador caso o monstro seja derrotado.
-    *   `padraoComportamento`: Estratégia de IA utilizada para escolher as ações da criatura a cada turno.
-    *   `descricaoLore`: Texto descritivo sobre as origens e fraquezas da criatura.
+    *   `tipoMonstro`: Categoria da criatura (`COMUM`, `ELITE` ou `CHEFE`).
+    *   `experienciaConcedida`: Quantidade de XP concedida ao herói vitorioso.
+    *   `bioma`: Região de Vaslen à qual a criatura pertence (`CRIPTAS`, `BOSQUE_SOMBRIO`, `LABIRINTO_CINZAS`, etc.).
+    *   `itemRecompensa`: Instância de `Item` que a fera concede como saque exclusivo ao ser expurgada.
+    *   `descricaoLore`: Texto descritivo sobre as características da criatura.
+    *   `ultimoGolpe`: Memória da última ação executada para evitar repetições monótonas de ataques.
 *   **Métodos**:
     *   *(Herda os métodos de `EntidadeCombatente`)*
-    *   `decidirAcao(alvo)`: Algoritmo de IA que analisa o estado da batalha e decide entre ataque básico, defesa ou habilidade de chefe.
-    *   `obterRecompensaXP()`: Retorna a quantidade de XP a ser transferida para o jogador vitorioso.
-    *   `executarAcaoEspecial(alvo)`: Sobrescrita polimórfica que executa o golpe devastador característico do chefe (ex: *Rugido Corruptor* do Lich).
+    *   `decidirAcao(alvo)`: Algoritmo de IA tática que avalia a postura do herói, cooldown de habilidades especiais e reserva de energia para alternar dinamicamente entre ataques rápidos, pesados, brutais, especiais e postura defensiva.
+    *   `getItemRecompensa()`: Retorna o item de loot configurado para a criatura.
+    *   `executarAcaoEspecial(alvo)`: Sobrescrita polimórfica que executa o golpe de chefe característico da fera (ex: *Fúria Selvagem*, *Ataque de Elite*, *Golpe Devastador*).
 
 ---
 
-### 5. Classe `MotorCombate`
+### 5. Classes `Item` e `ItemComposto` (Polimorfismo de Itens)
+*   **Finalidade**: Modelar os consumíveis, óleos de combate e relíquias que compõem o sistema de recompensas e mochila do jogo.
+*   **Responsabilidade**: Encapsular o efeito benéfico ao ser utilizado em uma `EntidadeCombatente`.
+*   **Atributos da Classe Base `Item`**:
+    *   `id`: Identificador único do item.
+    *   `nome`: Nome canônico do item.
+    *   `tipo`: Classificação (`CURA_VIDA`, `RECUPERA_ENERGIA`, `REFORCO_DANO`).
+    *   `valorEfeito`: Intensidade numérica do efeito (pontos de vida, energia ou bônus de dano).
+    *   `descricao`: Resumo das propriedades alquímicas do item.
+*   **Subclasse Polimórfica `ItemComposto` (Herda de `Item`)**:
+    *   Acrescenta o atributo `valorEnergia: number`.
+    *   Sobrescreve polimorficamente o método `aplicarEfeito(alvo: EntidadeCombatente)`, restaurando simultaneamente pontos de Vida e pontos de Energia em uma única ação de combate.
+
+---
+
+### 6. Classe `MotorCombate`
 *   **Finalidade**: Orquestrar a execução, o estado e as rodadas de uma batalha entre um `Personagem` e um `Monstro`.
-*   **Responsabilidade**: Controlar o ciclo de turnos, determinar a ordem de ataque pela iniciativa, invocar o cálculo de danos e declarar o encerramento da batalha com vitória ou derrota.
+*   **Responsabilidade**: Controlar o ciclo sequencial de turnos, determinar o primeiro a jogar via sorteio de iniciativa, processar golpes e ações de itens, verificar condições de vitória/derrota e persistir o progresso.
 *   **Atributos**:
-    *   `idBatalha`: Identificador único do combate em andamento.
-    *   `personagem`: Instância do herói participante.
+    *   `heroi`: Instância do herói participante.
     *   `monstro`: Instância do monstro adversário.
-    *   `numeroTurno`: Contador sequencial do número de rodadas da batalha.
-    *   `turnoAtual`: Identifica de quem é a vez de jogar (`TURNO_JOGADOR` ou `TURNO_MONSTRO`).
-    *   `estadoCombate`: Estado atual da luta (`EM_ANDAMENTO`, `VITORIA_JOGADOR`, `DERROTA_JOGADOR`).
-    *   `historicoEventos`: Lista de mensagens textuais narrando cada ação ocorrida no combate.
+    *   `rodadaAtual`: Contador sequencial do número de rodadas da batalha.
+    *   `estado`: Estado atual do combate (`EM_ANDAMENTO`, `VITORIA_JOGADOR`, `DERROTA_JOGADOR`).
+    *   `logsBatalha`: Histórico de mensagens narrando as ações e desfechos ocorridos na batalha.
 *   **Métodos**:
-    *   `iniciarCombate()`: Configura os combatentes e determina quem age primeiro com base na agilidade.
-    *   `processarTurnoJogador(tipoAcao)`: Executa a ação escolhida pelo jogador (atacar/defender/especial) e aplica os efeitos no monstro.
-    *   `processarTurnoMonstro()`: Invoca a IA do monstro para executar sua ação contra o herói.
-    *   `verificarFimCombate()`: Avalia se o HP de algum dos participantes zerou.
-    *   `finalizarVitoria()`: Concede o XP do monstro ao personagem e encerra a sessão de combate.
-    *   `finalizarDerrota()`: Aciona a inativação permanente (Soft Delete) do herói derrotado.
-    *   `obterResumoEstado()`: Retorna o estado completo atualizado para sincronização com a interface.
-
----
-
-### 6. Classe `CalculadoraCombate`
-*   **Finalidade**: Centralizar todas as fórmulas matemáticas, modificadores e regras de balanceamento de dano do jogo.
-*   **Responsabilidade**: Isolar a matemática de combate das classes de entidade, garantindo baixo acoplamento e facilidade de ajuste das regras de domínio.
-*   **Atributos**:
-    *   `danoMinimoGarantido`: Valor mínimo de dano aplicado em qualquer ataque (padrão: 1 ponto).
-    *   `multiplicadorDefesa`: Fator de mitigação aplicado quando a entidade está em postura defensiva.
-*   **Métodos**:
-    *   `calcularDanoFisico(forcaAtacante, defesaDefensor, estaDefendendo)`: Aplica a fórmula `Força - Defesa` considerando o dano mínimo de 1 e o fator de postura de defesa.
-    *   `calcularDanoEspecial(forcaAtacante, modificadorClasse, defesaDefensor)`: Calcula o impacto de habilidades especiais e mágicas.
-    *   `calcularChanceEsquiva(agilidadeAtacante, agilidadeDefensor)`: Avalia se o golpe foi totalmente evadido com base na diferença de agilidade.
+    *   `iniciarCombate()`: Sorteia quem começa a luta com base na agilidade e sorte, disparando o golpe de abertura se o monstro vencer.
+    *   `processarTurno(acao)`: Executa a ação do herói (atacar, defender ou usar item), reseta posturas de guarda e aciona a IA do monstro caso ele permaneça vivo.
+    *   `finalizarCombate()`: Avalia se alguma das entidades teve sua vida reduzida a zero, concedendo XP/loot em caso de vitória ou acionando o Soft Delete em caso de derrota.
 
 ---
 
 ### 7. Classe `EntradaCodice`
-*   **Finalidade**: Representar um verbete ou registro enciclopédico consultável no Códice de Vaslen.
-*   **Responsabilidade**: Armazenar informações sobre o universo do jogo, criaturas, chefes e regras de batalha, viabilizando buscas textuais e categorizadas.
+*   **Finalidade**: Representar um verbete ou registro enciclopédico consultável no Códice Secular de Vaslen.
+*   **Responsabilidade**: Armazenar informações aprofundadas sobre lore, crônicas da Fratura, biomas, fichas de monstros e tratados alquímicos de relíquias.
 *   **Atributos**:
-    *   `id`: Identificador único da entrada do códice.
-    *   `titulo`: Título ou nome do assunto (ex: "O Lich de Vaslen", "Regras de Iniciativa").
-    *   `categoria`: Categoria temática (`MONSTRO`, `LORE`, `REGRA_COMBATE`, `CLASSE`).
-    *   `conteudo`: Texto descritivo e explicativo detalhado sobre o verbete.
-    *   `dataCadastro`: Data de registro no sistema.
-    *   `idAutorAdmin`: Identificador do administrador que cadastrou ou editou o verbete.
+    *   `id`: Identificador único do verbete no Códice.
+    *   `titulo`: Título ou nome do assunto registrado.
+    *   `categoria`: Categoria temática (`HISTORIA`, `REGIAO`, `MONSTRO`, `RELÍQUIA`).
+    *   `resumo`: Citação ou sinopse curta do verbete.
+    *   `conteudoCompleto`: Texto explicativo aprofundado com detalhes de lore e mecânicas.
+    *   `tags`: Lista de palavras-chave para indexação e busca textual instantânea.
 *   **Métodos**:
-    *   `atualizarVerbete(novoTitulo, novoConteudo, novaCategoria)`: Permite a modificação dos dados por um administrador.
-    *   `contemTermo(termoBusca)`: Realiza a checagem textual se a palavra-chave pesquisada existe no título ou no conteúdo.
-    *   `formatarParaCard()`: Retorna uma estrutura resumida formatada para apresentação na interface web do jogador.
+    *   `contemTermo(termoBusca)`: Realiza a checagem textual case-insensitive no título, resumo, conteúdo ou tags do verbete.
 
 ---
 
@@ -350,12 +353,11 @@ Nesta etapa são identificadas e modeladas as principais classes que compõem o 
 
 | Classe | Tipo | Herança / Associação | Pilar Principal de POO Destacado |
 | :--- | :--- | :--- | :--- |
-| **`Usuario`** | Concreta | Contém múltiplos `Personagem` | **Encapsulamento** (controle seguro de credenciais e coleção) |
-| **`EntidadeCombatente`** | Abstrata | Classe mãe de `Personagem` e `Monstro` | **Abstração & Herança** (reutilização de atributos vitais e métodos base) |
-| **`Personagem`** | Concreta | Herda de `EntidadeCombatente` | **Polimorfismo & Herança** (implementa habilidades de herói e progressão de XP) |
-| **`Monstro`** | Concreta | Herda de `EntidadeCombatente` | **Polimorfismo & Herança** (implementa IA de monstro e habilidades de chefe) |
-| **`Item`** | Concreta | Agregado ao inventário de `Personagem` | **Abstração & Encapsulamento** (itens de consumo e modificadores táticos) |
-| **`MotorCombate`** | Concreta | Associa `Personagem` e `Monstro` | **Abstração & Identificação de Responsabilidades** (orquestração de turnos) |
-| **`CalculadoraCombate`** | Concreta | Serviço de cálculo utilizado pelo motor | **Encapsulamento** (isolamento das fórmulas matemáticas de dano) |
-| **`EntradaCodice`** | Concreta | Entidade independente associada a `Usuario` (Admin) | **Abstração** (representação de registros textuais dinâmicos do lore) |
-
+| **`Usuario`** | Concreta | Contém múltiplos `Personagem` | **Encapsulamento** (gestão de credenciais, sessão JWT e coleção de heróis) |
+| **`EntidadeCombatente`** | Abstrata | Classe mãe de `Personagem` e `Monstro` | **Abstração & Herança** (reutilização de atributos vitais, mitigação e métodos base de combate) |
+| **`Personagem`** | Concreta | Herda de `EntidadeCombatente` | **Polimorfismo & Herança** (classes Guerreiro/Mago/Samurai, técnicas especiais e progressão de XP) |
+| **`Monstro`** | Concreta | Herda de `EntidadeCombatente` | **Polimorfismo & Herança** (IA tática reativa, técnicas de chefe e concessão de loot) |
+| **`Item`** | Concreta | Classe mãe de consumíveis | **Abstração & Encapsulamento** (modificadores táticos e efeitos de cura/dano) |
+| **`ItemComposto`** | Concreta | Herda de `Item` | **Polimorfismo** (sobrescreve `aplicarEfeito` para restaurar simultaneamente Vida e Energia) |
+| **`MotorCombate`** | Concreta | Associa `Personagem` e `Monstro` | **Abstração & Identificação de Responsabilidades** (orquestração sequencial de combate e estados) |
+| **`EntradaCodice`** | Concreta | Entidade consultável no Códice | **Abstração & Encapsulamento** (enciclopédia com 40 verbetes indexados por tags) |

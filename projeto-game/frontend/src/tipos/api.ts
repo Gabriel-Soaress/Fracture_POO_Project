@@ -16,13 +16,14 @@ export interface RespostaLoginDTO {
   usuario: UsuarioDTO;
 }
 
-export type ClasseHeroi = "GUERREIRO" | "MAGO" | "ARQUEIRO";
+export type ClasseHeroi = "GUERREIRO" | "MAGO" | "SAMURAI" | "ARQUEIRO";
 
 export interface ItemInventarioDTO {
   id: number;
   nome: string;
-  tipo: "POCAO_VIDA" | "ELIXIR_ENERGIA" | "OLEO_DANO" | "ORBE_RELIQUIA";
+  tipo: "POCAO_VIDA" | "ELIXIR_ENERGIA" | "OLEO_DANO" | "ORBE_RELIQUIA" | "CURA_VIDA" | "RECUPERA_ENERGIA" | "REFORCO_DANO" | "COMPOSTO";
   valorEfeito: number;
+  valorEnergia?: number;
   descricao: string;
 }
 
@@ -97,10 +98,21 @@ export interface MuralBiomaDTO {
   monstros: MonstroMuralDTO[];
 }
 
+export interface AcaoInicialMonstroDTO {
+  tipo: "ATACAR" | "DEFENDER" | "ESPECIAL";
+  mensagem: string;
+  danoCausado: number;
+  vidaHeroiAntes: number;
+  vidaHeroiDepois: number;
+  energiaMonstroAntes: number;
+  energiaMonstroDepois: number;
+}
+
 export interface SessaoCombateInicioDTO {
   sessaoId: string;
-  primeiroAJogar: "JOGADOR" | "MONSTRO";
+  primeiroAJogar: "JOGADOR" | "HEROI" | "MONSTRO";
   mensagem: string;
+  acaoInicialMonstro?: AcaoInicialMonstroDTO;
   heroi: {
     id: number;
     nome: string;

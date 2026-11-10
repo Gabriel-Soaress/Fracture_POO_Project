@@ -37,20 +37,44 @@ export abstract class EntidadeCombatente {
         this.modificadorDano = 1;
     }
 
-    atacar(alvo: EntidadeCombatente,valorAtaque:number):number {
-        const dano = Math.round((valorAtaque * this.forca) * this.modificadorDano);
-        alvo.receberDano(dano);
-        return dano;
+    atacar(alvo: EntidadeCombatente, valorAtaque: number): number {
+        let danoBruto = Math.round(valorAtaque * this.forca);
+
+        // Aplica bônus de item (REFORCO_DANO):
+        // - Se > 3 (ex.: +9 a +16 dos óleos/venenos de FabricaItens), soma como bônus aditivo;
+        // - Se entre 1 e 3 (ex.: 1.4x em testes unitários), aplica como multiplicador.
+        if (this.modificadorDano > 3) {
+            danoBruto = Math.round(danoBruto + this.modificadorDano);
+        } else if (this.modificadorDano > 1) {
+            danoBruto = Math.round(danoBruto * this.modificadorDano);
+        }
+
+        // Consome o buff de dano imediatamente após o golpe (dura 1 ataque)
+        this.redefinirModificadorDano();
+
+        // Golpes Brutais ou Especiais (multiplicador >= 2.2) atuam como Quebra-Guarda parcial
+        const perfurarDefesa = valorAtaque >= 2.2;
+        const danoReal = alvo.receberDano(danoBruto, perfurarDefesa);
+        return danoReal;
     }
 
-    receberDano(valorDano: number): void {
-        const danoReal = Math.round(this.estadoDefesa ? valorDano * 0.70 : valorDano);
+    receberDano(valorDano: number, perfurarDefesa: boolean = false): number {
+        // 1. Mitigação passiva pela Defesa (armadura natural)
+        const fatorArmadura = perfurarDefesa ? 0.18 : 0.35;
+        const reducaoArmadura = Math.floor(this.defesa * fatorArmadura);
+        const danoPosArmadura = Math.max(2, valorDano - reducaoArmadura);
+
+        // 2. Mitigação ativa por Postura Defensiva (45% normal, ou 20% contra Quebra-Guarda)
+        const multiplicadorPostura = this.estadoDefesa ? (perfurarDefesa ? 0.80 : 0.55) : 1.0;
+        const danoReal = Math.max(1, Math.round(danoPosArmadura * multiplicadorPostura));
 
         if (danoReal < this.vidaAtual) {
             this.vidaAtual -= danoReal;
         } else {
             this.vidaAtual = 0;
         }
+
+        return danoReal;
     }
 
     curarVida(valorCura: number): void {
@@ -61,9 +85,11 @@ export abstract class EntidadeCombatente {
         }
     }
 
-    defender(): void {
+    defender(): number {
         this.estadoDefesa = true;
-        this.recuperarEnergia(15); // Defender descansa e recupera estamina
+        const recuperacao = Math.max(25, Math.round(this.energiaMaxima * 0.30));
+        this.recuperarEnergia(recuperacao); // Defender descansa e recupera estamina proporcional
+        return recuperacao;
     }
 
     redefinirDefesa(): void {

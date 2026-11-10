@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PersonagemRepositorio } from "../../infra/repositorios/PersonagemRepositorio";
 import { Personagem } from "../../dominio/entidades/personagem";
+import { FabricaItens, ItemComposto } from "../../dominio/fabricas/FabricaItens";
 
 export class PersonagemControlador {
     private personagemRepositorio: PersonagemRepositorio;
@@ -22,14 +23,14 @@ export class PersonagemControlador {
 
             if (!nome || !classeFinal || forca === undefined || defesa === undefined || agilidade === undefined) {
                 res.status(400).json({
-                    erro: "Campos obrigatórios: nome, classe (GUERREIRO, MAGO, ARQUEIRO), forca, defesa e agilidade."
+                    erro: "Campos obrigatórios: nome, classe (GUERREIRO, MAGO, SAMURAI), forca, defesa e agilidade."
                 });
                 return;
             }
 
-            if (!["GUERREIRO", "MAGO", "ARQUEIRO"].includes(classeFinal)) {
+            if (!["GUERREIRO", "MAGO", "SAMURAI", "ARQUEIRO"].includes(classeFinal)) {
                 res.status(400).json({
-                    erro: "Classe inválida. Escolha entre: GUERREIRO, MAGO ou ARQUEIRO."
+                    erro: "Classe inválida. Escolha entre: GUERREIRO, MAGO ou SAMURAI."
                 });
                 return;
             }
@@ -53,9 +54,10 @@ export class PersonagemControlador {
                 return;
             }
 
-            // Definição de atributos derivados base por classe
+            // Definição de atributos derivados base por classe e item inicial exclusivo (Factory + Polimorfismo)
             const vidaBase = 100;
-            const energiaBase = classeFinal === "MAGO" ? 90 : (classeFinal === "ARQUEIRO" ? 80 : 70);
+            const energiaBase = classeFinal === "MAGO" ? 90 : ((classeFinal === "SAMURAI" || classeFinal === "ARQUEIRO") ? 80 : 70);
+            const itemInicialClasse = FabricaItens.criarItemInicialPorClasse(classeFinal);
 
             const novoHeroi = new Personagem(
                 nome.trim(),
@@ -71,7 +73,8 @@ export class PersonagemControlador {
                 100,            // experienciaNecessaria
                 0,              // pontosLivres
                 true,           // ativo
-                usuarioId       // idUsuario
+                usuarioId,      // idUsuario
+                [itemInicialClasse] // Inventário já inicia com o consumível da classe
             );
 
             const heroiSalvo = await this.personagemRepositorio.salvar(novoHeroi);
@@ -202,8 +205,8 @@ export class PersonagemControlador {
         }
     }
 
-    private formatarPersonagem(heroi: Personagem, detalhado = false): any {
-        const dados: any = {
+    private formatarPersonagem(heroi: Personagem): any {
+        return {
             id: heroi.getId(),
             nome: heroi.getNome(),
             classeHeroi: heroi.classeHeroi,
@@ -219,19 +222,15 @@ export class PersonagemControlador {
             experienciaNecessaria: heroi.experienciaNecessaria,
             pontosLivres: heroi.pontosLivres,
             ativo: heroi.ativo,
-            monstrosDerrotados: heroi.monstrosDerrotados
-        };
-
-        if (detalhado) {
-            dados.inventario = heroi.inventario.map(item => ({
+            monstrosDerrotados: heroi.monstrosDerrotados,
+            inventario: (heroi.inventario || []).map(item => ({
                 id: item.getId(),
                 nome: item.getNome(),
-                tipo: item.getTipo(),
+                tipo: item instanceof ItemComposto ? "COMPOSTO" : item.getTipo(),
                 valorEfeito: item.getValorEfeito(),
+                valorEnergia: item instanceof ItemComposto ? item.getValorEnergia() : 0,
                 descricao: item.getDescricao()
-            }));
-        }
-
-        return dados;
+            }))
+        };
     }
 }

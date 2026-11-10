@@ -2,6 +2,7 @@ import { useState, useEffect, type FC } from "react";
 import { PersonagemServico } from "../servicos/PersonagemServico";
 import { useJogo } from "../contextos/JogoContext";
 import { ModalConfirmacao } from "../componentes/ModalConfirmacao";
+import { formatarNomeClasse } from "../componentes/NavegadorSuperior";
 import { IconeEspada, IconeCaveira } from "../componentes/IconesPixelArt";
 import type { PersonagemDTO } from "../tipos/api";
 
@@ -35,8 +36,13 @@ export const TelaLobby: FC<PropsTelaLobby> = ({ aoCriarPersonagem, aoSelecionarH
     carregarHerois();
   }, []);
 
-  const handleMarchar = (heroi: PersonagemDTO) => {
-    setHeroiAtivo(heroi);
+  const handleMarchar = async (heroi: PersonagemDTO) => {
+    try {
+      const completo = await PersonagemServico.buscarPorId(heroi.id);
+      setHeroiAtivo(completo);
+    } catch {
+      setHeroiAtivo(heroi);
+    }
     aoSelecionarHeroi();
   };
 
@@ -60,6 +66,7 @@ export const TelaLobby: FC<PropsTelaLobby> = ({ aoCriarPersonagem, aoSelecionarH
         return "sprite-heroi-idle";
       case "MAGO":
         return "sprite-mago-idle";
+      case "SAMURAI":
       case "ARQUEIRO":
         return "sprite-arqueiro-idle";
       default:
@@ -129,7 +136,7 @@ export const TelaLobby: FC<PropsTelaLobby> = ({ aoCriarPersonagem, aoSelecionarH
                       {heroi.nome}
                     </h3>
                     <span className="font-silkscreen text-[10px] text-[var(--accent-gold)]">
-                      {heroi.classeHeroi} • Nv. {heroi.nivel}
+                      {formatarNomeClasse(heroi.classeHeroi)} • Nv. {heroi.nivel}
                     </span>
                   </div>
                   <span className="font-pixel text-[8px] px-2 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-600">

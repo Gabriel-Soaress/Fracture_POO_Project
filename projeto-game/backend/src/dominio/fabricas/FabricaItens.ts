@@ -100,6 +100,48 @@ export class FabricaItens {
         return new ItemComposto(404, "Orbe dos Nove Ecos Celestes", 130, 70, "Relíquia suprema da Kitsune que restaura 130 de vida e 70 de energia.");
     }
 
+    // --- ITENS INICIAIS DE CLASSE (HERANÇA & POLIMORFISMO POR ARQUÉTIPO) ---
+    public static criarTonicoDaGuardaReal(): Item {
+        return new Item(
+            501,
+            "Tônico da Guarda Real",
+            "CURA_VIDA",
+            35,
+            "Frasco consagrado da infantaria de Vaslen que restaura 35 de vida na linha de frente."
+        );
+    }
+
+    public static criarEterCondensadoDoEclipse(): Item {
+        return new Item(
+            502,
+            "Éter Condensado do Eclipse",
+            "RECUPERA_ENERGIA",
+            40,
+            "Cristal líquido arcano que restaura 40 de energia mental do conjurador."
+        );
+    }
+
+    public static criarPilulaDeFocoOriental(): Item {
+        return new ItemComposto(
+            503,
+            "Pílula de Foco Oriental",
+            25,
+            25,
+            "Composto ancestral dos samurais que restaura 25 de vida e 25 de energia simultaneamente."
+        );
+    }
+
+    public static criarItemInicialPorClasse(classe: string): Item {
+        const c = (classe || "").toUpperCase();
+        if (c === "MAGO") {
+            return FabricaItens.criarEterCondensadoDoEclipse();
+        }
+        if (c === "SAMURAI" || c === "ARQUEIRO") {
+            return FabricaItens.criarPilulaDeFocoOriental();
+        }
+        return FabricaItens.criarTonicoDaGuardaReal();
+    }
+
     // --- ITENS BÁSICOS DE SUPORTE ---
     public static criarPocaoVidaMenor(): Item {
         return new Item(1, "Poção de Vida Menor", "CURA_VIDA", 30, "Restaura 30 pontos de vida.");

@@ -1,7 +1,7 @@
 import { useState, type FC } from "react";
 import { ProvedorAuth, useAuth } from "./contextos/AuthContext";
 import { ProvedorJogo, useJogo } from "./contextos/JogoContext";
-import { NavegadorSuperior } from "./componentes/NavegadorSuperior";
+import { NavegadorSuperior, type TelaAtiva } from "./componentes/NavegadorSuperior";
 import { ModalCodice } from "./componentes/ModalCodice";
 import { TelaAuth } from "./telas/TelaAuth";
 import { TelaLobby } from "./telas/TelaLobby";
@@ -10,12 +10,39 @@ import { TelaHubHeroi } from "./telas/TelaHubHeroi";
 import { TelaMural } from "./telas/TelaMural";
 import { TelaArena } from "./telas/TelaArena";
 
-type TelaAtiva = "LOBBY" | "CRIADOR" | "HUB" | "MURAL" | "ARENA";
-
 const ConteudoApp: FC = () => {
   const { carregando, autenticado } = useAuth();
-  const { biomaAtual, modalCodiceAberto, setModalCodiceAberto, efeitoCrt } = useJogo();
+  const {
+    biomaAtual,
+    setBiomaAtual,
+    setHeroiAtivo,
+    setSessaoCombate,
+    modalCodiceAberto,
+    setModalCodiceAberto,
+    efeitoCrt
+  } = useJogo();
   const [telaAtiva, setTelaAtiva] = useState<TelaAtiva>("LOBBY");
+
+  const irParaLobby = () => {
+    setSessaoCombate(null);
+    setHeroiAtivo(null);
+    setBiomaAtual("CRIPTAS");
+    setTelaAtiva("LOBBY");
+  };
+
+  const irParaHub = () => {
+    setSessaoCombate(null);
+    setBiomaAtual("CRIPTAS");
+    setTelaAtiva("HUB");
+  };
+
+  const irParaMural = () => {
+    setSessaoCombate(null);
+    setTelaAtiva("MURAL");
+  };
+
+  // No Lobby, Criador e Hub usamos o tema padrão do Feudo (CRIPTAS) para o HUD nunca ficar com cores instáveis
+  const temaAplicado = telaAtiva === "MURAL" || telaAtiva === "ARENA" ? biomaAtual : "CRIPTAS";
 
   if (carregando) {
     return (
@@ -39,7 +66,7 @@ const ConteudoApp: FC = () => {
   if (!autenticado) {
     return (
       <div
-        data-theme={biomaAtual}
+        data-theme="CRIPTAS"
         className="relative min-h-screen p-4 md:p-8 flex items-center justify-center transition-colors duration-300"
         style={{ backgroundColor: "var(--bg-page)" }}
       >
@@ -51,7 +78,7 @@ const ConteudoApp: FC = () => {
 
   return (
     <div
-      data-theme={biomaAtual}
+      data-theme={temaAplicado}
       className="relative min-h-screen text-[var(--text-primary)] p-3 md:p-6 flex flex-col items-center transition-colors duration-300"
       style={{ backgroundColor: "var(--bg-page)" }}
     >
@@ -60,36 +87,41 @@ const ConteudoApp: FC = () => {
 
       {/* Navegador Superior com dados do Herói e Logout */}
       <NavegadorSuperior
-        aoNavegarParaLobby={() => setTelaAtiva("LOBBY")}
-        aoNavegarParaHub={() => setTelaAtiva("HUB")}
+        telaAtiva={telaAtiva}
+        aoNavegarParaLobby={irParaLobby}
+        aoNavegarParaHub={irParaHub}
+        aoNavegarParaMural={irParaMural}
       />
 
       {/* Roteamento das 5 Telas Principais da Aplicação */}
       <main className="w-full max-w-6xl flex-1 flex flex-col justify-start">
         {telaAtiva === "LOBBY" && (
           <TelaLobby
-            aoCriarPersonagem={() => setTelaAtiva("CRIADOR")}
-            aoSelecionarHeroi={() => setTelaAtiva("HUB")}
+            aoCriarPersonagem={() => {
+              setHeroiAtivo(null);
+              setTelaAtiva("CRIADOR");
+            }}
+            aoSelecionarHeroi={irParaHub}
           />
         )}
 
         {telaAtiva === "CRIADOR" && (
           <TelaCriador
-            aoVoltar={() => setTelaAtiva("LOBBY")}
-            aoCriadoComSucesso={() => setTelaAtiva("LOBBY")}
+            aoVoltar={irParaLobby}
+            aoCriadoComSucesso={irParaLobby}
           />
         )}
 
         {telaAtiva === "HUB" && (
           <TelaHubHeroi
-            aoIrParaMural={() => setTelaAtiva("MURAL")}
-            aoVoltarLobby={() => setTelaAtiva("LOBBY")}
+            aoIrParaMural={irParaMural}
+            aoVoltarLobby={irParaLobby}
           />
         )}
 
         {telaAtiva === "MURAL" && (
           <TelaMural
-            aoVoltarAoHub={() => setTelaAtiva("HUB")}
+            aoVoltarAoHub={irParaHub}
             aoIniciarCombate={() => setTelaAtiva("ARENA")}
           />
         )}
@@ -97,7 +129,11 @@ const ConteudoApp: FC = () => {
         {telaAtiva === "ARENA" && (
           <TelaArena
             aoTerminarDuelo={(vitoria) => {
-              setTelaAtiva(vitoria ? "HUB" : "LOBBY");
+              if (vitoria) {
+                irParaHub();
+              } else {
+                irParaLobby();
+              }
             }}
           />
         )}

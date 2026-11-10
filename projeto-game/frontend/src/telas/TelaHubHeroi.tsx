@@ -1,12 +1,11 @@
-import { useState, type FC } from "react";
+import { useState, useEffect, type FC } from "react";
 import { useJogo } from "../contextos/JogoContext";
 import { PersonagemServico } from "../servicos/PersonagemServico";
+import { formatarNomeClasse } from "../componentes/NavegadorSuperior";
 import {
   IconeCaveira,
-  IconePocaoVida,
-  IconeElixirEnergia,
-  IconeOleoDano,
-  IconeOrbeReliquia
+  IconeItemPixel,
+  BadgeAtributosItem
 } from "../componentes/IconesPixelArt";
 import type { ItemInventarioDTO } from "../tipos/api";
 
@@ -23,6 +22,11 @@ export const TelaHubHeroi: FC<PropsTelaHubHeroi> = ({ aoIrParaMural, aoVoltarLob
     defesa: 0,
     agilidade: 0
   });
+
+  // Garante sincronização imediata dos itens da mochila e atributos ao abrir o Hub
+  useEffect(() => {
+    recarregarHeroiAtivo();
+  }, []);
 
   if (!heroiAtivo) {
     return (
@@ -70,22 +74,8 @@ export const TelaHubHeroi: FC<PropsTelaHubHeroi> = ({ aoIrParaMural, aoVoltarLob
 
   const obterSpriteHeroi = (classe: string) => {
     if (classe === "MAGO") return "sprite-mago-idle";
-    if (classe === "ARQUEIRO") return "sprite-arqueiro-idle";
+    if (classe === "SAMURAI" || classe === "ARQUEIRO") return "sprite-arqueiro-idle";
     return "sprite-heroi-idle";
-  };
-
-  const renderizarIconeItem = (tipo: string) => {
-    switch (tipo) {
-      case "POCAO_VIDA":
-        return <IconePocaoVida tamanho={24} />;
-      case "ELIXIR_ENERGIA":
-        return <IconeElixirEnergia tamanho={24} />;
-      case "OLEO_DANO":
-        return <IconeOleoDano tamanho={24} />;
-      case "ORBE_RELIQUIA":
-      default:
-        return <IconeOrbeReliquia tamanho={24} />;
-    }
   };
 
   return (
@@ -127,7 +117,7 @@ export const TelaHubHeroi: FC<PropsTelaHubHeroi> = ({ aoIrParaMural, aoVoltarLob
             {/* Tag de Nível */}
             <div className="flex items-center justify-between w-full border-b border-[var(--border-card)] pb-2 mb-4">
               <span className="font-pixel text-xs text-[var(--accent-gold)]">
-                {heroiAtivo.classeHeroi}
+                {formatarNomeClasse(heroiAtivo.classeHeroi)}
               </span>
               <span className="font-pixel text-[9px] px-2 py-0.5 bg-[var(--accent-gold-dark)] text-[var(--accent-gold-light)] border border-[var(--accent-gold)]">
                 NÍVEL {heroiAtivo.nivel}
@@ -332,8 +322,8 @@ export const TelaHubHeroi: FC<PropsTelaHubHeroi> = ({ aoIrParaMural, aoVoltarLob
                     key={`${item.id}-${idx}`}
                     className="p-3 pixel-box bg-[var(--bg-subcard)] border border-[var(--border-card)] flex items-start gap-3"
                   >
-                    <div className="p-1.5 bg-black/50 border border-[var(--border-card)] shrink-0">
-                      {renderizarIconeItem(item.tipo)}
+                    <div className="p-1.5 bg-black/50 border border-[var(--border-card)] shrink-0 mt-0.5">
+                      <IconeItemPixel id={item.id} tipo={item.tipo} tamanho={28} />
                     </div>
                     <div className="overflow-hidden">
                       <span className="font-silkscreen text-xs font-bold text-[var(--accent-gold)] block truncate">
@@ -342,6 +332,7 @@ export const TelaHubHeroi: FC<PropsTelaHubHeroi> = ({ aoIrParaMural, aoVoltarLob
                       <p className="font-medieval text-xs text-[var(--text-secondary)] mt-0.5 line-clamp-2">
                         {item.descricao}
                       </p>
+                      <BadgeAtributosItem item={item} />
                     </div>
                   </div>
                 ))}

@@ -2,590 +2,810 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Visualização HTML - documento_entregas_projeto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fracture: The Vaslen Echoes — Documento Consolidado de Entregas</title>
+    <!-- Fontes do Tema Dark Fantasy de Vaslen -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Mermaid JS com configuração 100% responsiva (sem scrollbar lateral) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'dark',
+                securityLevel: 'loose',
+                themeVariables: {
+                    darkMode: true,
+                    background: '#0d1117',
+                    mainBkg: '#161d27',
+                    primaryColor: '#1a2230',
+                    primaryTextColor: '#f8fafc',
+                    primaryBorderColor: '#d4af37',
+                    lineColor: '#eab308',
+                    secondaryColor: '#2d1515',
+                    tertiaryColor: '#0a0e14',
+                    actorBkg: '#1c1917',
+                    actorBorder: '#f59e0b',
+                    actorTextColor: '#fef08a',
+                    actorLineColor: '#d97706',
+                    signalColor: '#facc15',
+                    signalTextColor: '#f8fafc',
+                    labelBoxBkgColor: '#1c1917',
+                    labelBoxBorderColor: '#d4af37',
+                    labelTextColor: '#fef08a',
+                    loopTextColor: '#cbd5e1',
+                    noteBorderColor: '#854d0e',
+                    noteBkgColor: '#291807',
+                    noteTextColor: '#fef3c7',
+                    fontSize: '13px',
+                    fontFamily: "'Fira Code', 'EB Garamond', monospace"
+                },
+                flowchart: {
+                    htmlLabels: true,
+                    curve: 'basis',
+                    padding: 10,
+                    useMaxWidth: true
+                },
+                sequence: {
+                    useMaxWidth: true,
+                    diagramMarginX: 10,
+                    diagramMarginY: 10,
+                    actorMargin: 35,
+                    width: 140,
+                    height: 48,
+                    boxMargin: 8,
+                    boxTextMargin: 5,
+                    noteMargin: 8,
+                    messageMargin: 28
+                }
+            });
+        });
+    </script>
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
-
     * { box-sizing: border-box; }
+    
+    @page {
+        size: A4;
+        margin: 1.6cm 1.4cm 1.6cm 1.4cm;
+    }
+
+    @media print {
+        body {
+            background-color: #080c14 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .document-wrapper {
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .mermaid-container {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+            margin: 1.5em 0 !important;
+        }
+        table {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+        }
+        h1, h2, h3 {
+            break-after: avoid !important;
+            page-break-after: avoid !important;
+        }
+    }
+    
     body {
         font-family: 'EB Garamond', serif;
         font-size: 13.5pt;
-        line-height: 1.6;
-        color: #2c241e;
-        background-color: #fcfbfa;
+        line-height: 1.65;
+        color: #e2e8f0;
+        background-color: #080c14;
         margin: 0;
-        padding: 2.5cm 2cm;
+        padding: 2.5cm 2.2cm;
+        background-image: 
+            radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+            radial-gradient(circle at 100% 100%, rgba(139, 0, 0, 0.06) 0%, transparent 50%);
     }
+
+    .document-wrapper {
+        max-width: 980px;
+        margin: 0 auto;
+    }
+
     h1 {
         font-family: 'Cinzel', serif;
-        color: #6e1a12;
-        font-weight: 700;
         font-size: 24pt;
-        border-bottom: 2px double #c5a059;
-        padding-bottom: 0.3em;
-        margin-top: 2em;
-        margin-bottom: 1em;
-        page-break-before: always;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        color: #f6e05e;
+        text-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
+        text-align: center;
+        border-bottom: 2px solid #b7791f;
+        padding-bottom: 16px;
+        margin-top: 35px;
+        margin-bottom: 24px;
     }
-    h1:first-of-type {
-        page-break-before: avoid;
-        margin-top: 0;
-    }
+
     h2 {
         font-family: 'Cinzel', serif;
-        color: #6e1a12;
         font-size: 18pt;
-        border-bottom: 1px solid #c5a059;
-        padding-bottom: 0.2em;
-        margin-top: 1.8em;
-        page-break-after: avoid;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        color: #e2e8f0;
+        border-bottom: 1px solid #78350f;
+        padding-bottom: 8px;
+        margin-top: 32px;
+        margin-bottom: 16px;
     }
+
     h3 {
         font-family: 'Cinzel', serif;
-        font-size: 14pt;
-        color: #3b2e2a;
-        page-break-after: avoid;
+        font-size: 14.5pt;
+        font-weight: 700;
+        color: #facc15;
+        margin-top: 24px;
+        margin-bottom: 12px;
     }
-    p { margin-bottom: 1.2em; text-align: justify; }
-    strong { color: #6e1a12; font-weight: 600; }
-    ul, ol { margin-bottom: 1.2em; padding-left: 1.5em; }
-    li { margin-bottom: 0.5em; }
-    hr {
-        border: none;
-        border-top: 2px double #c5a059;
-        height: 5px;
-        margin: 2.5em 0;
+
+    h4 {
+        font-family: 'Cinzel', serif;
+        font-size: 12.5pt;
+        font-weight: 600;
+        color: #fca5a5;
+        margin-top: 18px;
+        margin-bottom: 8px;
     }
-    .mermaid-container {
-        text-align: center;
-        margin: 2em 0;
-        padding: 15px;
-        background-color: #f7f3eb;
-        border: 1px solid #e3dac9;
+
+    p {
+        margin: 0 0 14px 0;
+        text-align: justify;
+        color: #cbd5e1;
+    }
+
+    ul, ol {
+        margin: 10px 0 16px 26px;
+        color: #cbd5e1;
+    }
+
+    li {
+        margin-bottom: 7px;
+    }
+
+    code {
+        font-family: 'Fira Code', monospace;
+        background-color: #1a2230;
+        color: #fbbf24;
+        border: 1px solid #78350f;
+        padding: 2px 5px;
         border-radius: 4px;
-        page-break-inside: avoid;
+        font-size: 10.5pt;
     }
-    .mermaid-img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+    pre {
+        background-color: #0d121c;
+        border: 1px solid #334155;
+        padding: 14px;
+        border-radius: 6px;
+        font-family: 'Fira Code', monospace;
+        font-size: 10.5pt;
+        color: #cbd5e1;
+        overflow-x: auto;
+    }
+
     table {
         width: 100%;
         border-collapse: collapse;
-        margin: 1.8em 0;
-        border: 1.5px solid #6e1a12;
-        page-break-inside: auto;
+        margin: 22px 0;
+        font-size: 11pt;
+        background-color: #0d131f;
+        border: 2px solid #b7791f;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
-    tr {
-        page-break-inside: avoid;
-        page-break-after: auto;
-    }
+
     th, td {
-        border: 1px solid #b89047;
-        padding: 10px 14px;
+        border: 1px solid #2d3748;
+        padding: 9px 12px;
         text-align: left;
-        vertical-align: top;
     }
+
     th {
-        background-color: #6e1a12;
-        color: #ffffff;
+        background: linear-gradient(180deg, #2a1805 0%, #170d02 100%);
+        font-family: 'Cinzel', serif;
+        color: #facc15;
         font-weight: 700;
+        letter-spacing: 0.03em;
+        border-bottom: 2px solid #b7791f;
     }
+
     tr:nth-child(even) {
-        background-color: #f7f3eb;
+        background-color: #121927;
+    }
+
+    tr:hover {
+        background-color: #182338;
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #b7791f, transparent);
+        margin: 36px 0;
+    }
+
+    /* Moldura dos Diagramas Mermaid (100% responsiva, sem scrollbar forçada) */
+    .mermaid-container {
+        margin: 2em auto;
+        padding: 18px;
+        background: linear-gradient(145deg, #0f172a 0%, #090d16 100%);
+        border: 2px solid #b7791f;
+        border-radius: 8px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.05);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+    }
+
+    .mermaid {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .mermaid svg {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .mermaid text {
+        font-family: 'Fira Code', 'EB Garamond', monospace !important;
+        font-size: 12px !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #080c14;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #78350f;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #b7791f;
     }
     </style>
 </head>
 <body>
-    <h1>Fracture: The Vaslen Echoes — Documento Consolidado de Entregas</h1>
+<div class="document-wrapper">
+<h1>Fracture: The Vaslen Echoes — Documento Consolidado de Entregas</h1>
 <p>Este documento reúne de forma contínua e consolidada todas as atividades e entregas de desenvolvimento do sistema web <strong>Fracture: The Vaslen Echoes</strong> para a disciplina de Programação Orientada a Objetos (POO).</p>
-<hr />
+<hr>
 <h1>Atividade 1 — Descrição do Projeto</h1>
 <h3>Nome do Sistema</h3>
 <p><strong>Fracture: The Vaslen Echoes</strong></p>
 <h3>Área de Atuação</h3>
 <p>Desenvolvimento de Software, Jogos Digitais e Aplicações Web Interativas.</p>
-<hr />
+<hr>
 <h3>Descrição do Problema</h3>
 <p>O ensino e aprendizado prático de Programação Orientada a Objetos (POO) em nível universitário costuma ser pautado em sistemas de informação administrativos tradicionais, como controle de vendas, cadastros de clientes ou gestão de frotas. Embora úteis, esses temas falham em ilustrar de forma orgânica e empolgante o uso de mecânicas de estado em tempo real e comportamentos polimórficos ricos. </p>
 <p>Além disso, há uma escassez de exemplos práticos que integrem de forma harmônica a orientação a objetos robusta com tecnologias web e persistência em banco de dados, sem cair na simplicidade de operações de CRUD básicas (criação, leitura, atualização e exclusão sem regras de domínio significativas).</p>
 <h3>Descrição da Solução Proposta</h3>
-<p>A solução consiste no desenvolvimento de um jogo de RPG de batalhas por turnos baseado em navegador (Web App) com estética de fantasia medieval sombria. O jogo utiliza os pilares de POO para gerenciar a lógica complexa de combate e estados. </p>
-<p>As entidades do jogo (heróis, classes, monstros, chefes e efeitos de status) são modeladas utilizando conceitos de <strong>Herança e Polimorfismo</strong>. As fórmulas matemáticas de combate e modificadores de atributos são protegidos através de <strong>Encapsulamento</strong>, e as regras de negócio de morte do personagem são integradas diretamente à persistência do banco de dados, implementando exclusão lógica (<strong>Soft Delete</strong>) de forma a agregar consequências reais e permanência à jogabilidade.</p>
+<p>A solução consiste no desenvolvimento de um jogo de RPG de batalhas por turnos baseado em navegador (Web App) com estética de fantasia medieval sombria e arte retrô em pixel art 2D. O jogo utiliza os pilares de POO para gerenciar a lógica complexa de combate, economia de energia e estados. </p>
+<p>As entidades do jogo (heróis, classes, monstros, chefes e efeitos de status) são modeladas utilizando conceitos de <strong>Herança e Polimorfismo</strong> (como a classe abstrata <code>EntidadeCombatente</code> especializada em <code>Personagem</code> e <code>Monstro</code>, e a classe <code>Item</code> especializada em <code>ItemComposto</code>). As fórmulas matemáticas de combate e mitigação por postura defensiva são protegidas através de <strong>Encapsulamento</strong>, e as regras de negócio de morte do personagem são integradas diretamente à persistência do banco de dados relacional <strong>Neon Cloud PostgreSQL</strong>, implementando exclusão lógica (<strong>Soft Delete</strong>) de forma a agregar consequências reais e permanência à jogabilidade.</p>
 <h3>Público-alvo</h3>
 <ul>
 <li>Estudantes e entusiastas de engenharia de software e programação orientada a objetos interessados em modelagem de domínio rica.</li>
 <li>Jogadores casuais de RPGs táticos e jogos de combate por turnos que apreciam desafios estratégicos e ambientação medieval sombria.</li>
 </ul>
 <h3>Objetivo Geral do Sistema</h3>
-<p>Prover uma plataforma web dinâmica, interativa e envolvente na qual os jogadores criem personagens, distribuam atributos estrategicamente, enfrentem criaturas e chefes em combate tático por turnos, evoluam seu nível através do acúmulo de experiência, enquanto experimentam as consequências definitivas de suas ações (morte permanente regulada por banco de dados).</p>
-<hr />
+<p>Prover uma plataforma web dinâmica, interativa e envolvente na qual os jogadores criem personagens, distribuam atributos estrategicamente, enfrentem criaturas e chefes em combate tático por turnos ao longo dos 7 Biomas do Arquipélago da Fratura, gerenciem seus itens e elixires, evoluam seu nível através do acúmulo de experiência, enquanto experimentam as consequências definitivas de suas ações (morte permanente regulada por banco de dados com Soft Delete).</p>
+<hr>
 <h3>Principais Funcionalidades</h3>
-<ol>
-<li><strong>Autenticação de Usuários</strong>: Cadastro de conta, login seguro e controle de acesso a rotas protegidas.</li>
-<li><strong>Lobby de Personagens</strong>: Exibição dos personagens ativos da conta e opção de desativação manual (Soft Delete).</li>
-<li><strong>Criação Personalizada</strong>: Sistema de criação de personagens com escolha de classe e validação matemática obrigatória de exatamente 20 pontos de atributos iniciais para evitar trapaças.</li>
-<li><strong>Hub Central e Evolução</strong>: Exibição detalhada de status, evolução de nível do herói com redistribuição de novos pontos de atributos permanentes.</li>
-<li><strong>Códice de Vaslen</strong>: Interface de pesquisa textual ligada ao banco de dados contendo o lore do reino, regras de combate e informações sobre monstros e chefes.</li>
-<li><strong>Motor de Combate por Turnos</strong>: Sistema de batalha em tempo real simulado no navegador entre o herói e um chefe, com cálculo matemático de dano (ataque/defesa).</li>
-<li><strong>Consequência de Morte</strong>: Sistema automatizado de derrota que inativa de forma permanente o personagem no banco de dados após sua vida chegar a zero.</li>
-</ol>
-<hr />
+<p>1.  <strong>Autenticação de Usuários</strong>: Cadastro de conta, login seguro com criptografia <code>bcrypt</code>, emissão de tokens JWT e controle de acesso a rotas protegidas.</p>
+<p>2.  <strong>Lobby de Personagens</strong>: Exibição dos personagens ativos da conta e opção de desativação manual (Soft Delete).</p>
+<p>3.  <strong>Criação Personalizada</strong>: Sistema de criação de personagens com escolha de classe (<code>GUERREIRO</code>, <code>MAGO</code> ou <code>SAMURAI</code>), atribuição de consumível inicial característico e validação matemática obrigatória no servidor de exatamente 20 pontos de atributos iniciais (RN01) para evitar trapaças.</p>
+<p>4.  <strong>Hub Central e Evolução</strong>: Exibição detalhada de status, inventário de consumíveis/relíquias e evolução de nível do herói com distribuição de novos pontos de atributos permanentes.</p>
+<p>5.  <strong>Mural de Caçadas Únicas (Anti-Farm)</strong>: Mapa mundi em pixel art 16-bit com 7 biomas e 21 monstros únicos. Cada fera só pode ser expurgada uma única vez pelo herói, concedendo loot exclusivo e XP.</p>
+<p>6.  <strong>Códice de Vaslen</strong>: Enciclopédia arcana ligada ao banco de dados Neon contendo 40 verbetes divididos em História/Crônicas, Biomas/Regiões, Bestiário Completo (com sprites animados dos 21 monstros e atributos) e Tratado de Relíquias (com ícones em pixel art 16x16 de todos os itens).</p>
+<p>7.  <strong>Motor de Combate por Turnos</strong>: Sistema de batalha em tempo real simulado entre o herói e um monstro, com sorteio de iniciativa, economia tática de energia (Ataque Rápido, Pesado, Brutal Quebra-Guarda e Postura Defensiva) e uso de consumíveis da mochila.</p>
+<p>8.  <strong>Consequência de Morte</strong>: Sistema automatizado de derrota que inativa de forma permanente o personagem no banco de dados após sua vida chegar a zero (Soft Delete).</p>
+<hr>
 <h3>Descrição do Processo Principal</h3>
 <p>O processo de jogo segue o seguinte fluxo linear:</p>
-<div class="mermaid-container"><img src="https://mermaid.ink/img/eyJjb2RlIjogImdyYXBoIFREXG4gICAgQVtKb2dhZG9yIGZheiBMb2dpbl0gLS0-IEJbQWNlc3NhIG8gTG9iYnldXG4gICAgQiAtLT4gQ3tDcmlhciBvdSBTZWxlY2lvbmFyIEhlclx1MDBmM2k_fVxuICAgIEMgLS0-fENyaWFyfCBEW0Rpc3RyaWJ1aSBleGF0YW1lbnRlIDIwIHBvbnRvcyBkZSBhdHJpYnV0b3NdXG4gICAgQyAtLT58U2VsZWNpb25hcnwgRVtBY2Vzc2EgSHViIENlbnRyYWwgZG8gSGVyXHUwMGYzaV1cbiAgICBEIC0tPiBFXG4gICAgRSAtLT4gRltJbmljaWEgQ29tYmF0ZSBjb20gbyBCb3NzXVxuICAgIEYgLS0-IEdbVHVybm8gZG8gSm9nYWRvcjogRXNjb2xoZSBBdGFjYXIgb3UgRGVmZW5kZXJdXG4gICAgRyAtLT4gSFtUdXJubyBkbyBJbmltaWdvOiBCb3NzIGFnZSBhdXRvbWF0aWNhbWVudGVdXG4gICAgSCAtLT4gSXtBbGd1bSBIUCB6ZXJvdT99XG4gICAgSSAtLT58Tlx1MDBlM298IEdcbiAgICBJIC0tPnxTaW06IFZpdFx1MDBmM3JpYXwgSltHYW5oYXMgWFAsIHNvYmUgZGUgblx1MDBlZHZlbCBlIGRpc3RyaWJ1aSBwb250b3Mgbm8gSHViXVxuICAgIEkgLS0-fFNpbTogRGVycm90YXwgS1tQZXJzb25hZ2VtIHNvZnJlIFNvZnQgRGVsZXRlIGF1dG9tXHUwMGUxdGljbyBlIGpvZ2Fkb3Igdm9sdGEgYW8gTG9iYnldIiwgIm1lcm1haWQiOiB7InRoZW1lIjogIm5ldXRyYWwiLCAidGhlbWVWYXJpYWJsZXMiOiB7InByaW1hcnlDb2xvciI6ICIjZjVlYmQ2IiwgInByaW1hcnlUZXh0Q29sb3IiOiAiIzJjMjQxZSIsICJsaW5lQ29sb3IiOiAiIzZlMWExMiIsICJhY3RvckJvcmRlciI6ICIjYzVhMDU5IiwgInNpZ25hbENvbG9yIjogIiM2ZTFhMTIifX19" alt="Diagrama de Fluxo" class="mermaid-img" /></div>
 
-<ol>
-<li><strong>Acesso</strong>: O jogador realiza o login ou cadastro para acessar a lista de personagens ativos da sua conta.</li>
-<li><strong>Criação/Seleção</strong>: O jogador seleciona um personagem existente ou cria um novo, distribuindo obrigatoriamente 20 pontos iniciais em seus atributos.</li>
-<li><strong>Combate</strong>: O jogador entra no painel de combate contra um monstro/chefe medieval. </li>
-<li><strong>Duelo de Turnos</strong>: No seu turno, o jogador escolhe uma ação (ex: atacar ou defender). O sistema calcula o impacto de dano baseado nos atributos do personagem. No turno do sistema, a inteligência do monstro responde atacando o jogador.</li>
-<li><strong>Desfecho</strong>:<ul>
-<li><strong>Vitória</strong>: Se o HP do chefe chegar a zero primeiro, o herói recebe XP. Caso suba de nível, ele pode distribuir pontos extras no Hub Central.</li>
-<li><strong>Derrota</strong>: Se o HP do herói zerar, ocorre a <strong>derrota definitiva</strong>. O sistema altera o status do personagem no banco de dados para inativo (Soft Delete). O herói é "apagado" da lista de seleção do jogador, restando ao usuário criar ou selecionar outro personagem no Lobby.</li>
+<div class="mermaid-container">
+  <div class="mermaid">graph TD
+    A["Jogador faz Login"] --> B["Acessa o Lobby"]
+    B --> C{"Criar ou Selecionar<br/>Personagem?"}
+    C -->|Criar| D["Escolhe Classe e Distribui<br/>exatos 20 Pontos (RN01)"]
+    C -->|Selecionar| E["Acessa Hub Central<br/>do Herói Ativo"]
+    D --> E
+    E --> F["Mural de Caçadas Únicas:<br/>Escolhe Bioma e Fera"]
+    F --> G["Sorteio de Iniciativa<br/>e Início do Duelo 2D"]
+    G --> H["Turno do Jogador:<br/>Golpe Rápido, Pesado, Brutal,<br/>Defesa ou Usar Item"]
+    H --> I["Turno do Monstro:<br/>IA Tática escolhe Ataque,<br/>Especial ou Defesa"]
+    I --> J{"Algum combatente<br/>teve HP zerado?"}
+    J -->|Não| H
+    J -->|Sim: Vitória| K["Saqueia Loot Exclusivo,<br/>Recebe XP e Registra Expurgo"]
+    J -->|Sim: Derrota| L["Morte Permanente:<br/>Soft Delete no Neon DB<br/>e Retorno ao Lobby"]</div>
+</div>
+<p>1.  <strong>Acesso</strong>: O jogador realiza o login ou cadastro para acessar a lista de personagens ativos da sua conta.</p>
+<p>2.  <strong>Criação/Seleção</strong>: O jogador seleciona um personagem existente ou cria um novo, escolhendo entre as classes <code>GUERREIRO</code>, <code>MAGO</code> ou <code>SAMURAI</code> e distribuindo obrigatoriamente 20 pontos iniciais em seus atributos (recebendo um item inicial na mochila).</p>
+<p>3.  <strong>Mural e Expedição</strong>: O jogador abre o Mural dos 7 Biomas de Vaslen e desafia uma das 21 criaturas disponíveis (o sistema impede combates repetidos contra monstros já derrotados pelo herói).</p>
+<p>4.  <strong>Duelo de Turnos</strong>: O combate inicia com um sorteio de iniciativa. No seu turno, o jogador gasta energia para desferir golpes rápidos, pesados, brutais que quebram guarda, assumir postura defensiva para recuperar energia ou consumir itens da mochila. Em seguida, a IA do monstro decide sua ação com base na postura do herói e sua reserva de energia.</p>
+<p>5.  <strong>Desfecho</strong>:</p>
+<ul>
+<li><strong>Vitória</strong>: Se o HP do monstro zerar primeiro, o herói recebe XP, saqueia o item de loot da criatura e registra a vitória no Mural (Anti-Farm). Caso suba de nível, ele pode distribuir pontos extras no Hub Central.</li>
+<li><strong>Derrota</strong>: Se o HP do herói zerar, ocorre a <strong>derrota definitiva</strong>. O sistema altera o status do personagem no banco de dados para inativo (<code>ativo = false</code>, Soft Delete). O herói é retirado da lista de seleção ativa do jogador, restando ao usuário criar ou selecionar outro personagem no Lobby.</li>
 </ul>
-</li>
-</ol>
-<hr />
+<hr>
 <h3>Justificativa para a Escolha do Tema</h3>
-<p>A escolha de um RPG medieval de batalhas por turnos se justifica pela perfeita aderência entre a temática do jogo e os requisitos pedagógicos e técnicos da disciplina de Programação Orientada a Objetos. </p>
-<p>Em sistemas web tradicionais, o comportamento polimórfico costuma se limitar a pequenos detalhes, enquanto em um RPG de combate, heróis e monstros possuem comportamentos e reações radicalmente diferentes que se beneficiam diretamente de classes abstratas e interfaces de combate. Além disso, a aplicação de regras matemáticas restritas na criação e a mecânica de morte permanente (Soft Delete) demonstram a robustez necessária na integração entre o back-end, banco de dados e a experiência final no front-end web.</p>
-<hr />
+<p>A escolha de um RPG medieval sombrio de batalhas por turnos se justifica pela perfeita aderência entre a temática do jogo e os requisitos pedagógicos e técnicos da disciplina de Programação Orientada a Objetos. </p>
+<p>Em sistemas web tradicionais, o comportamento polimórfico costuma se limitar a pequenos detalhes cadastrais, enquanto em um RPG de combate, heróis, monstros e itens possuem comportamentos e reações radicalmente diferentes que se beneficiam diretamente de classes abstratas (<code>EntidadeCombatente</code>), interfaces, herança polimórfica (<code>ItemComposto</code>) e orquestração desacoplada de serviços (<code>MotorCombate</code>). Além disso, a aplicação de regras matemáticas restritas na criação (RN01) e a mecânica de morte permanente (Soft Delete com Prisma ORM e Neon PostgreSQL) demonstram a robustez necessária na integração entre o back-end, banco de dados e a experiência final no front-end web.</p>
+<hr>
 <h1>Atividade 2 — Levantamento dos Requisitos</h1>
 <h2>Perfis de Usuário e Permissões</h2>
 <p>O sistema possui dois perfis distintos de usuários autenticados para garantir o acesso adequado às funcionalidades:</p>
 <h3>1. Jogador (Player)</h3>
-<p>Perfil padrão destinado aos usuários que interagem com a jogabilidade e progressão.<br />
-*   <strong>Permissões</strong>:<br />
-    *   Cadastrar conta e realizar login/logout.<br />
-    *   Criar personagens vinculados à sua conta (distribuindo atributos iniciais).<br />
-    *   Visualizar e selecionar personagens ativos em seu Lobby.<br />
-    *   Inativar manualmente seus personagens (Soft Delete).<br />
-    *   Iniciar combates, realizar ações (atacar/defender) no motor de batalha por turnos.<br />
-    *   Evoluir personagens distribuindo novos pontos de atributos após subir de nível.<br />
-    *   Consultar termos, regras e monstros cadastrados no Códice de Vaslen.</p>
+<p>Perfil padrão destinado aos usuários que interagem com a jogabilidade e progressão.</p>
+<ul>
+<li><strong>Permissões</strong>:</li>
+<li>Cadastrar conta e realizar login/logout seguro com JWT.</li>
+<li>Criar personagens vinculados à sua conta (escolhendo classe e distribuindo atributos iniciais).</li>
+<li>Visualizar e selecionar personagens ativos em seu Lobby.</li>
+<li>Inativar manualmente seus personagens (Soft Delete).</li>
+<li>Navegar pelo Mural dos 7 Biomas e iniciar duelos contra criaturas disponíveis.</li>
+<li>Realizar ações táticas no motor de batalha por turnos (Ataque Rápido, Pesado, Brutal, Defesa e Usar Itens).</li>
+<li>Evoluir personagens distribuindo novos pontos de atributos após subir de nível.</li>
+<li>Consultar histórias, biomas, fichas de monstros com sprites e relíquias com ícones no Códice de Vaslen.</li>
+</ul>
 <h3>2. Administrador (Admin)</h3>
-<p>Perfil com acesso irrestrito ao painel de controle, manutenção e balanceamento do jogo.<br />
-*   <strong>Permissões</strong>:<br />
-    *   Todas as permissões do perfil de Jogador.<br />
-    *   Gerenciar o Códice de Vaslen (criar, editar e remover termos de lore, guias e monstros).<br />
-    *   Cadastrar, configurar e balancear novos monstros/chefes do jogo (HP, Força, Defesa, Agilidade).<br />
-    *   Acessar relatórios e logs simples do sistema (ex: total de contas criadas, personagens ativos/deletados).</p>
-<hr />
+<p>Perfil com acesso ao controle, manutenção e balanceamento do jogo.</p>
+<ul>
+<li><strong>Permissões</strong>:</li>
+<li>Todas as permissões do perfil de Jogador.</li>
+<li>Gerenciar o Códice de Vaslen (criar, editar e semear termos de lore, guias e monstros).</li>
+<li>Configurar e balancear criaturas e chefes do jogo (HP, Força, Defesa, Agilidade, Loots).</li>
+<li>Acessar relatórios e dados do sistema no banco de dados.</li>
+</ul>
+<hr>
 <h2>Requisitos Funcionais (RF)</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Código</th>
-<th style="text-align: left;">Requisito</th>
-<th style="text-align: left;">Descrição</th>
+<th>Código</th>
+<th>Requisito</th>
+<th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>RF01</strong></td>
-<td style="text-align: left;">Cadastro de Contas</td>
-<td style="text-align: left;">O sistema deve permitir que novos usuários criem contas informando e-mail e senha.</td>
+<td><strong>RF01</strong></td>
+<td>Cadastro de Contas</td>
+<td>O sistema deve permitir que novos usuários criem contas informando e-mail e senha.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF02</strong></td>
-<td style="text-align: left;">Autenticação (Login)</td>
-<td style="text-align: left;">O sistema deve permitir a autenticação do usuário e assegurar que rotas internas do jogo exijam uma sessão válida.</td>
+<td><strong>RF02</strong></td>
+<td>Autenticação (Login)</td>
+<td>O sistema deve autenticar o usuário gerando token JWT e assegurar que rotas internas do jogo exijam sessão válida.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF03</strong></td>
-<td style="text-align: left;">Criação de Personagens</td>
-<td style="text-align: left;">O sistema deve permitir ao Jogador criar novos personagens escolhendo um nome e uma classe (ex: Guerreiro, Mago, Arqueiro).</td>
+<td><strong>RF03</strong></td>
+<td>Criação de Personagens</td>
+<td>O sistema deve permitir ao Jogador criar novos personagens escolhendo um nome, uma classe (<code>GUERREIRO</code>, <code>MAGO</code> ou <code>SAMURAI</code>) e conceder um item inicial correspondente.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF04</strong></td>
-<td style="text-align: left;">Validação de Atributos</td>
-<td style="text-align: left;">O sistema deve validar no servidor que a soma dos atributos iniciais (Força, Defesa e Agilidade) seja exatamente igual a 20.</td>
+<td><strong>RF04</strong></td>
+<td>Validação de Atributos</td>
+<td>O sistema deve validar no servidor que a soma dos atributos iniciais (Força, Defesa e Agilidade) seja exatamente igual a 20.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF05</strong></td>
-<td style="text-align: left;">Lobby de Seleção</td>
-<td style="text-align: left;">O sistema deve exibir para o Jogador autenticado a lista de seus personagens que estão ativos no banco de dados.</td>
+<td><strong>RF05</strong></td>
+<td>Lobby de Seleção</td>
+<td>O sistema deve exibir para o Jogador autenticado a lista de seus personagens que estão ativos (<code>ativo = true</code>) no banco de dados.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF06</strong></td>
-<td style="text-align: left;">Inativação Manual</td>
-<td style="text-align: left;">O sistema deve permitir ao Jogador desativar manualmente qualquer personagem (Soft Delete), removendo-o da listagem do Lobby.</td>
+<td><strong>RF06</strong></td>
+<td>Inativação Manual</td>
+<td>O sistema deve permitir ao Jogador desativar manualmente qualquer personagem (Soft Delete), removendo-o da listagem do Lobby.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF07</strong></td>
-<td style="text-align: left;">Motor de Combate (Turnos)</td>
-<td style="text-align: left;">O sistema deve gerenciar uma batalha sequencial de turnos entre o personagem do jogador e o monstro/chefe selecionado.</td>
+<td><strong>RF07</strong></td>
+<td>Motor de Combate (Turnos)</td>
+<td>O sistema deve gerenciar uma batalha sequencial de turnos com sorteio de iniciativa entre o herói e a criatura desafiada.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF08</strong></td>
-<td style="text-align: left;">Ação do Jogador</td>
-<td style="text-align: left;">O sistema deve permitir que o Jogador execute ações no seu turno, como "Atacar" ou "Defender".</td>
+<td><strong>RF08</strong></td>
+<td>Ações Táticas do Jogador</td>
+<td>O sistema deve permitir que o Jogador execute ações com custos reais de energia: Golpe Rápido (10 EN), Pesado (18 EN), Brutal Quebra-Guarda (26 EN), Defender (+30% EN e mitigação de dano) e Usar Item da Mochila.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF09</strong></td>
-<td style="text-align: left;">Processamento do Inimigo</td>
-<td style="text-align: left;">O sistema deve processar a ação automatizada do Chefe (IA do Boss) imediatamente após o encerramento do turno do jogador.</td>
+<td><strong>RF09</strong></td>
+<td>Inteligência Artificial do Inimigo</td>
+<td>O sistema deve processar a ação automatizada do monstro com base em sua reserva de energia, postura do herói e sem repetição consecutiva de golpes.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF10</strong></td>
-<td style="text-align: left;">Evolução de Nível (XP)</td>
-<td style="text-align: left;">O sistema deve conceder experiência (XP) ao personagem sobrevivente após uma vitória e habilitar a redistribuição/soma de novos atributos no Hub Central.</td>
+<td><strong>RF10</strong></td>
+<td>Mural de Caçadas Únicas (Anti-Farm)</td>
+<td>O sistema deve rastrear os monstros derrotados por cada herói e bloquear desafios repetidos contra feras já expurgadas.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF11</strong></td>
-<td style="text-align: left;">Derrota e Soft Delete</td>
-<td style="text-align: left;">O sistema deve inativar permanentemente no banco de dados (Soft Delete) o personagem cuja vida (HP) for reduzida a zero no combate.</td>
+<td><strong>RF11</strong></td>
+<td>Evolução de Nível (XP)</td>
+<td>O sistema deve conceder XP e loot exclusivo ao personagem após a vitória, permitindo redistribuição de novos pontos de atributos no Hub Central.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF12</strong></td>
-<td style="text-align: left;">Códice de Lore</td>
-<td style="text-align: left;">O sistema deve fornecer uma barra de pesquisa textual com filtros para consulta aos termos de lore, inimigos e mecânicas gravadas no Códice.</td>
+<td><strong>RF12</strong></td>
+<td>Derrota e Soft Delete</td>
+<td>O sistema deve inativar permanentemente no banco de dados (<code>ativo = false</code>) o personagem cuja vida for reduzida a zero no combate.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RF13</strong></td>
-<td style="text-align: left;">Painel do Administrador</td>
-<td style="text-align: left;">O sistema deve fornecer uma interface exclusiva para o Administrador cadastrar monstros e modificar dados do Códice de Lore.</td>
+<td><strong>RF13</strong></td>
+<td>Códice Ilustrado de Vaslen</td>
+<td>O sistema deve fornecer uma interface de pesquisa textual com filtros por categoria (<code>HISTORIA</code>, <code>REGIAO</code>, <code>MONSTRO</code>, <code>RELÍQUIA</code>), exibindo sprites animados nas criaturas e ícones pixel art nos consumíveis.</td>
 </tr>
 </tbody>
 </table>
-<hr />
+<hr>
 <h2>Requisitos Não Funcionais (RNF)</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Código</th>
-<th style="text-align: left;">Requisito</th>
-<th style="text-align: left;">Descrição</th>
+<th>Código</th>
+<th>Requisito</th>
+<th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>RNF01</strong></td>
-<td style="text-align: left;">Responsividade</td>
-<td style="text-align: left;">A interface web do sistema deve ser responsiva, permitindo usabilidade fluida tanto em computadores (desktops) quanto em celulares e tablets.</td>
+<td><strong>RNF01</strong></td>
+<td>Responsividade e Interface Pixel Art</td>
+<td>A interface web do sistema deve ser renderizada em estética retrô 16-bit com layout responsivo para desktops, tablets e celulares.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RNF02</strong></td>
-<td style="text-align: left;">Segurança de Senhas</td>
-<td style="text-align: left;">O sistema deve armazenar as senhas dos usuários criptografadas no banco de dados utilizando algoritmos hash seguros (como bcrypt).</td>
+<td><strong>RNF02</strong></td>
+<td>Segurança de Senhas e Sessão</td>
+<td>O sistema deve armazenar senhas com hash criptográfico <code>bcrypt</code> e proteger endpoints RESTful com tokens <code>JWT (Bearer)</code>.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RNF03</strong></td>
-<td style="text-align: left;">Tempo de Resposta</td>
-<td style="text-align: left;">O tempo médio de processamento e persistência das ações de combate (ataques, defesas e fim de turno) não deve ultrapassar 500 milissegundos.</td>
+<td><strong>RNF03</strong></td>
+<td>Tempo de Resposta</td>
+<td>O tempo médio de processamento e persistência das ações de combate e turnos deve ser inferior a 300 milissegundos.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RNF04</strong></td>
-<td style="text-align: left;">Portabilidade de Navegador</td>
-<td style="text-align: left;">O sistema deve ser compatível e renderizar de forma consistente em todos os navegadores modernos (Edge, Chrome, Firefox, Safari).</td>
+<td><strong>RNF04</strong></td>
+<td>Portabilidade de Navegador</td>
+<td>O sistema deve ser compatível e renderizar de forma consistente em todos os navegadores modernos (Edge, Chrome, Firefox, Safari).</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RNF05</strong></td>
-<td style="text-align: left;">Persistência de Estado</td>
-<td style="text-align: left;">O sistema deve assegurar a integridade do estado da batalha, registrando o progresso do turno para evitar perdas de dados em caso de desconexão.</td>
+<td><strong>RNF05</strong></td>
+<td>Persistência Relacional em Nuvem</td>
+<td>Os dados de usuários, heróis, inventários, vitórias no mural e códice devem ser persistidos no banco relacional Neon Cloud PostgreSQL através do Prisma ORM.</td>
 </tr>
 </tbody>
 </table>
-<hr />
+<hr>
 <h2>Regras de Negócio (RN)</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Código</th>
-<th style="text-align: left;">Regra</th>
-<th style="text-align: left;">Descrição</th>
+<th>Código</th>
+<th>Regra</th>
+<th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>RN01</strong></td>
-<td style="text-align: left;">Distribuição Obrigatória de Pontos</td>
-<td style="text-align: left;">A soma dos atributos de criação (<code>Força + Defesa + Agilidade</code>) deve totalizar <strong>exatamente 20 pontos</strong> iniciais. Qualquer valor menor ou maior deve ser rejeitado no back-end.</td>
+<td><strong>RN01</strong></td>
+<td>Distribuição Obrigatória de Pontos</td>
+<td>A soma dos atributos de criação (<code>Força + Defesa + Agilidade</code>) deve totalizar <strong>exatamente 20 pontos</strong> iniciais. Qualquer valor diferente deve ser rejeitado pelo construtor da classe no back-end.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RN02</strong></td>
-<td style="text-align: left;">Atributos Mínimos</td>
-<td style="text-align: left;">Nenhum atributo de personagem ou monstro (HP, Força, Defesa, Agilidade) poderá conter valor negativo ou igual a zero (com exceção do HP atual durante a batalha).</td>
+<td><strong>RN02</strong></td>
+<td>Atributos Mínimos</td>
+<td>Nenhum atributo de personagem ou monstro (HP, Força, Defesa, Agilidade) poderá conter valor negativo ou igual a zero na criação.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RN03</strong></td>
-<td style="text-align: left;">Inativação Automática (Morte)</td>
-<td style="text-align: left;">Quando o HP do personagem chegar a zero durante a batalha, o sistema deve marcar o atributo <code>ativo</code> do registro no banco de dados como <code>false</code> (Soft Delete).</td>
+<td><strong>RN03</strong></td>
+<td>Inativação Automática (Morte)</td>
+<td>Quando o HP do personagem chegar a zero durante a batalha, o sistema deve marcar o atributo <code>ativo</code> do registro no banco de dados como <code>false</code> (Soft Delete imediato).</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RN04</strong></td>
-<td style="text-align: left;">Acesso a Personagens Inativos</td>
-<td style="text-align: left;">Registros de personagens com <code>ativo = false</code> não podem ser listados no Lobby de seleção nem ter seu estado alterado de volta para ativo.</td>
+<td><strong>RN04</strong></td>
+<td>Acesso a Personagens Inativos</td>
+<td>Registros de personagens com <code>ativo = false</code> não podem ser listados no Lobby de seleção nem ter seu estado alterado de volta para ativo.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RN05</strong></td>
-<td style="text-align: left;">Fórmula de Dano Mínimo</td>
-<td style="text-align: left;">O dano físico infligido no ataque é calculado como <code>Dano = Força (Atacante) - Defesa (Defensor)</code>. Se a Defesa for igual ou superior à Força, o dano mínimo aplicado será sempre de <strong>1 ponto</strong> para evitar combates infinitos.</td>
+<td><strong>RN05</strong></td>
+<td>Fórmula de Mitigação e Dano Mínimo</td>
+<td>O dano bruto considera a força e o multiplicador do golpe (<code>1.0x</code>, <code>1.8x</code>, <code>2.5x</code>). O dano real deduz a mitigação da defesa passiva do alvo e reduz 45% se o defensor assumiu postura de guarda (ou 20% caso o atacante use Ataque Brutal Quebra-Guarda). O dano mínimo garantido é sempre de 1 ponto.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RN06</strong></td>
-<td style="text-align: left;">Iniciativa de Turno</td>
-<td style="text-align: left;">A iniciativa do primeiro turno do combate é dada à entidade (herói ou monstro) que possuir o maior atributo de <code>Agilidade</code>. Em caso de empate, o jogador tem a preferência.</td>
+<td><strong>RN06</strong></td>
+<td>Iniciativa de Combate</td>
+<td>A iniciativa do primeiro turno é determinada em sorteio visual dinâmico. Se o monstro for sorteado, ele executa seu golpe de abertura antes de liberar a vez do jogador.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RN07</strong></td>
-<td style="text-align: left;">Escalonamento de Experiência (XP)</td>
-<td style="text-align: left;">O limite de experiência para subir de nível é calculado de forma progressiva pela fórmula <code>XP_Necessário = Nível_Atual * 100</code>.</td>
+<td><strong>RN07</strong></td>
+<td>Escalonamento de Experiência (XP)</td>
+<td>O limite de experiência para subir de nível é calculado progressivamente pela fórmula <code>XP_Necessário = Nível_Atual * 100</code>.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RN08</strong></td>
-<td style="text-align: left;">Restrição de Acesso Administrativo</td>
-<td style="text-align: left;">As rotas de criação de monstros e alteração de termos do Códice de Lore devem ser validadas no back-end, permitindo acesso exclusivo a usuários marcados com perfil <code>ADMIN</code>.</td>
+<td><strong>RN08</strong></td>
+<td>Anti-Farm do Mural de Caçadas</td>
+<td>Um herói não pode desafiar novamente um monstro cujo identificador já conste em sua lista de <code>monstrosDerrotados</code>.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RN09</strong></td>
-<td style="text-align: left;">Confirmação de Level Up</td>
-<td style="text-align: left;">O personagem que subir de nível ficará com status "pendente de evolução", impedindo-o de entrar em novos combates até que o jogador distribua os novos pontos de atributos no Hub Central.</td>
+<td><strong>RN09</strong></td>
+<td>Confirmação de Level Up</td>
+<td>O personagem que subir de nível recebe 3 pontos livres para distribuição permanente no Hub Central entre Força, Defesa ou Agilidade.</td>
+</tr>
+<tr>
+<td><strong>RN10</strong></td>
+<td>Consumo Imediato de Itens</td>
+<td>Ao usar um consumível na mochila durante a batalha, seus efeitos de HP, Energia ou Dano são aplicados imediatamente e o item é removido do inventário persistido no banco de dados.</td>
 </tr>
 </tbody>
 </table>
-<hr />
+<hr>
 <h2>Descrição Detalhada do Processo Principal</h2>
-<p>O processo principal de <strong>Fracture: The Vaslen Echoes</strong> consiste no <strong>Ciclo de Combate por Turnos e Suas Consequências</strong>. Este fluxo interage ativamente com os pilares da Orientação a Objetos.</p>
+<p>O processo principal de <strong>Fracture: The Vaslen Echoes</strong> consiste no <strong>Ciclo de Combate por Turnos, Gestão Tática e Suas Consequências</strong>.</p>
 <h3>Diagrama de Sequência de Combate</h3>
-<div class="mermaid-container"><img src="https://mermaid.ink/img/eyJjb2RlIjogInNlcXVlbmNlRGlhZ3JhbVxuICAgIGF1dG9udW1iZXJcbiAgICBhY3RvciBKb2dhZG9yXG4gICAgcGFydGljaXBhbnQgRnJvbnRlbmQgYXMgSW50ZXJmYWNlIChDb21iYXRlKVxuICAgIHBhcnRpY2lwYW50IE1vdG9yIGFzIE1vdG9yIGRlIENvbWJhdGUgKFBPTylcbiAgICBwYXJ0aWNpcGFudCBCRCBhcyBCYW5jbyBkZSBEYWRvc1xuICAgIFxuICAgIEpvZ2Fkb3ItPj5Gcm9udGVuZDogQ2xpY2EgZW0gXCJBdGFjYXJcIiBvdSBcIkRlZmVuZGVyXCJcbiAgICBGcm9udGVuZC0-Pk1vdG9yOiBFbnZpYSBBXHUwMGU3XHUwMGUzbyBkbyBQZXJzb25hZ2VtIChBdGFxdWUvRGVmZXNhKVxuICAgIE5vdGUgb3ZlciBNb3RvcjogQ2FsY3VsYSBkYW5vOiBGb3JcdTAwZTdhIChIZXJcdTAwZjNpKSAtIERlZmVzYSAoTW9uc3Rybyk8YnIvPkFwbGljYSBtaXRpZ2FcdTAwZTdcdTAwZTNvIHNlIE1vbnN0cm8gZGVmZW5kZXVcbiAgICBNb3Rvci0-PkJEOiBBdHVhbGl6YSBIUCBkbyBNb25zdHJvIG5vIEJhbmNvXG4gICAgQkQtLT4-TW90b3I6IENvbmZpcm1hIEF0dWFsaXphXHUwMGU3XHUwMGUzb1xuICAgIE5vdGUgb3ZlciBNb3RvcjogSUEgZG8gQm9zcyBkZWNpZGUgYVx1MDBlN1x1MDBlM288YnIvPkNhbGN1bGEgZGFubyBubyBIZXJcdTAwZjNpXG4gICAgTW90b3ItPj5CRDogQXR1YWxpemEgSFAgZG8gSGVyXHUwMGYzaSBubyBCYW5jb1xuICAgIEJELS0-Pk1vdG9yOiBDb25maXJtYSBBdHVhbGl6YVx1MDBlN1x1MDBlM29cbiAgICBNb3Rvci0-PkZyb250ZW5kOiBSZXRvcm5hIHJlc3VsdGFkbyBkYXMgZHVhcyBhXHUwMGU3XHUwMGY1ZXMgZSBIUHMgYXR1YWxpemFkb3NcbiAgICBGcm9udGVuZC0tPj5Kb2dhZG9yOiBFeGliZSBhbmltYVx1MDBlN1x1MDBmNWVzIGUgYXR1YWxpemEgSFBzIG5hIGludGVyZmFjZVxuICAgIE5vdGUgb3ZlciBNb3RvcjogVmVyaWZpY2Egc2UgYWxndW1hIGVudGlkYWRlIGNoZWdvdSBhIEhQID0gMFxuICAgIGFsdCBIZXJcdTAwZjNpIEhQID0gMCAoRGVycm90YSlcbiAgICAgICAgTW90b3ItPj5CRDogU29mdCBEZWxldGU6IHNldGEgcGVyc29uYWdlbSBhdGl2byA9IGZhbHNlXG4gICAgICAgIE1vdG9yLT4-RnJvbnRlbmQ6IFJlZGlyZWNpb25hIHBhcmEgbyBMb2JieSBjb20gYXZpc28gZGUgTW9ydGVcbiAgICAgICAgRnJvbnRlbmQtLT4-Sm9nYWRvcjogRXhpYmUgdGVsYSBkZSBkZXJyb3RhIGUgcmV0b3JuYSBcdTAwZTAgc2VsZVx1MDBlN1x1MDBlM29cbiAgICBlbHNlIE1vbnN0cm8gSFAgPSAwIChWaXRcdTAwZjNyaWEpXG4gICAgICAgIE1vdG9yLT4-QkQ6IEluY3JlbWVudGEgWFAgZG8gSGVyXHUwMGYzaSBubyBCYW5jb1xuICAgICAgICBNb3Rvci0-PkZyb250ZW5kOiBSZXRvcm5hIGFvIEh1YiBDZW50cmFsICh2ZXJpZmljYSBzZSBzdWJpdSBkZSBuXHUwMGVkdmVsKVxuICAgICAgICBGcm9udGVuZC0tPj5Kb2dhZG9yOiBFeGliZSB0ZWxhIGRlIHZpdFx1MDBmM3JpYSBlIHByb2dyZXNzbyBkZSBuXHUwMGVkdmVsXG4gICAgZW5kIiwgIm1lcm1haWQiOiB7InRoZW1lIjogIm5ldXRyYWwiLCAidGhlbWVWYXJpYWJsZXMiOiB7InByaW1hcnlDb2xvciI6ICIjZjVlYmQ2IiwgInByaW1hcnlUZXh0Q29sb3IiOiAiIzJjMjQxZSIsICJsaW5lQ29sb3IiOiAiIzZlMWExMiIsICJhY3RvckJvcmRlciI6ICIjYzVhMDU5IiwgInNpZ25hbENvbG9yIjogIiM2ZTFhMTIifX19" alt="Diagrama de Fluxo" class="mermaid-img" /></div>
 
-<hr />
+<div class="mermaid-container">
+  <div class="mermaid">sequenceDiagram
+    autonumber
+    actor Jogador
+    participant Frontend as Interface (Arena 2D)
+    participant Motor as Motor de Combate (POO)
+    participant BD as Neon PostgreSQL
+    
+    Jogador->>Frontend: Clica em "Atacar", "Defender" ou "Item"
+    Frontend->>Motor: Envia ação tática e custo de energia
+    Note over Motor: Calcula dano e mitigação da defesa ativa<br/>IA do monstro decide contra-ataque
+    Motor->>BD: Atualiza HP, Energia e progresso no banco
+    BD-->>Motor: Confirma persistência
+    Motor->>Frontend: Retorna resultado das ações e HPs atualizados
+    Frontend-->>Jogador: Exibe animações de avanço e dano no HUD
+    Note over Motor: Verifica se o HP de alguma entidade zerou
+    alt Herói HP = 0 (Derrota Definitiva)
+        Motor->>BD: Soft Delete: atualiza herói com ativo = false
+        Motor->>Frontend: Notifica derrota e inativação
+        Frontend-->>Jogador: Exibe modal de derrota e retorna ao Lobby
+    else Monstro HP = 0 (Vitória)
+        Motor->>BD: Concede XP, Loot e registra expurgo no Mural
+        Motor->>Frontend: Notifica triunfo em Vaslen
+        Frontend-->>Jogador: Exibe modal de vitória e evolução no Hub
+    end</div>
+</div>
+<hr>
 <h1>Atividade 3 — Identificação das Classes</h1>
 <p>Nesta etapa são identificadas e modeladas as principais classes que compõem o domínio de <strong>Fracture: The Vaslen Echoes</strong>. Cada classe foi projetada com base nos princípios de <strong>Abstração</strong>, <strong>Encapsulamento</strong>, <strong>Herança</strong> e <strong>Polimorfismo</strong>, respeitando a convenção de nomenclatura em <strong>Português do Brasil (PT-BR)</strong>.</p>
-<hr />
+<hr>
 <h3>Conceitos Relacionados à Modelagem</h3>
 <ul>
 <li><strong>Abstração</strong>: Separação das características essenciais das entidades do jogo (como pontos de vida e combate) dos detalhes técnicos de infraestrutura ou renderização.</li>
 <li><strong>Classe</strong>: Molde/estrutura que define os atributos e comportamentos de uma entidade (ex: a classe <code>Personagem</code>).</li>
-<li><strong>Objeto / Instância</strong>: A materialização concreta de uma classe na memória durante a execução (ex: um guerreiro específico chamado "Kael", que é uma instância da classe <code>Personagem</code>).</li>
-<li><strong>Atributos</strong>: As variáveis que armazenam o estado interno do objeto (ex: <code>vidaAtual</code>, <code>forca</code>).</li>
-<li><strong>Métodos</strong>: As funções/ações que manipulam o estado interno e definem o comportamento do objeto (ex: <code>atacar()</code>, <code>receberDano()</code>).</li>
+<li><strong>Objeto / Instância</strong>: A materialização concreta de uma classe na memória durante a execução (ex: um guerreiro específico chamado "Valerius", que é uma instância da classe <code>Personagem</code>).</li>
+<li><strong>Atributos</strong>: As variáveis que armazenam o estado interno do objeto (ex: <code>vidaAtual</code>, <code>forca</code>, <code>energiaAtual</code>).</li>
+<li><strong>Métodos</strong>: As funções/ações que manipulam o estado interno e definem o comportamento do objeto (ex: <code>atacar()</code>, <code>receberDano()</code>, <code>defender()</code>).</li>
 </ul>
-<hr />
+<hr>
 <h2>Detalhamento das Classes do Domínio</h2>
 <h3>1. Classe <code>Usuario</code></h3>
 <ul>
 <li><strong>Finalidade</strong>: Representar a conta de acesso e identidade do usuário autenticado no sistema.</li>
 <li><strong>Responsabilidade</strong>: Gerenciar os dados cadastrais, credenciais de acesso, perfil de permissão (Jogador ou Administrador) e a coleção de personagens criados vinculados à sua conta.</li>
-<li><strong>Atributos</strong>:<ul>
+<li><strong>Atributos</strong>:</li>
 <li><code>id</code>: Identificador único da conta.</li>
 <li><code>email</code>: Endereço de e-mail utilizado para login.</li>
-<li><code>senhaHash</code>: Hash criptográfico da senha de acesso.</li>
+<li><code>senhaHash</code>: Hash criptográfico da senha de acesso (<code>bcrypt</code>).</li>
 <li><code>tipoUsuario</code>: Perfil do usuário (<code>JOGADOR</code> ou <code>ADMINISTRADOR</code>).</li>
 <li><code>dataCriacao</code>: Data e hora em que a conta foi criada.</li>
-<li><code>personagens</code>: Lista contendo os objetos do tipo <code>Personagem</code> associados a esta conta.</li>
+<li><code>personagens</code>: Coleção de heróis do tipo <code>Personagem</code> pertencentes ao usuário.</li>
+<li><strong>Métodos</strong>:</li>
+<li><code>autenticar(senhaInformada)</code>: Valida a senha contra o hash criptográfico.</li>
+<li><code>adicionarPersonagem(personagem)</code>: Vincula um novo herói criado à conta.</li>
+<li><code>inativarPersonagem(idPersonagem)</code>: Executa a inativação lógica (Soft Delete) de um herói.</li>
+<li><code>listarPersonagensAtivos()</code>: Retorna apenas os personagens com <code>ativo = true</code>.</li>
 </ul>
-</li>
-<li><strong>Métodos</strong>:<ul>
-<li><code>autenticar(senhaInformada)</code>: Verifica se a senha informada corresponde ao hash cadastrado.</li>
-<li><code>alterarSenha(senhaAtual, novaSenha)</code>: Valida e atualiza a senha de acesso do usuário.</li>
-<li><code>adicionarPersonagem(personagem)</code>: Vincula um novo personagem criado à conta.</li>
-<li><code>inativarPersonagem(idPersonagem)</code>: Executa a inativação lógica (Soft Delete) de um personagem da lista.</li>
-<li><code>listarPersonagensAtivos()</code>: Retorna apenas os personagens com status ativo pertencentes ao usuário.</li>
-<li><code>ehAdministrador()</code>: Retorna um booleano indicando se o perfil possui privilégios de administrador.</li>
-</ul>
-</li>
-</ul>
-<hr />
+<hr>
 <h3>2. Classe Abstrata <code>EntidadeCombatente</code></h3>
 <ul>
-<li><strong>Finalidade</strong>: Servir como classe base abstrata para todos os seres capazes de batalhar no jogo (personagens dos jogadores e monstros).</li>
-<li><strong>Responsabilidade</strong>: Encapsular os atributos vitais e de combate fundamentais, fornecendo métodos universais para recebimento de dano, recuperação de vida e verificação de sobrevivência.</li>
-<li><strong>Atributos</strong>:<ul>
+<li><strong>Finalidade</strong>: Servir como classe base abstrata para todos os seres capazes de batalhar no jogo (<code>Personagem</code> e <code>Monstro</code>).</li>
+<li><strong>Responsabilidade</strong>: Encapsular os atributos vitais e de combate fundamentais, fornecendo métodos universais para recebimento de dano com mitigação, gestão de energia, recuperação de vida e postura defensiva.</li>
+<li><strong>Atributos</strong>:</li>
 <li><code>id</code>: Identificador único da entidade.</li>
 <li><code>nome</code>: Nome da entidade.</li>
 <li><code>nivel</code>: Nível atual de poder da entidade.</li>
 <li><code>vidaMaxima</code>: Quantidade máxima de pontos de vida (HP).</li>
 <li><code>vidaAtual</code>: Quantidade atual de pontos de vida durante o combate.</li>
-<li><code>forca</code>: Atributo que determina o poder de ataque físico.</li>
-<li><code>defesa</code>: Atributo que determina a mitigação de dano recebido.</li>
-<li><code>agilidade</code>: Atributo que determina a iniciativa nos turnos e chance de esquiva.</li>
-<li><code>estaDefendendo</code>: Indicador booleano de postura defensiva no turno atual.</li>
+<li><code>energiaMaxima</code>: Capacidade máxima da reserva de energia.</li>
+<li><code>energiaAtual</code>: Quantidade atual de energia disponível para manobras de ataque.</li>
+<li><code>forca</code>: Atributo base que determina o poder de ataque físico.</li>
+<li><code>defesa</code>: Atributo base que determina a mitigação passiva de dano.</li>
+<li><code>agilidade</code>: Atributo que determina iniciativa e precisão.</li>
+<li><code>estadoDefesa</code>: Indicador booleano de postura de guarda ativa no turno.</li>
+<li><code>modificadorDano</code>: Bônus temporário de ataque conferido por óleos e relíquias.</li>
+<li><strong>Métodos</strong>:</li>
+<li><code>atacar(alvo, multiplicadorDano)</code>: Executa o golpe aplicando a fórmula de dano bruto e somando bônus de óleos/relíquias.</li>
+<li><code>receberDano(valorAtaque, forcaAtacante)</code>: Aplica a fórmula de mitigação passiva e postura defensiva, retornando o dano líquido sofrido.</li>
+<li><code>defender()</code>: Ativa a guarda reforçada e restaura energia (<code>max(25, 30% da Energia Máxima)</code>).</li>
+<li><code>curarVida(quantidade)</code>: Restaura pontos de vida respeitando <code>vidaMaxima</code>.</li>
+<li><code>recuperarEnergia(quantidade)</code>: Restaura energia respeitando <code>energiaMaxima</code>.</li>
+<li><code>gastarEnergia(quantidade)</code>: Deduz energia com validação de saldo suficiente.</li>
+<li><code>estaDerrotado()</code>: Retorna verdadeiro caso <code>vidaAtual <= 0</code>.</li>
+<li><code>executarAcaoEspecial(alvo)</code>: Método abstrato que obriga cada subclasse a implementar sua manobra suprema (Polimorfismo).</li>
 </ul>
-</li>
-<li><strong>Métodos</strong>:<ul>
-<li><code>atacar(alvo)</code>: Executa um ataque básico contra uma entidade alvo.</li>
-<li><code>defender()</code>: Ativa a postura de defesa para mitigar dano no próximo golpe recebido.</li>
-<li><code>receberDano(valorDano)</code>: Deduz pontos de vida com base no dano líquido calculado, garantindo que a vida não fique negativa.</li>
-<li><code>curarVida(quantidade)</code>: Restaura pontos de vida respeitando o limite de <code>vidaMaxima</code>.</li>
-<li><code>estaDerrotado()</code>: Retorna verdadeiro se a <code>vidaAtual</code> for igual a 0.</li>
-<li><code>calcularIniciativa()</code>: Retorna o valor de agilidade para desempate de ordem de ação.</li>
-<li><code>executarAcaoEspecial(alvo)</code>: Método abstrato que obriga cada subclasse a implementar sua habilidade única (Polimorfismo).</li>
-</ul>
-</li>
-</ul>
-<hr />
+<hr>
 <h3>3. Classe <code>Personagem</code> (Herda de <code>EntidadeCombatente</code>)</h3>
 <ul>
 <li><strong>Finalidade</strong>: Representar o herói criado e controlado pelo jogador dentro do RPG.</li>
-<li><strong>Responsabilidade</strong>: Controlar a classe do herói, a progressão de experiência (XP), o ganho de níveis, a distribuição de atributos e o estado ativo no banco de dados.</li>
-<li><strong>Atributos</strong>:<ul>
+<li><strong>Responsabilidade</strong>: Controlar a especialização da classe (<code>GUERREIRO</code>, <code>MAGO</code> ou <code>SAMURAI</code>), progressão de experiência (XP), mochila de itens (<code>Item[]</code>), lista de monstros derrotados no mural e estado ativo.</li>
+<li><strong>Atributos</strong>:</li>
 <li><em>(Herda todos os atributos de <code>EntidadeCombatente</code>)</em></li>
-<li><code>classeHeroi</code>: Especialização do herói (<code>GUERREIRO</code>, <code>MAGO</code>, <code>ARQUEIRO</code>).</li>
+<li><code>classeHeroi</code>: Especialização do herói (<code>GUERREIRO</code>, <code>MAGO</code> ou <code>SAMURAI</code>).</li>
 <li><code>experienciaAtual</code>: Quantidade de pontos de experiência acumulados.</li>
 <li><code>experienciaNecessaria</code>: Total de XP necessário para alcançar o próximo nível.</li>
 <li><code>pontosLivres</code>: Pontos de atributo disponíveis para distribuição após subir de nível.</li>
-<li><code>ativo</code>: Indicador booleano que define se o personagem está ativo ou foi inativado (Soft Delete).</li>
-<li><code>idUsuario</code>: Chave estrangeira que referencia a conta dona do personagem.</li>
-</ul>
-</li>
-<li><strong>Métodos</strong>:<ul>
+<li><code>ativo</code>: Indicador booleano de Soft Delete (<code>true</code> = ativo, <code>false</code> = derrotado/excluído).</li>
+<li><code>idUsuario</code>: Chave estrangeira que referencia a conta proprietária.</li>
+<li><code>inventario</code>: Coleção de instâncias polimórficas de <code>Item</code> que o herói carrega.</li>
+<li><code>monstrosDerrotados</code>: Lista de IDs de monstros já expurgados pelo herói (Mural Anti-Farm).</li>
+<li><strong>Métodos</strong>:</li>
 <li><em>(Herda os métodos de <code>EntidadeCombatente</code>)</em></li>
-<li><code>validarDistribuicaoInicial(forca, defesa, agilidade)</code>: Valida se a soma dos atributos iniciais totaliza exatamente 20 pontos.</li>
-<li><code>ganharExperiencia(quantidade)</code>: Adiciona XP e dispara a verificação de subida de nível.</li>
-<li><code>verificarSubidaNivel()</code>: Avalia se a <code>experienciaAtual</code> atingiu <code>experienciaNecessaria</code>.</li>
-<li><code>subirNivel()</code>: Incrementa o nível, recalcula a vida máxima e concede novos pontos livres.</li>
-<li><code>distribuirPontos(forcaAdd, defesaAdd, agilidadeAdd)</code>: Adiciona os pontos distribuídos aos atributos permanentes do personagem.</li>
-<li><code>marcarComoDerrotado()</code>: Inativa o personagem alterando <code>ativo</code> para <code>false</code> (Soft Delete).</li>
-<li><code>executarAcaoEspecial(alvo)</code>: Sobrescrita polimórfica que executa a habilidade característica da classe do herói (ex: <em>Golpe Pesado</em> para Guerreiro, <em>Bola de Fogo</em> para Mago).</li>
+<li><code>ataque(alvo, tipoAtaque)</code>: Executa ataques táticos: Golpe Rápido (10 EN [1.0x]), Pesado (18 EN [1.8x]) ou Brutal Quebra-Guarda (26 EN [2.5x]).</li>
+<li><code>usarItemDoInventario(indice, alvo)</code>: Aplica o efeito do item do inventário e o remove da mochila.</li>
+<li><code>adicionarItemAoInventario(item)</code>: Insere um novo consumível ou relíquia saqueada na mochila.</li>
+<li><code>ganharExperiencia(quantidade)</code>: Adiciona XP e aciona automaticamente a subida de nível quando a meta é alcançada.</li>
+<li><code>subirNivel()</code>: Incrementa o nível, concede 3 pontos livres e amplia HP e Energia máximos.</li>
+<li><code>distribuirPontos(forcaAdd, defesaAdd, agilidadeAdd)</code>: Adiciona os pontos livres aos atributos permanentes do herói.</li>
+<li><code>jaDerrotouMonstro(idMonstro)</code>: Verifica se o monstro já foi derrotado anteriormente pelo herói.</li>
+<li><code>registrarVitoriaContraMonstro(idMonstro)</code>: Registra o monstro na lista de vitórias do herói.</li>
+<li><code>executarAcaoEspecial(alvo)</code>: Sobrescrita polimórfica que executa a técnica suprema da classe (ex: <em>Golpe Devastador</em> para Guerreiro, <em>Explosão Arcana</em> para Mago, <em>Corte do Eclipse</em> para Samurai).</li>
 </ul>
-</li>
-</ul>
-<hr />
+<hr>
 <h3>4. Classe <code>Monstro</code> (Herda de <code>EntidadeCombatente</code>)</h3>
 <ul>
-<li><strong>Finalidade</strong>: Representar os inimigos e chefes (Bosses) do reino de Vaslen enfrentados pelo jogador.</li>
-<li><strong>Responsabilidade</strong>: Definir o padrão de inteligência artificial simples (escolha de ataques), a recompensa de experiência concedida e as descrições de lore.</li>
-<li><strong>Atributos</strong>:<ul>
+<li><strong>Finalidade</strong>: Representar as criaturas e chefes do reino de Vaslen enfrentados pelo jogador.</li>
+<li><strong>Responsabilidade</strong>: Definir o padrão de inteligência artificial de combate, recompensas de experiência, loot concedido e descrições canônicas de lore.</li>
+<li><strong>Atributos</strong>:</li>
 <li><em>(Herda todos os atributos de <code>EntidadeCombatente</code>)</em></li>
-<li><code>tipoMonstro</code>: Categoria da criatura (<code>COMUM</code>, <code>ELITE</code>, <code>CHEFE</code>).</li>
-<li><code>experienciaConcedida</code>: Quantidade de XP concedida ao jogador caso o monstro seja derrotado.</li>
-<li><code>padraoComportamento</code>: Estratégia de IA utilizada para escolher as ações da criatura a cada turno.</li>
-<li><code>descricaoLore</code>: Texto descritivo sobre as origens e fraquezas da criatura.</li>
-</ul>
-</li>
-<li><strong>Métodos</strong>:<ul>
+<li><code>tipoMonstro</code>: Categoria da criatura (<code>COMUM</code>, <code>ELITE</code> ou <code>CHEFE</code>).</li>
+<li><code>experienciaConcedida</code>: Quantidade de XP concedida ao herói vitorioso.</li>
+<li><code>bioma</code>: Região de Vaslen à qual a criatura pertence (<code>CRIPTAS</code>, <code>BOSQUE_SOMBRIO</code>, <code>LABIRINTO_CINZAS</code>, etc.).</li>
+<li><code>itemRecompensa</code>: Instância de <code>Item</code> que a fera concede como saque exclusivo ao ser expurgada.</li>
+<li><code>descricaoLore</code>: Texto descritivo sobre as características da criatura.</li>
+<li><code>ultimoGolpe</code>: Memória da última ação executada para evitar repetições monótonas de ataques.</li>
+<li><strong>Métodos</strong>:</li>
 <li><em>(Herda os métodos de <code>EntidadeCombatente</code>)</em></li>
-<li><code>decidirAcao(alvo)</code>: Algoritmo de IA que analisa o estado da batalha e decide entre ataque básico, defesa ou habilidade de chefe.</li>
-<li><code>obterRecompensaXP()</code>: Retorna a quantidade de XP a ser transferida para o jogador vitorioso.</li>
-<li><code>executarAcaoEspecial(alvo)</code>: Sobrescrita polimórfica que executa o golpe devastador característico do chefe (ex: <em>Rugido Corruptor</em> do Lich).</li>
+<li><code>decidirAcao(alvo)</code>: Algoritmo de IA tática que avalia a postura do herói, cooldown de habilidades especiais e reserva de energia para alternar dinamicamente entre ataques rápidos, pesados, brutais, especiais e postura defensiva.</li>
+<li><code>getItemRecompensa()</code>: Retorna o item de loot configurado para a criatura.</li>
+<li><code>executarAcaoEspecial(alvo)</code>: Sobrescrita polimórfica que executa o golpe de chefe característico da fera (ex: <em>Fúria Selvagem</em>, <em>Ataque de Elite</em>, <em>Golpe Devastador</em>).</li>
 </ul>
-</li>
+<hr>
+<h3>5. Classes <code>Item</code> e <code>ItemComposto</code> (Polimorfismo de Itens)</h3>
+<ul>
+<li><strong>Finalidade</strong>: Modelar os consumíveis, óleos de combate e relíquias que compõem o sistema de recompensas e mochila do jogo.</li>
+<li><strong>Responsabilidade</strong>: Encapsular o efeito benéfico ao ser utilizado em uma <code>EntidadeCombatente</code>.</li>
+<li><strong>Atributos da Classe Base <code>Item</code></strong>:</li>
+<li><code>id</code>: Identificador único do item.</li>
+<li><code>nome</code>: Nome canônico do item.</li>
+<li><code>tipo</code>: Classificação (<code>CURA_VIDA</code>, <code>RECUPERA_ENERGIA</code>, <code>REFORCO_DANO</code>).</li>
+<li><code>valorEfeito</code>: Intensidade numérica do efeito (pontos de vida, energia ou bônus de dano).</li>
+<li><code>descricao</code>: Resumo das propriedades alquímicas do item.</li>
+<li><strong>Subclasse Polimórfica <code>ItemComposto</code> (Herda de <code>Item</code>)</strong>:</li>
+<li>Acrescenta o atributo <code>valorEnergia: number</code>.</li>
+<li>Sobrescreve polimorficamente o método <code>aplicarEfeito(alvo: EntidadeCombatente)</code>, restaurando simultaneamente pontos de Vida e pontos de Energia em uma única ação de combate.</li>
 </ul>
-<hr />
-<h3>5. Classe <code>MotorCombate</code></h3>
+<hr>
+<h3>6. Classe <code>MotorCombate</code></h3>
 <ul>
 <li><strong>Finalidade</strong>: Orquestrar a execução, o estado e as rodadas de uma batalha entre um <code>Personagem</code> e um <code>Monstro</code>.</li>
-<li><strong>Responsabilidade</strong>: Controlar o ciclo de turnos, determinar a ordem de ataque pela iniciativa, invocar o cálculo de danos e declarar o encerramento da batalha com vitória ou derrota.</li>
-<li><strong>Atributos</strong>:<ul>
-<li><code>idBatalha</code>: Identificador único do combate em andamento.</li>
-<li><code>personagem</code>: Instância do herói participante.</li>
+<li><strong>Responsabilidade</strong>: Controlar o ciclo sequencial de turnos, determinar o primeiro a jogar via sorteio de iniciativa, processar golpes e ações de itens, verificar condições de vitória/derrota e persistir o progresso.</li>
+<li><strong>Atributos</strong>:</li>
+<li><code>heroi</code>: Instância do herói participante.</li>
 <li><code>monstro</code>: Instância do monstro adversário.</li>
-<li><code>numeroTurno</code>: Contador sequencial do número de rodadas da batalha.</li>
-<li><code>turnoAtual</code>: Identifica de quem é a vez de jogar (<code>TURNO_JOGADOR</code> ou <code>TURNO_MONSTRO</code>).</li>
-<li><code>estadoCombate</code>: Estado atual da luta (<code>EM_ANDAMENTO</code>, <code>VITORIA_JOGADOR</code>, <code>DERROTA_JOGADOR</code>).</li>
-<li><code>historicoEventos</code>: Lista de mensagens textuais narrando cada ação ocorrida no combate.</li>
+<li><code>rodadaAtual</code>: Contador sequencial do número de rodadas da batalha.</li>
+<li><code>estado</code>: Estado atual do combate (<code>EM_ANDAMENTO</code>, <code>VITORIA_JOGADOR</code>, <code>DERROTA_JOGADOR</code>).</li>
+<li><code>logsBatalha</code>: Histórico de mensagens narrando as ações e desfechos ocorridos na batalha.</li>
+<li><strong>Métodos</strong>:</li>
+<li><code>iniciarCombate()</code>: Sorteia quem começa a luta com base na agilidade e sorte, disparando o golpe de abertura se o monstro vencer.</li>
+<li><code>processarTurno(acao)</code>: Executa a ação do herói (atacar, defender ou usar item), reseta posturas de guarda e aciona a IA do monstro caso ele permaneça vivo.</li>
+<li><code>finalizarCombate()</code>: Avalia se alguma das entidades teve sua vida reduzida a zero, concedendo XP/loot em caso de vitória ou acionando o Soft Delete em caso de derrota.</li>
 </ul>
-</li>
-<li><strong>Métodos</strong>:<ul>
-<li><code>iniciarCombate()</code>: Configura os combatentes e determina quem age primeiro com base na agilidade.</li>
-<li><code>processarTurnoJogador(tipoAcao)</code>: Executa a ação escolhida pelo jogador (atacar/defender/especial) e aplica os efeitos no monstro.</li>
-<li><code>processarTurnoMonstro()</code>: Invoca a IA do monstro para executar sua ação contra o herói.</li>
-<li><code>verificarFimCombate()</code>: Avalia se o HP de algum dos participantes zerou.</li>
-<li><code>finalizarVitoria()</code>: Concede o XP do monstro ao personagem e encerra a sessão de combate.</li>
-<li><code>finalizarDerrota()</code>: Aciona a inativação permanente (Soft Delete) do herói derrotado.</li>
-<li><code>obterResumoEstado()</code>: Retorna o estado completo atualizado para sincronização com a interface.</li>
-</ul>
-</li>
-</ul>
-<hr />
-<h3>6. Classe <code>CalculadoraCombate</code></h3>
-<ul>
-<li><strong>Finalidade</strong>: Centralizar todas as fórmulas matemáticas, modificadores e regras de balanceamento de dano do jogo.</li>
-<li><strong>Responsabilidade</strong>: Isolar a matemática de combate das classes de entidade, garantindo baixo acoplamento e facilidade de ajuste das regras de domínio.</li>
-<li><strong>Atributos</strong>:<ul>
-<li><code>danoMinimoGarantido</code>: Valor mínimo de dano aplicado em qualquer ataque (padrão: 1 ponto).</li>
-<li><code>multiplicadorDefesa</code>: Fator de mitigação aplicado quando a entidade está em postura defensiva.</li>
-</ul>
-</li>
-<li><strong>Métodos</strong>:<ul>
-<li><code>calcularDanoFisico(forcaAtacante, defesaDefensor, estaDefendendo)</code>: Aplica a fórmula <code>Força - Defesa</code> considerando o dano mínimo de 1 e o fator de postura de defesa.</li>
-<li><code>calcularDanoEspecial(forcaAtacante, modificadorClasse, defesaDefensor)</code>: Calcula o impacto de habilidades especiais e mágicas.</li>
-<li><code>calcularChanceEsquiva(agilidadeAtacante, agilidadeDefensor)</code>: Avalia se o golpe foi totalmente evadido com base na diferença de agilidade.</li>
-</ul>
-</li>
-</ul>
-<hr />
+<hr>
 <h3>7. Classe <code>EntradaCodice</code></h3>
 <ul>
-<li><strong>Finalidade</strong>: Representar um verbete ou registro enciclopédico consultável no Códice de Vaslen.</li>
-<li><strong>Responsabilidade</strong>: Armazenar informações sobre o universo do jogo, criaturas, chefes e regras de batalha, viabilizando buscas textuais e categorizadas.</li>
-<li><strong>Atributos</strong>:<ul>
-<li><code>id</code>: Identificador único da entrada do códice.</li>
-<li><code>titulo</code>: Título ou nome do assunto (ex: "O Lich de Vaslen", "Regras de Iniciativa").</li>
-<li><code>categoria</code>: Categoria temática (<code>MONSTRO</code>, <code>LORE</code>, <code>REGRA_COMBATE</code>, <code>CLASSE</code>).</li>
-<li><code>conteudo</code>: Texto descritivo e explicativo detalhado sobre o verbete.</li>
-<li><code>dataCadastro</code>: Data de registro no sistema.</li>
-<li><code>idAutorAdmin</code>: Identificador do administrador que cadastrou ou editou o verbete.</li>
+<li><strong>Finalidade</strong>: Representar um verbete ou registro enciclopédico consultável no Códice Secular de Vaslen.</li>
+<li><strong>Responsabilidade</strong>: Armazenar informações aprofundadas sobre lore, crônicas da Fratura, biomas, fichas de monstros e tratados alquímicos de relíquias.</li>
+<li><strong>Atributos</strong>:</li>
+<li><code>id</code>: Identificador único do verbete no Códice.</li>
+<li><code>titulo</code>: Título ou nome do assunto registrado.</li>
+<li><code>categoria</code>: Categoria temática (<code>HISTORIA</code>, <code>REGIAO</code>, <code>MONSTRO</code>, <code>RELÍQUIA</code>).</li>
+<li><code>resumo</code>: Citação ou sinopse curta do verbete.</li>
+<li><code>conteudoCompleto</code>: Texto explicativo aprofundado com detalhes de lore e mecânicas.</li>
+<li><code>tags</code>: Lista de palavras-chave para indexação e busca textual instantânea.</li>
+<li><strong>Métodos</strong>:</li>
+<li><code>contemTermo(termoBusca)</code>: Realiza a checagem textual case-insensitive no título, resumo, conteúdo ou tags do verbete.</li>
 </ul>
-</li>
-<li><strong>Métodos</strong>:<ul>
-<li><code>atualizarVerbete(novoTitulo, novoConteudo, novaCategoria)</code>: Permite a modificação dos dados por um administrador.</li>
-<li><code>contemTermo(termoBusca)</code>: Realiza a checagem textual se a palavra-chave pesquisada existe no título ou no conteúdo.</li>
-<li><code>formatarParaCard()</code>: Retorna uma estrutura resumida formatada para apresentação na interface web do jogador.</li>
-</ul>
-</li>
-</ul>
-<hr />
+<hr>
 <h2>Resumo das Classes e Relações de POO</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Classe</th>
-<th style="text-align: left;">Tipo</th>
-<th style="text-align: left;">Herança / Associação</th>
-<th style="text-align: left;">Pilar Principal de POO Destacado</th>
+<th>Classe</th>
+<th>Tipo</th>
+<th>Herança / Associação</th>
+<th>Pilar Principal de POO Destacado</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong><code>Usuario</code></strong></td>
-<td style="text-align: left;">Concreta</td>
-<td style="text-align: left;">Contém múltiplos <code>Personagem</code></td>
-<td style="text-align: left;"><strong>Encapsulamento</strong> (controle seguro de credenciais e coleção)</td>
+<td><strong><code>Usuario</code></strong></td>
+<td>Concreta</td>
+<td>Contém múltiplos <code>Personagem</code></td>
+<td><strong>Encapsulamento</strong> (gestão de credenciais, sessão JWT e coleção de heróis)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong><code>EntidadeCombatente</code></strong></td>
-<td style="text-align: left;">Abstrata</td>
-<td style="text-align: left;">Classe mãe de <code>Personagem</code> e <code>Monstro</code></td>
-<td style="text-align: left;"><strong>Abstração &amp; Herança</strong> (reutilização de atributos vitais e métodos base)</td>
+<td><strong><code>EntidadeCombatente</code></strong></td>
+<td>Abstrata</td>
+<td>Classe mãe de <code>Personagem</code> e <code>Monstro</code></td>
+<td><strong>Abstração & Herança</strong> (reutilização de atributos vitais, mitigação e métodos base de combate)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong><code>Personagem</code></strong></td>
-<td style="text-align: left;">Concreta</td>
-<td style="text-align: left;">Herda de <code>EntidadeCombatente</code></td>
-<td style="text-align: left;"><strong>Polimorfismo &amp; Herança</strong> (implementa habilidades de herói e progressão de XP)</td>
+<td><strong><code>Personagem</code></strong></td>
+<td>Concreta</td>
+<td>Herda de <code>EntidadeCombatente</code></td>
+<td><strong>Polimorfismo & Herança</strong> (classes Guerreiro/Mago/Samurai, técnicas especiais e progressão de XP)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong><code>Monstro</code></strong></td>
-<td style="text-align: left;">Concreta</td>
-<td style="text-align: left;">Herda de <code>EntidadeCombatente</code></td>
-<td style="text-align: left;"><strong>Polimorfismo &amp; Herança</strong> (implementa IA de monstro e habilidades de chefe)</td>
+<td><strong><code>Monstro</code></strong></td>
+<td>Concreta</td>
+<td>Herda de <code>EntidadeCombatente</code></td>
+<td><strong>Polimorfismo & Herança</strong> (IA tática reativa, técnicas de chefe e concessão de loot)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong><code>Item</code></strong></td>
-<td style="text-align: left;">Concreta</td>
-<td style="text-align: left;">Agregado ao inventário de <code>Personagem</code></td>
-<td style="text-align: left;"><strong>Abstração &amp; Encapsulamento</strong> (itens de consumo e modificadores táticos)</td>
+<td><strong><code>Item</code></strong></td>
+<td>Concreta</td>
+<td>Classe mãe de consumíveis</td>
+<td><strong>Abstração & Encapsulamento</strong> (modificadores táticos e efeitos de cura/dano)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong><code>MotorCombate</code></strong></td>
-<td style="text-align: left;">Concreta</td>
-<td style="text-align: left;">Associa <code>Personagem</code> e <code>Monstro</code></td>
-<td style="text-align: left;"><strong>Abstração &amp; Identificação de Responsabilidades</strong> (orquestração de turnos)</td>
+<td><strong><code>ItemComposto</code></strong></td>
+<td>Concreta</td>
+<td>Herda de <code>Item</code></td>
+<td><strong>Polimorfismo</strong> (sobrescreve <code>aplicarEfeito</code> para restaurar simultaneamente Vida e Energia)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong><code>CalculadoraCombate</code></strong></td>
-<td style="text-align: left;">Concreta</td>
-<td style="text-align: left;">Serviço de cálculo utilizado pelo motor</td>
-<td style="text-align: left;"><strong>Encapsulamento</strong> (isolamento das fórmulas matemáticas de dano)</td>
+<td><strong><code>MotorCombate</code></strong></td>
+<td>Concreta</td>
+<td>Associa <code>Personagem</code> e <code>Monstro</code></td>
+<td><strong>Abstração & Identificação de Responsabilidades</strong> (orquestração sequencial de combate e estados)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong><code>EntradaCodice</code></strong></td>
-<td style="text-align: left;">Concreta</td>
-<td style="text-align: left;">Entidade independente associada a <code>Usuario</code> (Admin)</td>
-<td style="text-align: left;"><strong>Abstração</strong> (representação de registros textuais dinâmicos do lore)</td>
+<td><strong><code>EntradaCodice</code></strong></td>
+<td>Concreta</td>
+<td>Entidade consultável no Códice</td>
+<td><strong>Abstração & Encapsulamento</strong> (enciclopédia com 40 verbetes indexados por tags)</td>
 </tr>
 </tbody>
 </table>
+
+</div>
 </body>
 </html>

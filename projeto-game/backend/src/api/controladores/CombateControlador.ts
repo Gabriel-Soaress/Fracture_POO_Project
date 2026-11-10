@@ -58,7 +58,9 @@ export class CombateControlador {
                     loot: item ? {
                         id: item.getId(),
                         nome: item.getNome(),
-                        tipo: item.getTipo(),
+                        tipo: (item as any).getValorEnergia ? "COMPOSTO" : item.getTipo(),
+                        valorEfeito: item.getValorEfeito(),
+                        valorEnergia: (item as any).getValorEnergia ? (item as any).getValorEnergia() : 0,
                         descricao: item.getDescricao()
                     } : null
                 };
@@ -117,6 +119,7 @@ export class CombateControlador {
                 sessaoId: sessao.id,
                 primeiroAJogar: dadosInicio.primeiroAJogar,
                 mensagem: dadosInicio.mensagem,
+                acaoInicialMonstro: dadosInicio.acaoInicialMonstro,
                 heroi: {
                     id: heroi.getId(),
                     nome: heroi.getNome(),
@@ -190,13 +193,24 @@ export class CombateControlador {
             };
 
             const relatorio = sessao.motor.processarTurno(parametrosAcao);
+            const heroiAtualizado = sessao.motor.getHeroi();
 
-            // Se o combate terminou, persistir a alteração no banco e encerrar a sessão
+            // Se o combate terminou OU se o jogador consumiu um item da mochila, persiste no banco
             if (relatorio.estado === "VITORIA_JOGADOR" || relatorio.estado === "DERROTA_JOGADOR") {
-                const heroiAtualizado = sessao.motor.getHeroi();
                 await this.personagemRepositorio.atualizarProgresso(heroiAtualizado);
                 this.gerenciadorSessao.encerrarSessao(sessaoId);
+            } else if (parametrosAcao.tipo === "USAR_ITEM") {
+                await this.personagemRepositorio.atualizarProgresso(heroiAtualizado);
             }
+
+            const inventarioSerializado = (heroiAtualizado.inventario || []).map(item => ({
+                id: item.getId(),
+                nome: item.getNome(),
+                tipo: (item as any).getValorEnergia ? "COMPOSTO" : item.getTipo(),
+                valorEfeito: item.getValorEfeito(),
+                valorEnergia: (item as any).getValorEnergia ? (item as any).getValorEnergia() : 0,
+                descricao: item.getDescricao()
+            }));
 
             const resultado = {
                 ...relatorio,
@@ -204,6 +218,8 @@ export class CombateControlador {
                 vidaHeroiMaxima: relatorio.heroiStatus.vidaMaxima,
                 energiaHeroiAtual: relatorio.heroiStatus.energiaAtual,
                 energiaHeroiMaxima: relatorio.heroiStatus.energiaMaxima,
+                modificadorDanoHeroi: heroiAtualizado.getModificadorDano(),
+                inventarioHeroi: inventarioSerializado,
                 vidaMonstroAtual: relatorio.monstroStatus.vidaAtual,
                 vidaMonstroMaxima: relatorio.monstroStatus.vidaMaxima,
                 energiaMonstroAtual: relatorio.monstroStatus.energiaAtual,
@@ -212,11 +228,13 @@ export class CombateControlador {
                 recompensas: {
                     xpGanho: relatorio.experienciaGanha || 0,
                     subiuNivel: false,
-                    nivelAtual: sessao.motor.getHeroi().getNivel(),
+                    nivelAtual: heroiAtualizado.getNivel(),
                     itemLoot: relatorio.lootConcedido ? {
                         id: relatorio.lootConcedido.getId(),
                         nome: relatorio.lootConcedido.getNome(),
-                        tipo: relatorio.lootConcedido.getTipo(),
+                        tipo: (relatorio.lootConcedido as any).getValorEnergia ? "COMPOSTO" : relatorio.lootConcedido.getTipo(),
+                        valorEfeito: relatorio.lootConcedido.getValorEfeito(),
+                        valorEnergia: (relatorio.lootConcedido as any).getValorEnergia ? (relatorio.lootConcedido as any).getValorEnergia() : 0,
                         descricao: relatorio.lootConcedido.getDescricao()
                     } : undefined
                 }
